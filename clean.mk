@@ -20,17 +20,12 @@ CLEAN_MODULES_PREFIX=			$(CLEAN_PREFIX)_$(CONFIG_MODULE_PREFIX)
 CLEAN_TOOLS_PREFIX=			$(CLEAN_PREFIX)_$(CONFIG_TOOL_PREFIX)
 
 # TODO: Dirty hack to avoid modbuild remove if exits in applications directory.
-CLEAN_IGNORE_LIST=			$(CONFIG_APPLICATION_PREFIX)_modbuild \
-					$(CONFIG_APPLICATION_PREFIX)_smart_deps
-
-# TODO: Dirty hack to avoid modbuild remove if exits in applications directory.
-CLEAN_APPLICATIONS_STANDARD_MODIFIED_LIST=	$(filter-out \
-							$(CLEAN_IGNORE_LIST), \
-							$(APPLICATIONS_STANDARD_LIST))
+CLEAN_IGNORE_LIST=			$(CONFIG_TOOL_PREFIX)_modbuild \
+					$(CONFIG_TOOL_PREFIX)_smart_deps
 
 CLEAN_APPLICATIONS_STANDARD_LIST=	$(addprefix \
 						$(CLEAN_PREFIX)_, \
-						$(CLEAN_APPLICATIONS_STANDARD_MODIFIED_LIST))
+						$(APPLICATIONS_STANDARD_LIST))
 
 CLEAN_APPLICATIONS_NONSTANDARD_LIST=	$(addprefix \
 						$(CLEAN_PREFIX)_, \
@@ -46,7 +41,7 @@ CLEAN_MODULES_NONSTANDARD_LIST=		$(addprefix \
 
 # TODO: Dirty hack to avoid modbuild remove if exits in tools directory.
 CLEAN_TOOLS_STANDARD_MODIFIED_LIST=	$(filter-out \
-						$(CONFIG_TOOL_PREFIX)_modbuild, \
+						$(CLEAN_IGNORE_LIST), \
 						$(TOOLS_STANDARD_LIST))
 
 CLEAN_TOOLS_STANDARD_LIST=		$(addprefix \
