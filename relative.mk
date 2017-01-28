@@ -1,0 +1,7 @@
+ifndef MK_RELATIVE_MK
+MK_RELATIVE_MK=			TRUE
+
+RELATIVE_ROOT_DIR=		.
+
+endif
+

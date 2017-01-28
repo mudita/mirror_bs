@@ -1,0 +1,7 @@
+ifndef MK_LOCALE_MK
+MK_LOCALE_MK=			TRUE
+
+LOCALE_LANG=			en_US
+
+endif
+
