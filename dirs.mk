@@ -15,7 +15,7 @@ DIRS_TEMPLATES_DIR=		$(DIRS_MK_DIR)/templates
 
 DIRS_BIN_DIR=			bin
 DIRS_SOURCES_DIR=		src
-DIRS_INCLUDE_DIR=		include
+DIRS_INCLUDE_DIR=		inc
 
 DIRS_GDB_DIR=			gdb
 
