@@ -146,38 +146,38 @@ PLATFORM_LINKER=		$(PLATFORM_PREFIX_EXPORT)-$(PLATFORM_HOST_LINKER)
 PLATFORM_C_COMPILER=		$(PLATFORM_PREFIX_EXPORT)-$(PLATFORM_HOST_C_COMPILER)
 PLATFORM_CPP_COMPILER=		$(PLATFORM_PREFIX_EXPORT)-$(PLATFORM_HOST_C_COMPILER)
 # TODO: Cut of not obligatory!
-PLATFORM_FLAG_LIST=		mcpu=cortex-m4 \
-				march=armv7e-m \
-				mfpu=fpv4-sp-d16 \
-				mfloat-abi=softfp \
-				mthumb \
-				DREVISION_STR=\"@\" \
-				DREVISION_SGN=0x00000000 \
-				DPROJECT_NAME=\"ekofone\" \
-				DREENTRANT_SYSCALLS_PROVIDED=1 \
-				DDEBUG \
-				DNO_VCP \
-				DBATTERY_SIZE=710 \
-				DCORE_M4 \
-				DARM_MATH_CM4 \
-				DSTM32L476xx \
-				DUSED_PROCESSOR_L4 \
-				DUSE_HAL_DRIVER=1 \
-				Wno-unused-function \
-				Werror \
-				Wall \
-				Wstrict-prototypes \
-				Wreturn-type \
-				Wmissing-prototypes \
-				Wmissing-declarations \
-				Wimplicit-function-declaration \
-				Wmaybe-uninitialized \
-				Wuninitialized \
-				fno-strict-aliasing \
-				ffunction-sections \
-				fdata-sections \
-				fno-builtin-printf \
-				finput-charset=UTF-8
+PLATFORM_FLAG_LIST=		-mcpu=cortex-m4 \
+				-march=armv7e-m \
+				-mfpu=fpv4-sp-d16 \
+				-mfloat-abi=softfp \
+				-mthumb \
+				-DREVISION_STR=\"@\" \
+				-DREVISION_SGN=0x00000000 \
+				-DPROJECT_NAME=\"ekofone\" \
+				-DREENTRANT_SYSCALLS_PROVIDED=1 \
+				-DDEBUG \
+				-DNO_VCP \
+				-DBATTERY_SIZE=710 \
+				-DCORE_M4 \
+				-DARM_MATH_CM4 \
+				-DSTM32L476xx \
+				-DUSED_PROCESSOR_L4 \
+				-DUSE_HAL_DRIVER=1 \
+				-Wno-unused-function \
+				-Werror \
+				-Wall \
+				-Wstrict-prototypes \
+				-Wreturn-type \
+				-Wmissing-prototypes \
+				-Wmissing-declarations \
+				-Wimplicit-function-declaration \
+				-Wmaybe-uninitialized \
+				-Wuninitialized \
+				-fno-strict-aliasing \
+				-ffunction-sections \
+				-fdata-sections \
+				-fno-builtin-printf \
+				-finput-charset=UTF-8
 
 PLATFORM_QEMU=			
 PLATFORM_UBUNTU=		
