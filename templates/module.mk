@@ -129,11 +129,21 @@ $(OBJECTS_ASM_LIST): \
 		-p \
 		$(dir \
 			$@)
-	$(PLATFORM_ASSEMBLER) \
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_AUX_DIR)/$*)
+	$(PLATFORM_C_COMPILER) \
+		$(DEFINES) \
+		$(INCLUDES_LIST) \
 		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_C_COMPILER_LIST) \
+		-c \
 		$< \
 		-o \
-		$@
+		$@ \
+		-aux-info \
+		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
 
 # TODO: Add headers to dependencies system.
 # TODO: Remove mkdir -p $(dir $@) trick from this rule

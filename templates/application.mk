@@ -220,15 +220,17 @@ $(OBJECTS_ASM_LIST): \
 		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT) | \
 		$(DIRS_OBJECTS_DIR) \
 		$(DIRS_DEP_DIR)
-	mkdir \
-		-p \
-		$(dir \
-			$@)
-	$(PLATFORM_ASSEMBLER) \
-		$(PLATFORM_FLAG_LIST) \
-		$< \
-		-o \
-		$@
+	echo not implemented - check template of module.
+	false
+#	mkdir \
+#		-p \
+#		$(dir \
+#			$@)
+#	$(PLATFORM_ASSEMBLER) \
+#		$(PLATFORM_FLAG_LIST) \
+#		$< \
+#		-o \
+#		$@
 
 # TODO: Add headers to dependencies system.
 # TODO: Remove mkdir -p $(dir $@) trick from this rule
