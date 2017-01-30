@@ -122,13 +122,7 @@ $(INSTALL_APPLICATION_ELF_FILE): \
 		$(EXTERNALS_LIST) \
 		-o \
 		$@ \
-		$(FLAGS_LINKER) \
-		-l \
-		c \
-		-L \
-		/usr/arm-none-eabi/lib/armv7e-m \
-		-l \
-		nosys
+		$(FLAGS_LINKER)
 
 $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_RULE)
