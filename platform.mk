@@ -148,9 +148,9 @@ PLATFORM_CPP_COMPILER=		$(PLATFORM_PREFIX_EXPORT)-$(PLATFORM_HOST_C_COMPILER)
 # TODO: Cut of not obligatory!
 PLATFORM_FLAG_LIST=		-mcpu=cortex-m4 \
 				-march=armv7e-m \
+				-mthumb \
 				-mfpu=fpv4-sp-d16 \
 				-mfloat-abi=softfp \
-				-mthumb \
 				-DREVISION_STR=\"@\" \
 				-DREVISION_SGN=0x00000000 \
 				-DPROJECT_NAME=\"ekofone\" \
@@ -160,9 +160,6 @@ PLATFORM_FLAG_LIST=		-mcpu=cortex-m4 \
 				-DBATTERY_SIZE=710 \
 				-DCORE_M4 \
 				-DARM_MATH_CM4 \
-				-DSTM32L476xx \
-				-DUSED_PROCESSOR_L4 \
-				-DUSE_HAL_DRIVER=1 \
 				-Wno-unused-function \
 				-Werror \
 				-Wall \
@@ -177,7 +174,12 @@ PLATFORM_FLAG_LIST=		-mcpu=cortex-m4 \
 				-ffunction-sections \
 				-fdata-sections \
 				-fno-builtin-printf \
-				-finput-charset=UTF-8
+				-lm \
+				-finput-charset=UTF-8 \
+				-Wl,--gc-sections \
+				-Os \
+				-DSTM32L476xx \
+				-DUSED_PROCESSOR_L4 \
 
 PLATFORM_QEMU=			
 PLATFORM_UBUNTU=		
