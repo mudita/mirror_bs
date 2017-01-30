@@ -115,12 +115,6 @@ FLAGS_C_COMPILER_LIST=		$(filter-out \
 					$(FLAGS_FILTER_OUT_LIST), \
 					$(FLAGS_C_COMPILER_TEMP_LIST))
 
-$(info --------------------------------------------------------------)
-$(info flags_compiler.mk)
-$(info --------------------------------------------------------------)
-$(info FLAGS_C_COMPILER_LIST: $(FLAGS_C_COMPILER_LIST))
-$(info --------------------------------------------------------------)
-
 FLAGS_CPP_COMPILER_LIST=	$(filter-out \
 					$(FLAGS_FILTER_OUT_LIST), \
 					$(FLAGS_CPP_COMPILER_TEMP_LIST))

@@ -132,17 +132,6 @@ $(INSTALL_APPLICATION_ELF_FILE): \
 
 $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_RULE)
-	@echo \
-		--------------------------------------------------------------
-	@echo \
-		application.mk clean
-	@echo \
-		--------------------------------------------------------------
-	@echo \
-		FLAGS_C_COMPILER_LIST: \
-		$(FLAGS_C_COMPILER_LIST)
-	@echo \
-		--------------------------------------------------------------
 
 $(CONFIG_CLEAN_RULE): \
 		$(CLEAN_PREFIX)_$(DIRS_DOC_DIR) \
@@ -263,17 +252,6 @@ $(OBJECTS_C_LIST): \
 		-p \
 		$(dir \
 			$(DIRS_AUX_DIR)/$*)
-	@echo \
-		--------------------------------------------------------------
-	@echo \
-		application.mk build
-	@echo \
-		--------------------------------------------------------------
-	@echo \
-		FLAGS_C_COMPILER_LIST: \
-		$(FLAGS_C_COMPILER_LIST)
-	@echo \
-		--------------------------------------------------------------
 	$(PLATFORM_C_COMPILER) \
 		$(DEFINES) \
 		$(INCLUDES_LIST) \

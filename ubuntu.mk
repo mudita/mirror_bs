@@ -1,6 +1,5 @@
 ifndef MK_UBUNTU_MK
 MK_UBUNTU_MK=		TRUE
-#-----------------------------------------------------------------------------
 
 INCLUDER_MODULES_LIST=		platform
 
@@ -43,6 +42,5 @@ UBUNTU_SQUASHFS_URL=		$(UBUNTU_BASE_URL)/$(UBUNTU_SQUASHFS_FILE)
 # TODO: Should be standarized and moved to configuration file od dirs.
 UBUNTU_SQUASHFS_PATH=		$(UBUNTU_SQUASHFS_DIR)/$(UBUNTU_SQUASHFS_FILE)
 
-#-----------------------------------------------------------------------------
 endif
 
