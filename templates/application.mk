@@ -9,6 +9,7 @@ INCLUDER_MODULES_LIST=		clean \
 				config \
 				platform \
 				deps \
+				libs \
 				flags_linker \
 				externals \
 				mode \
@@ -17,8 +18,6 @@ INCLUDER_MODULES_LIST=		clean \
 				doc/html \
 				doc/latex \
 				doc/pdf
-
-#				libs \
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -113,23 +112,23 @@ $(INSTALL_APPLICATION_ELF_FILE): \
 	@echo \
 		EXTERNALS_LIST: \
 		$(EXTERNALS_LIST)
-#	$(PLATFORM_CPP_COMPILER) \
-#		$(DEFINES) \
-#		$(INCLUDES_LIST) \
-#		$(PLATFORM_FLAG_LIST) \
-#		$(FLAGS_CPP_COMPILER_LIST) \
-#		$^ \
-#		$(LIBS_LIST) \
-#		$(EXTERNALS_LIST) \
-#		-o \
-#		$@ \
-#		$(FLAGS_LINKER) \
-#		-l \
-#		c \
-#		-L \
-#		/usr/arm-none-eabi/lib/armv7e-m \
-#		-l \
-#		nosys
+	$(PLATFORM_CPP_COMPILER) \
+		$(DEFINES) \
+		$(INCLUDES_LIST) \
+		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_CPP_COMPILER_LIST) \
+		$^ \
+		$(LIBS_LIST) \
+		$(EXTERNALS_LIST) \
+		-o \
+		$@ \
+		$(FLAGS_LINKER) \
+		-l \
+		c \
+		-L \
+		/usr/arm-none-eabi/lib/armv7e-m \
+		-l \
+		nosys
 
 $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_RULE)

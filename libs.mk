@@ -12,11 +12,17 @@ else
 include $(INCLUDER_PATH)
 endif
 
+$(info --------------------------------------------------------------)
+$(info libs.mk begin)
+$(info --------------------------------------------------------------)
+$(info FLAGS_C_COMPILER_LIST: $(FLAGS_C_COMPILER_LIST))
+$(info --------------------------------------------------------------)
+
 LIBS_DIRS_PREFIX=		-L
 LIBS_PREFIX=			-l
 
 # TODO: Not sure is this quard is needed.
-ifndef LIBS_MODULES_LIST
+#ifndef 
 LIBS_DEPENDENCIES_EXISTENCE=	$(wildcard \
 					$(CONFIG_MODULE_DEP_FILE_NAME))
 
@@ -30,7 +36,7 @@ else
 LIBS_MODULES_LIST=
 endif
 
-endif
+#endif
 
 ifeq ($(MODE_MEMORY_LEAK_DETECTOR), MODULE_MEMORY_MTRACE)
 LIBS_CONDITIONAL_MODULES=	memory_mtrace
@@ -76,6 +82,12 @@ LIBS_LIST=			$(foreach \
 					$(CONFIG_MODULE_PREFIX), \
 					$(LIBS_MODULES_LIST), \
 					$(LIBS_MODULE_CHECK_EXIST))
+
+$(info --------------------------------------------------------------)
+$(info libs.mk end)
+$(info --------------------------------------------------------------)
+$(info FLAGS_C_COMPILER_LIST: $(FLAGS_C_COMPILER_LIST))
+$(info --------------------------------------------------------------)
 
 endif
 
