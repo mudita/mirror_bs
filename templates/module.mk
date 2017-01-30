@@ -24,6 +24,18 @@ endif
 $(CONFIG_ALL_RULE): \
 		$(INSTALL_MODULE_LIB_FILE)
 
+# TODO: Make sure, that each header modification causes re-copy - works after
+#       make clean_tmp.
+$(INSTALL_MODULE_LIB_FILE): \
+		$(OBJECTS_ASM_LIST) \
+		$(OBJECTS_C_LIST) \
+		$(OBJECTS_CPP_LIST) \
+		$(DIRS_LIB_DIR)
+	$(PLATFORM_ARCHIVER) \
+		-rcs \
+		$@ \
+		$(OBJECTS_LIST)
+
 $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_RULE)
 
@@ -170,18 +182,6 @@ $(OBJECTS_CPP_LIST): \
 		$< \
 		-o \
 		$@
-
-# TODO: Make sure, that each header modification causes re-copy - works after
-#       make clean_tmp.
-$(INSTALL_MODULE_LIB_FILE): \
-		$(OBJECTS_ASM_LIST) \
-		$(OBJECTS_C_LIST) \
-		$(OBJECTS_CPP_LIST) \
-		$(DIRS_LIB_DIR)
-	$(PLATFORM_ARCHIVER) \
-		-rcs \
-		$@ \
-		$(OBJECTS_LIST)
 
 $(DIRS_OBJECTS_DIR): \
 		%:
