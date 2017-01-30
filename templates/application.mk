@@ -1,21 +1,14 @@
 INCLUDER_MODULES_LIST=		clean \
 				clean_full \
-				name \
-				mode \
+				dirs \
 				objects \
 				flags_compiler \
-				flags_linker \
-				install \
-				defines \
-				config \
 				includes \
-				dirs \
-				libs \
+				defines \
+				install \
+				config \
+				platform \
 				deps \
-				externals \
-				exec \
-				root \
-				wd \
 				doc/html \
 				doc/latex \
 				doc/pdf
@@ -87,6 +80,23 @@ endif
 	@echo \
 		$(EXEC_LINE_LABEL)
 
+# TODO: Add all includes here. If anything has changed, this rule should notice
+#       that.
+$(INSTALL_APPLICATION_ELF_FILE): \
+		$(OBJECTS_LIST) | \
+		$(DIRS_INSTALL_DIR)
+	$(PLATFORM_CPP_COMPILER) \
+		$(DEFINES) \
+		$(INCLUDES_LIST) \
+		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_CPP_COMPILER_LIST) \
+		$(OBJECTS_LIST) \
+		$(LIBS_LIST) \
+		$(EXTERNALS_LIST) \
+		-o \
+		$@ \
+		$(FLAGS_LINKER)
+
 $(INSTALL_OTHER_FILE_LIST): \
 		$(DIRS_INSTALL_DIR)/%: \
 		% \
@@ -98,23 +108,6 @@ $(INSTALL_OTHER_FILE_LIST): \
 	cp \
 		$* \
 		$@
-
-# TODO: Add all includes here. If anything has changed, this rule should notice
-#       that.
-$(INSTALL_APPLICATION_ELF_FILE): \
-		$(OBJECTS_LIST) | \
-		$(DIRS_INSTALL_DIR)
-	$(PLATFORM_CPP_COMPILER) \
-		$(DEFINES) \
-		$(INCLUDES_LIST) \
-		$(PLATFORM_FLAG_LIST) \
-		$(FLAGS_CPP_COMPILER_LIST) \
-		$^ \
-		$(LIBS_LIST) \
-		$(EXTERNALS_LIST) \
-		-o \
-		$@ \
-		$(FLAGS_LINKER)
 
 $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_RULE)
@@ -156,6 +149,12 @@ $(CLEAN_PREFIX)_$(DIRS_AUX_DIR): \
 		-rf \
 		$*
 
+$(DEPS_ASM_LIST): \
+		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASM_SOURCE_FILE_EXT) | \
+		$(DIRS_DEP_DIR)
+
+# TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(DEPS_C_LIST): \
 		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) | \
@@ -177,6 +176,7 @@ $(DEPS_C_LIST): \
 		-c \
 		$<
 
+# TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(DEPS_CPP_LIST): \
 		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_CPP_SOURCE_FILE_EXT) | \
@@ -198,6 +198,25 @@ $(DEPS_CPP_LIST): \
 		-c \
 		$<
 
+# TODO: Remove mkdir -p $(dir $@) trick from this rule
+$(OBJECTS_ASM_LIST): \
+		$(DIRS_OBJECTS_DIR)/%.$(CONFIG_ASM_OBJECT_FILE_EXT): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASM_SOURCE_FILE_EXT) \
+		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT) | \
+		$(DIRS_OBJECTS_DIR) \
+		$(DIRS_DEP_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$@)
+	$(PLATFORM_ASSEMBLER) \
+		$(PLATFORM_FLAG_LIST) \
+		$< \
+		-o \
+		$@
+
+# TODO: Add headers to dependencies system.
+# TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(OBJECTS_C_LIST): \
 		$(DIRS_OBJECTS_DIR)/%.$(CONFIG_C_OBJECT_FILE_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) \
@@ -208,6 +227,10 @@ $(OBJECTS_C_LIST): \
 		-p \
 		$(dir \
 			$@)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_AUX_DIR)/$*)
 	$(PLATFORM_C_COMPILER) \
 		$(DEFINES) \
 		$(INCLUDES_LIST) \
@@ -220,6 +243,7 @@ $(OBJECTS_C_LIST): \
 		-aux-info \
 		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
 
+# TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(OBJECTS_CPP_LIST): \
 		$(DIRS_OBJECTS_DIR)/%.$(CONFIG_CPP_OBJECT_FILE_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_CPP_SOURCE_FILE_EXT) \

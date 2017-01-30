@@ -8,7 +8,10 @@ INCLUDER_MODULES_LIST=		clean \
 				install \
 				config \
 				platform \
-				deps
+				deps \
+				doc/html \
+				doc/latex \
+				doc/pdf
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -24,14 +27,34 @@ endif
 $(CONFIG_ALL_RULE): \
 		$(INSTALL_MODULE_LIB_FILE)
 
+# TODO: Make sure, that each header modification causes re-copy - works after
+#       make clean_tmp.
+$(INSTALL_MODULE_LIB_FILE): \
+		$(OBJECTS_ASM_LIST) \
+		$(OBJECTS_C_LIST) \
+		$(OBJECTS_CPP_LIST) \
+		$(DIRS_LIB_DIR)
+	$(PLATFORM_ARCHIVER) \
+		-rcs \
+		$@ \
+		$(OBJECTS_LIST)
+
+
 $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_RULE)
 
 $(CONFIG_CLEAN_RULE): \
+		$(CLEAN_PREFIX)_$(DIRS_DOC_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_OBJECTS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_LIB_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_DEP_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_AUX_DIR)
+
+$(CLEAN_PREFIX)_$(DIRS_DOC_DIR): \
+		$(CLEAN_PREFIX)_%:
+	rm \
+		-rf \
+		$*
 
 $(CLEAN_PREFIX)_$(DIRS_OBJECTS_DIR): \
 		$(CLEAN_PREFIX)_%:
@@ -171,17 +194,38 @@ $(OBJECTS_CPP_LIST): \
 		-o \
 		$@
 
-# TODO: Make sure, that each header modification causes re-copy - works after
-#       make clean_tmp.
-$(INSTALL_MODULE_LIB_FILE): \
-		$(OBJECTS_ASM_LIST) \
-		$(OBJECTS_C_LIST) \
-		$(OBJECTS_CPP_LIST) \
-		$(DIRS_LIB_DIR)
-	$(PLATFORM_ARCHIVER) \
-		-rcs \
+$(DOC_HTML_LIST): \
+		$(DIRS_DOC_DIR)/%.$(CONFIG_HTML_FILE_EXT): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASCIIDOC_FILE_EXT) \
+		$(DIRS_DOC_DIR)
+	asciidoc \
+		-o \
 		$@ \
-		$(OBJECTS_LIST)
+		$<
+
+# TODO: Finish latex generation.
+$(DOC_LATEX_LIST): \
+		$(DIRS_DOC_DIR)/%.$(CONFIG_LATEX_FILE_EXT): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASCIIDOC_FILE_EXT) \
+		$(DIRS_DOC_DIR)
+	echo \
+		$@
+	false
+
+# TODO: Finish pdf generation.
+$(DOC_PDF_LIST): \
+		$(DIRS_DOC_DIR)/%.$(CONFIG_PDF_FILE_EXT): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASCIIDOC_FILE_EXT) \
+		$(DIRS_DOC_DIR)
+	echo \
+		$@
+	false
+
+$(DIRS_DOC_DIR): \
+		%:
+	mkdir \
+		-p \
+		$*
 
 $(DIRS_OBJECTS_DIR): \
 		%:
