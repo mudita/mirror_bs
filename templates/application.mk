@@ -100,6 +100,7 @@ $(INSTALL_OTHER_FILE_LIST): \
 
 # TODO: Add all includes here. If anything has changed, this rule should notice
 #       that.
+# TODO: External libraries directories should be possible
 $(INSTALL_APPLICATION_ELF_FILE): \
 		$(OBJECTS_LIST) | \
 		$(DIRS_INSTALL_DIR)
