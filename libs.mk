@@ -15,8 +15,6 @@ endif
 LIBS_DIRS_PREFIX=		-L
 LIBS_PREFIX=			-l
 
-# TODO: Not sure is this quard is needed.
-#ifndef 
 LIBS_DEPENDENCIES_EXISTENCE=	$(wildcard \
 					$(CONFIG_MODULE_DEP_FILE_NAME))
 
@@ -29,8 +27,6 @@ LIBS_MODULES_LIST=		$(shell \
 else
 LIBS_MODULES_LIST=
 endif
-
-#endif
 
 ifeq ($(MODE_MEMORY_LEAK_DETECTOR), MODULE_MEMORY_MTRACE)
 LIBS_CONDITIONAL_MODULES=	memory_mtrace

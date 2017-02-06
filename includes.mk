@@ -33,9 +33,26 @@ INCLUDES_RELATIVE_DIR=		$(RELATIVE_ROOT_DIR)/$(INCLUDES_DIR)
 INCLUDES_CHECK=			$(wildcard \
 					$(INCLUDES_RELATIVE_DIR))
 
+##############################################################################
+
+INCLUDES_DEPENDENCIES_EXISTENCE=	$(wildcard \
+					$(CONFIG_MODULE_DEP_FILE_NAME))
+
+ifneq ($(INCLUDES_DEPENDENCIES_EXISTENCE), )
+INCLUDES_DEPENDENCIES_COMMAND=	cat \
+					$(CONFIG_MODULE_DEP_FILE_NAME)
+
+INCLUDES_MODULES_LIST=		$(shell \
+					$(INCLUDES_DEPENDENCIES_COMMAND))
+else
+INCLUDES_MODULES_LIST=
+endif
+
+##############################################################################
+
 INCLUDES_EXISTING=		$(foreach \
 					$(CONFIG_MODULE_PREFIX), \
-					$(MODULES_AVAILABLE_ALL), \
+					$(INCLUDES_MODULES_LIST), \
 					$(INCLUDES_CHECK))
 
 INCLUDES_LIST+=			$(addprefix \
