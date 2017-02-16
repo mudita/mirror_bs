@@ -40,8 +40,10 @@ CONFIG_STATIC_LIBRARY_EXT=		a
 
 # INFO: Build system extensions.
 CONFIG_LD_EXT=				ld
+CONFIG_MAP_EXT=				map
 CONFIG_BUILD_SYSTEM_SCRIPT_EXT=		mk
 CONFIG_AUX_EXT=				aux
+CONFIG_DEP_EXT=				dep
 CONFIG_DEP_EXT=				dep
 CONFIG_ARGS_EXT=			args
 CONFIG_LIST_EXT=			list

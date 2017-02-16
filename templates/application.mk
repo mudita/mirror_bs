@@ -99,8 +99,10 @@ $(INSTALL_OTHER_FILE_LIST): \
 		$@
 
 $(INSTALL_APPLICATION_ELF_FILE): \
+		$(DIRS_INSTALL_DIR)/%: \
 		$(OBJECTS_LIST) | \
-		$(DIRS_INSTALL_DIR)
+		$(DIRS_INSTALL_DIR) \
+		$(DIRS_MAP_DIR)
 	$(PLATFORM_CPP_COMPILER) \
 		$(DEFINES) \
 		$(INCLUDES_LIST) \
@@ -111,6 +113,8 @@ $(INSTALL_APPLICATION_ELF_FILE): \
 		$(EXTERNALS_LIST) \
 		-o \
 		$@ \
+		-Map \
+		$(DIRS_MAP_DIR)/$*.$(CONFIG_MAP_EXT)
 		$(FLAGS_LINKER)
 
 $(CONFIG_CLEAN_FULL_RULE): \
@@ -121,6 +125,7 @@ $(CONFIG_CLEAN_RULE): \
 		$(CLEAN_PREFIX)_$(DIRS_OBJECTS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_INSTALL_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_DEP_DIR) \
+		$(CLEAN_PREFIX)_$(DIRS_MAP_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_AUX_DIR)
 
 $(CLEAN_PREFIX)_$(DIRS_DOC_DIR): \
@@ -142,6 +147,12 @@ $(CLEAN_PREFIX)_$(DIRS_INSTALL_DIR): \
 		$*
 
 $(CLEAN_PREFIX)_$(DIRS_DEP_DIR): \
+		$(CLEAN_PREFIX)_%:
+	rm \
+		-rf \
+		$*
+
+$(CLEAN_PREFIX)_$(DIRS_MAP_DIR): \
 		$(CLEAN_PREFIX)_%:
 	rm \
 		-rf \
@@ -329,6 +340,12 @@ $(DIRS_INSTALL_DIR): \
 		$*
 
 $(DIRS_DEP_DIR): \
+		%:
+	mkdir \
+		-p \
+		$*
+
+$(DIRS_MAP_DIR): \
 		%:
 	mkdir \
 		-p \

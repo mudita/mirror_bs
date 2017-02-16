@@ -9,9 +9,7 @@ else
 include $(INCLUDER_PATH)
 endif
 
-FLAGS_MAKE_LIST=		--warn-undefined-variables \
-				-j \
-				$(JOBS_COUNT)
+FLAGS_MAKE_LIST=		--warn-undefined-variables
 
 endif
 
