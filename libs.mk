@@ -4,7 +4,8 @@ MK_LIBS_MK=			TRUE
 INCLUDER_MODULES_LIST=		dirs \
 				config \
 				modules \
-				signature
+				signature \
+				mode
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)

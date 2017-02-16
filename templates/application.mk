@@ -98,9 +98,6 @@ $(INSTALL_OTHER_FILE_LIST): \
 		$* \
 		$@
 
-# TODO: Add all includes here. If anything has changed, this rule should notice
-#       that.
-# TODO: External libraries directories should be possible
 $(INSTALL_APPLICATION_ELF_FILE): \
 		$(OBJECTS_LIST) | \
 		$(DIRS_INSTALL_DIR)
@@ -214,18 +211,29 @@ $(OBJECTS_ASM_LIST): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASM_SOURCE_FILE_EXT) \
 		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT) | \
 		$(DIRS_OBJECTS_DIR) \
-		$(DIRS_DEP_DIR)
+		$(DIRS_DEP_DIR) \
+		$(DIRS_AUX_DIR)
 	echo not implemented - check template of module.
 	false
-#	mkdir \
-#		-p \
-#		$(dir \
-#			$@)
-#	$(PLATFORM_ASSEMBLER) \
-#		$(PLATFORM_FLAG_LIST) \
-#		$< \
-#		-o \
-#		$@
+	mkdir \
+		-p \
+		$(dir \
+			$@)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_AUX_DIR)/$*)
+	$(PLATFORM_C_COMPILER) \
+		$(DEFINES) \
+		$(INCLUDES_LIST) \
+		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_C_COMPILER_LIST) \
+		-c \
+		$< \
+		-o \
+		$@ \
+		-aux-info \
+		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
 
 # TODO: Add headers to dependencies system.
 # TODO: Remove mkdir -p $(dir $@) trick from this rule
