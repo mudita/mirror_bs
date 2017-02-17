@@ -46,7 +46,8 @@ $(CONFIG_ALL_RULE): \
 		$(TEMPLATE_APP_COMPONENT_LIST)
 
 # TODO: If application fails, there is no end of execution information.
-$(CONFIG_RUN_RULE):
+$(CONFIG_RUN_RULE): \
+		$(INSTALL_APPLICATION_ELF_FILE)
 	@echo \
 		$(EXEC_LINE_LABEL)
 	@echo \
@@ -171,6 +172,22 @@ $(DEPS_ASM_LIST): \
 		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASM_SOURCE_FILE_EXT) | \
 		$(DIRS_DEP_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_DEP_DIR)/$*)
+	$(PLATFORM_C_COMPILER) \
+		$(DEFINES) \
+		$(INCLUDES_LIST) \
+		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_C_COMPILER_LIST) \
+		$(DEPS_FLAG_LIST) \
+		-MT \
+		$(DIRS_OBJECTS_DIR)/$*.$(CONFIG_C_OBJECT_FILE_EXT) \
+		-MF \
+		$@ \
+		-c \
+		$<
 
 # TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(DEPS_C_LIST): \
