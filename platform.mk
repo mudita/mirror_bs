@@ -161,32 +161,13 @@ PLATFORM_MACHINE=		vexpress-a9
 
 PLATFORM_CPU=			cortex-a9
 
-# TODO: Cut of not obligatory!
-PLATFORM_SPECS_LIST=		-marm \
+PLATFORM_FLAG_LIST=		-marm \
 				-mno-thumb-interwork \
 				-mabi=aapcs-linux \
 				-mword-relocations \
 				-mno-unaligned-access \
 				-msoft-float \
 				-march=armv7-a
-
-PLATFORM_DEFINES_LIST=		-D \
-				__KERNEL__ \
-				-D \
-				__UBOOT__
-
-PLATFORM_WARNINGS_LIST=		
-
-PLATFORM_IMPERS_LIST=		-ffunction-sections \
-				-fdata-sections
-
-PLATFORM_LINKER_LIST=		
-
-PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
-				$(PLATFORM_DEFINES_LIST) \
-				$(PLATFORM_WARNINGS_LIST) \
-				$(PLATFORM_IMPERS_LIST) \
-				$(PLATFORM_LINKER_LIST)
 endif
 
 # INFO: 

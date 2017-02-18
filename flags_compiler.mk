@@ -14,43 +14,31 @@ else
 include $(INCLUDER_PATH)
 endif
 
-# TODO: Flags should be parsed and checked it there is no conflicting options.
-# TODO: There should be sanity checking for flags options. Also, there should
-#       be the database to check if flag is compatible with both gcc and clang.
-# TODO: Compile with both clang and gcc compilers. Developed code will be fully
-#       portable this way.
-# TODO: Sanitizer currently does not cooperate with memory allocator module.
 FLAGS_C_COMPILER_TEMP_LIST=
 
 # INFO: Check if warnings options were specified.
 ifndef FLAGS_COMPILER_WARNINGS
 $(warning FLAGS_COMPILER_WARNINGS was not specified!)
 #else
-# TODO: Not sure if it is working.
-FLAGS_C_COMPILER_TEMP_LIST+=	-Wunreachable-code
-FLAGS_CPP_COMPILER_TEMP_LIST+=	-Wunreachable-code
-FLAGS_C_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_WARNINGS)
-FLAGS_CPP_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_WARNINGS)
+#FLAGS_C_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_WARNINGS)
+#FLAGS_CPP_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_WARNINGS)
 endif
 
 # INFO: Check if debug options were specified.
 ifndef FLAGS_COMPILER_GDB
 $(warning FLAGS_COMPILER_GDB was not specified!)
-else
-FLAGS_C_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_GDB)
-FLAGS_CPP_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_GDB)
+#else
+#FLAGS_C_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_GDB)
+#FLAGS_CPP_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_GDB)
 endif
 
 # INFO: Check if sanitize options were specified.
-# TODO: Variable CC is not used any more
-#ifeq ($(CC), clang)
 ifndef FLAGS_COMPILER_SANITIZE
 $(warning FLAGS_COMPILER_SANITIZE was not specified!)
 #else
 #FLAGS_C_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_SANITIZE)
 #FLAGS_CPP_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_SANITIZE)
 endif
-#endif
 
 # INFO: Check if dialect options were specified.
 ifndef FLAGS_C_COMPILER_DIALECT
@@ -78,19 +66,9 @@ endif
 ifndef FLAGS_COMPILER_OPTIMIZATION
 $(warning FLAGS_COMPILER_OPTIMIZATION was not specified!)
 else
-#FLAGS_C_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_OPTIMIZATION)
-#FLAGS_CPP_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_OPTIMIZATION)
+FLAGS_C_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_OPTIMIZATION)
+FLAGS_CPP_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_OPTIMIZATION)
 endif
-
-# TODO: Not sure if needed.
-#ifeq ($(MODE_OUTPUT_ARCHITECTURE), 32_BIT)
-#FLAGS_32_BIT_VERSION_FLAG=	-m32
-#FLAGS_C_COMPILER_TEMP_LIST+=	$(FLAGS_32_BIT_VERSION_FLAG)
-#FLAGS_CPP_COMPILER_TEMP_LIST+=	$(FLAGS_32_BIT_VERSION_FLAG)
-#else
-# TODO: Check if variable is needed.
-#FLAGS_32_BIT_VERSION_FLAG=
-#endif
 
 # INFO: Add flags from unit local file.
 FLAGS_IN_LIST_EXISTENCE=	$(wildcard \

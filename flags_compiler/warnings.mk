@@ -225,11 +225,8 @@ FLAGS_COMPILER_WARNINGS+=		-Wextra
 #       Warn whenever a comment-start sequence ‘/*’ appears in a ‘/*’ comment,
 #       or whenever a Backslash-Newline appears in a ‘//’ comment. This warning
 #       is enabled by -Wall.
-#
-# INFO: This warning is enabled by -Wall.
 
-# TODO: Not working: why?
-FLAGS_COMPILER_WARNINGS+=		-Wcomment
+FLAGS_COMPILER_WARNINGS+=		-Wunreachable-code
 
 # INFO: -Wno-coverage-mismatch
 #       Warn if feedback profiles do not match when using the -fprofile-use

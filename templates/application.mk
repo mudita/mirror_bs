@@ -241,8 +241,6 @@ $(OBJECTS_ASM_LIST): \
 		$(DIRS_OBJECTS_DIR) \
 		$(DIRS_DEP_DIR) \
 		$(DIRS_AUX_DIR)
-	echo not implemented - check template of module.
-	false
 	mkdir \
 		-p \
 		$(dir \
