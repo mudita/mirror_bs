@@ -10,7 +10,7 @@ else
 include $(INCLUDER_PATH)
 endif
 
-RUN_PREFIX=			run
+RUN_PREFIX=			$(CONFIG_RUN_RULE)
 
 RUN_STANDARD_LIST=		$(patsubst \
 					$(CONFIG_APPLICATION_PREFIX)_%, \
