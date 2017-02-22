@@ -89,7 +89,6 @@ endif
 		$(EXEC_LINE_LABEL)
 
 $(CONFIG_CGDB_RULE): \
-		$(CGDB_PREFIX)_%: \
 		$(INSTALL_APPLICATION_ELF_FILE)
 	export \
 		SHELL=/bin/bash && \
