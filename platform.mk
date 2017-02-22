@@ -65,6 +65,7 @@ PLATFORM_FLAG_LIST=		$(PLATFORM_HOST_FLAG_LIST)
 endif
 
 # INFO: 
+# TODO: Change to arm926ej_s
 ifeq ($(PLATFORM), arm)
 PLATFORM_PREFIX=		$(PLATFORM)-none-eabi
 PLATFORM_PREFIX_EXPORT=		$(PATH_EXPORT_COMMAND) && \
@@ -83,6 +84,7 @@ PLATFORM_FLAG_LIST=		-mcpu=arm926ej-s
 endif
 
 # INFO: 
+# TODO: Change to cortex_m4
 ifeq ($(PLATFORM), armv7em)
 PLATFORM_PREFIX=		arm-none-eabi
 PLATFORM_PREFIX_EXPORT=		$(PATH_EXPORT_COMMAND) && \
@@ -94,6 +96,7 @@ PLATFORM_GDB=
 PLATFORM_C_COMPILER=		$(PLATFORM_PREFIX_EXPORT)-$(PLATFORM_HOST_C_COMPILER)
 PLATFORM_CPP_COMPILER=		$(PLATFORM_PREFIX_EXPORT)-$(PLATFORM_HOST_C_COMPILER)
 # TODO: Cut of not obligatory!
+# TODO: remove -march=armv7e-m if possible
 PLATFORM_SPECS_LIST=		-mfpu=fpv4-sp-d16 \
 				-mfloat-abi=softfp \
 				-mcpu=cortex-m4 \
@@ -141,6 +144,7 @@ PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
 endif
 
 # INFO: 
+# TODO: Change to cortex_a9
 ifeq ($(PLATFORM), armv7a)
 PLATFORM_PREFIX=		arm-none-eabi
 PLATFORM_PREFIX_EXPORT=		$(PATH_EXPORT_COMMAND) && \
@@ -168,13 +172,15 @@ PLATFORM_MACHINE=		vexpress-a9
 
 PLATFORM_CPU=			cortex-a9
 
-PLATFORM_FLAG_LIST=		-marm \
-				-mno-thumb-interwork \
-				-mabi=aapcs-linux \
-				-mword-relocations \
-				-mno-unaligned-access \
-				-msoft-float \
-				-march=armv7-a
+# INFO: Working for module freertos_cortex_a9
+#PLATFORM_FLAG_LIST=		-mcpu=cortex-a9 \
+#				-march=armv7-a \
+#				-mthumb
+
+# INFO: Working for application cortex_a9
+PLATFORM_FLAG_LIST=		-mcpu=cortex-a9 \
+				-mthumb \
+				-mword-relocations
 endif
 
 # INFO: 

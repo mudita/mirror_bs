@@ -17,7 +17,8 @@ INCLUDER_MODULES_LIST=		clean \
 				wd \
 				doc/html \
 				doc/latex \
-				doc/pdf
+				doc/pdf \
+				cgdb
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -86,6 +87,20 @@ endif
 		$(EXEC_END_LABEL)
 	@echo \
 		$(EXEC_LINE_LABEL)
+
+$(CONFIG_CGDB_RULE): \
+		$(CGDB_PREFIX)_%: \
+		$(INSTALL_APPLICATION_ELF_FILE)
+	export \
+		SHELL=/bin/bash && \
+	cgdb \
+		-d \
+		$(PLATFORM_GDB) \
+		-x \
+		$(DIRS_GDB_DIR)/$(CONFIG_GDB_SCRIPT_FILE_NAME) \
+		-ex \
+		"target remote localhost:9000" \
+		$(INSTALL_APPLICATION_ELF_FILE)
 
 $(INSTALL_OTHER_FILE_LIST): \
 		$(DIRS_INSTALL_DIR)/%: \
