@@ -173,13 +173,10 @@ PLATFORM_MACHINE=		vexpress-a9
 PLATFORM_CPU=			cortex-a9
 
 # INFO: Working for module freertos_cortex_a9
-#PLATFORM_FLAG_LIST=		-mcpu=cortex-a9 \
-#				-march=armv7-a \
-#				-mthumb
+#PLATFORM_FLAG_LIST=		-mcpu=cortex-a9
 
 # INFO: Working for application cortex_a9
 PLATFORM_FLAG_LIST=		-mcpu=cortex-a9 \
-				-mthumb \
 				-mword-relocations
 endif
 
