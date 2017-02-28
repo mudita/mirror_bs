@@ -52,5 +52,9 @@ CLEAN_TOOLS_NONSTANDARD_LIST=		$(addprefix \
 						$(CLEAN_PREFIX)_, \
 						$(TOOLS_NONSTANDARD_LIST))
 
+CLEAN_DOC_DEFAULT_HTML_LIST=		$(addprefix \
+						$(CLEAN_PREFIX)_, \
+						$(DOC_DEFAULT_HTML_LIST))
+
 endif
 
