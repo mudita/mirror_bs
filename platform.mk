@@ -65,7 +65,6 @@ PLATFORM_FLAG_LIST=		$(PLATFORM_HOST_FLAG_LIST)
 endif
 
 # INFO: 
-# TODO: Change to arm926ej_s
 ifeq ($(PLATFORM), arm926ej_s)
 PLATFORM_PREFIX=		arm-none-eabi
 PLATFORM_PREFIX_EXPORT=		$(PATH_EXPORT_COMMAND) && \
@@ -84,8 +83,7 @@ PLATFORM_FLAG_LIST=		-mcpu=arm926ej-s
 endif
 
 # INFO: 
-# TODO: Change to cortex_m4
-ifeq ($(PLATFORM), armv7em)
+ifeq ($(PLATFORM), arm_cortex_m4)
 PLATFORM_PREFIX=		arm-none-eabi
 PLATFORM_PREFIX_EXPORT=		$(PATH_EXPORT_COMMAND) && \
 				$(PLATFORM_PREFIX)
