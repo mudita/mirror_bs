@@ -212,9 +212,46 @@ PLATFORM_COMPATIBLE_FLAG=	TRUE
 else
 PLATFORM_COMPATIBLE_FLAG=	FALSE
 endif
-else
-PLATFORM_COMPATIBLE_FLAG=	TRUE
+
 endif
+
+# INFO: Sanity check for variable PLATFORM_ASSEMBLER
+#ifndef PLATFORM_ASSEMBLER
+#$(error Variable PLATFORM_ASSEMBLER is not specified for $(PLATFORM))
+#endif
+
+# INFO: Sanity check for variable PLATFORM_ARCHIVER
+#ifndef PLATFORM_ARCHIVER
+#$(error Variable PLATFORM_ARCHIVER is not specified for $(PLATFORM))
+#endif
+
+# INFO: Sanity check for variable PLATFORM_LINKER
+#ifndef PLATFORM_LINKER
+#$(error Variable PLATFORM_LINKER is not specified for $(PLATFORM))
+#endif
+
+# INFO: Sanity check for variable PLATFORM_GDB
+#ifndef PLATFORM_GDB
+#$(error Variable PLATFORM_GDB is not specified for $(PLATFORM))
+#endif
+
+# INFO: Sanity check for variable PLATFORM_C_COMPILER
+ifndef PLATFORM_C_COMPILER
+$(error Variable PLATFORM_C_COMPILER is not specified for $(PLATFORM))
+endif
+
+# INFO: Sanity check for variable PLATFORM_CPP_COMPILER
+#ifndef PLATFORM_CPP_COMPILER
+#$(error Variable PLATFORM_CPP_COMPILER is not specified for $(PLATFORM))
+#endif
+
+# INFO: Sanity check for variable PLATFORM_FLAG_LIST
+#ifndef PLATFORM_FLAG_LIST
+#$(error Variable PLATFORM_FLAG_LIST is not specified for $(PLATFORM))
+#endif
+
+# INFO: If sanity check has passed, everything should be fine here.
+PLATFORM_COMPATIBLE_FLAG=	TRUE
 
 endif
 
