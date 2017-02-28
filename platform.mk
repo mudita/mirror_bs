@@ -142,8 +142,7 @@ PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
 endif
 
 # INFO: 
-# TODO: Change to cortex_a9
-ifeq ($(PLATFORM), armv7a)
+ifeq ($(PLATFORM), arm_cortex_a9)
 PLATFORM_PREFIX=		arm-none-eabi
 PLATFORM_PREFIX_EXPORT=		$(PATH_EXPORT_COMMAND) && \
 				$(PLATFORM_PREFIX)
