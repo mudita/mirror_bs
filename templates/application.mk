@@ -15,9 +15,7 @@ INCLUDER_MODULES_LIST=		clean \
 				mode \
 				exec \
 				wd \
-				doc/html \
-				doc/latex \
-				doc/pdf \
+				doc \
 				cgdb
 
 ifndef INCLUDER_PATH

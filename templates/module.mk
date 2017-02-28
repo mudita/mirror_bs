@@ -9,9 +9,7 @@ INCLUDER_MODULES_LIST=		clean \
 				config \
 				platform \
 				deps \
-				doc/html \
-				doc/latex \
-				doc/pdf
+				doc
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)

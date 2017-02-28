@@ -16,9 +16,7 @@ INCLUDER_MODULES_LIST=		clean \
 				exec \
 				root \
 				wd \
-				doc/html \
-				doc/latex \
-				doc/pdf
+				doc
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
