@@ -58,7 +58,9 @@ ifdef ARGS
 		$(WD_DIR) && \
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
-	$(EXEC_APPLICATION_PATH) \
+	gdbserver \
+		:9000 \
+		$(EXEC_APPLICATION_PATH) \
 		$(ARGS)
 else
 ifneq ($(wildcard $(CONFIG_ARGS_FILE_NAME)), )
@@ -66,7 +68,9 @@ ifneq ($(wildcard $(CONFIG_ARGS_FILE_NAME)), )
 		$(WD_DIR) && \
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
-	$(EXEC_APPLICATION_PATH) \
+	gdbserver \
+		:9000 \
+		$(EXEC_APPLICATION_PATH) \
 		$(shell \
 			cat \
 			$(CONFIG_ARGS_FILE_NAME))
@@ -75,7 +79,9 @@ else
 		$(WD_DIR) && \
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
-	$(EXEC_APPLICATION_PATH)
+	gdbserver \
+		:9000 \
+		$(EXEC_APPLICATION_PATH)
 endif
 endif
 	@$(MODE_MTRACE_COMMAND)
@@ -126,9 +132,11 @@ $(INSTALL_APPLICATION_ELF_FILE): \
 		$(EXTERNALS_LIST) \
 		-o \
 		$@ \
-		-Map \
-		$(DIRS_MAP_DIR)/$*.$(CONFIG_MAP_EXT) \
 		$(FLAGS_LINKER)
+
+# TODO: Does not work with host g++
+#		-Map \
+#		$(DIRS_MAP_DIR)/$*.$(CONFIG_MAP_EXT) \
 
 $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_RULE)
