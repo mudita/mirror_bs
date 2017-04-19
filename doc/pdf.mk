@@ -13,7 +13,7 @@ include $(INCLUDER_PATH)
 endif
 
 ifeq ($(PLATFORM_COMPATIBLE_FLAG), TRUE)
-DOC_PDF_LIST=		$(patsubst \
+DOC_PDF_LIST=			$(patsubst \
 					$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASCIIDOC_FILE_EXT), \
 					$(DIRS_DOC_DIR)/%.$(CONFIG_PDF_FILE_EXT), \
 					$(SOURCES_ASCIIDOC_LIST))

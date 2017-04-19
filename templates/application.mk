@@ -2,6 +2,7 @@ INCLUDER_MODULES_LIST=		clean \
 				clean_full \
 				dirs \
 				objects \
+				sources \
 				flags_compiler \
 				includes \
 				defines \
@@ -33,7 +34,8 @@ endif
 TEMPLATE_APP_COMPONENT_LIST=	$(INSTALL_OTHER_FILE_LIST) \
 				$(DOC_HTML_LIST) \
 				$(DOC_LATEX_LIST) \
-				$(DOC_PDF_LIST)
+				$(DOC_PDF_LIST) \
+				$(DOC_PNG_LIST)
 
 # TODO: This variable should be hidden in some build system script module.
 # INFO: If C/C++ sources are not present/not present
@@ -142,12 +144,19 @@ $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_RULE)
 
 $(CONFIG_CLEAN_RULE): \
+		$(CLEAN_PREFIX)_$(DIRS_PNGS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_DOC_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_OBJECTS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_INSTALL_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_DEP_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_MAP_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_AUX_DIR)
+
+$(CLEAN_PREFIX)_$(DIRS_PNGS_DIR): \
+		$(CLEAN_PREFIX)_%:
+	rm \
+		-rf \
+		$*
 
 $(CLEAN_PREFIX)_$(DIRS_DOC_DIR): \
 		$(CLEAN_PREFIX)_%:
@@ -345,7 +354,7 @@ $(DOC_LATEX_LIST): \
 		$(DIRS_DOC_DIR)
 	echo \
 		$@
-	false
+#	false
 
 # TODO: Finish pdf generation.
 $(DOC_PDF_LIST): \
@@ -354,13 +363,24 @@ $(DOC_PDF_LIST): \
 		$(DIRS_DOC_DIR)
 	echo \
 		$@
-	false
+#	false
 
-#$(DOC_DEFAULT_HTML_LIST): \
-#		%.$(CONFIG_HTML_FILE_EXT): \
-#		%.$(CONFIG_ASCIIDOC_FILE_EXT)
-#	asciidoc \
-#		$<
+$(DOC_PNG_LIST): \
+		$(DIRS_PNGS_DIR)/%.$(CONFIG_PNG_FILE_EXT): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_DOT_FILE_EXT) \
+		$(DIRS_PNGS_DIR)
+	cat \
+		$< | \
+	dot \
+		-T \
+		$(CONFIG_PNG_PREFIX) \
+		-o \
+		$(DIRS_PNGS_DIR)/$*.$(CONFIG_PNG_FILE_EXT)
+
+$(DIRS_PNGS_DIR):
+	mkdir \
+		-p \
+		$@
 
 $(DIRS_DOC_DIR): \
 		%:

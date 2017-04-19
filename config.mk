@@ -35,6 +35,8 @@ CONFIG_ASCIIDOC_FILE_EXT=		asciidoc
 CONFIG_HTML_FILE_EXT=			html
 CONFIG_LATEX_FILE_EXT=			latex
 CONFIG_PDF_FILE_EXT=			pdf
+CONFIG_DOT_FILE_EXT=			dot
+CONFIG_PNG_FILE_EXT=			png
 
 # INFO: Archive extensions.
 CONFIG_STATIC_LIBRARY_EXT=		a
@@ -51,10 +53,6 @@ CONFIG_LIST_EXT=			list
 CONFIG_GDB_SCRIPT_EXT=			gdb
 CONFIG_DEBUG_PID_FILE_EXT=		pid
 CONFIG_CONSOLE_STDOUT_EXT=		stdout
-
-# INFO: Build system visualization extensions.
-CONFIG_DOT_EXT=				dot
-CONFIG_PNG_EXT=				png
 
 # INFO: File names.
 CONFIG_DEBUG_PID_FILE_NAME=		debug.$(CONFIG_DEBUG_PID_FILE_EXT)

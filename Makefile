@@ -15,11 +15,14 @@ INCLUDER_MODULES_LIST=		clean \
 				console \
 				templates \
 				self_test \
-				dots \
-				pngs \
 				launcher \
 				locale \
 				doc
+
+# TODO: Remove all dot related rules.
+# TODO: Remove all png related rules.
+#				dots \
+#				pngs \
 
 ##############################################################################
 # TODO: Solve it in more clever way (if possible).
@@ -73,10 +76,12 @@ $(warning ------> WARNING - SLOW VERSION OF THE BUILD SYSTEM <------)
 INCLUDER_PATH=			$(MODBUILD_DIRECTORY)/bs/bootstrap_includer.mk
 endif
 
-MAKE_TO_GRAPH_FLAGS=		-ndrR
-MAKE_TO_GRAPH_SUFFIX=		| \
-				$(MAKE_TO_GRAPH_BINARY_PATH) > \
-				$(DIRS_DOTS_DIR)/$@.$(CONFIG_DOT_EXT)
+# TODO: Remove all dot related rules.
+# TODO: Remove this tool from build system.
+#MAKE_TO_GRAPH_FLAGS=		-ndrR
+#MAKE_TO_GRAPH_SUFFIX=		| \
+#				$(MAKE_TO_GRAPH_BINARY_PATH) > \
+#				$(DIRS_DOTS_DIR)/$@.$(CONFIG_DOT_EXT)
 
 include $(INCLUDER_PATH)
 ##############################################################################
@@ -87,10 +92,13 @@ $(CONFIG_ALL_RULE): \
 $(CONFIG_CLEAN_RULE): \
 		$(CONFIG_CLEAN_RULE)_$(DIRS_APPLICATIONS_DIR) \
 		$(CONFIG_CLEAN_RULE)_$(DIRS_MODULES_DIR) \
-		$(CLEAN_PREFIX)_$(DIRS_TEMP_DIR) \
-		$(CLEAN_PREFIX)_$(DIRS_DOTS_DIR) \
-		$(CLEAN_PREFIX)_$(DIRS_PNGS_DIR) \
 		$(CLEAN_DOC_DEFAULT_HTML_LIST)
+
+# TODO: Remove all dot related rules.
+# TODO: Remove all png related rules.
+#		$(CLEAN_PREFIX)_$(DIRS_TEMP_DIR) \
+#		$(CLEAN_PREFIX)_$(DIRS_DOTS_DIR) \
+#		$(CLEAN_PREFIX)_$(DIRS_PNGS_DIR) \
 
 $(CONFIG_CLEAN_RULE)_$(DIRS_APPLICATIONS_DIR): \
 		$(CLEAN_APPLICATIONS_STANDARD_LIST) \
@@ -108,9 +116,13 @@ $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_FULL_RULE)_$(DIRS_APPLICATIONS_DIR) \
 		$(CONFIG_CLEAN_FULL_RULE)_$(DIRS_MODULES_DIR) \
 		$(CONFIG_CLEAN_FULL_RULE)_$(DIRS_TOOLS_DIR) \
-		$(CLEAN_PREFIX)_$(DIRS_TEMP_DIR) \
-		$(CLEAN_PREFIX)_$(DIRS_DOTS_DIR) \
-		$(CLEAN_PREFIX)_$(DIRS_PNGS_DIR)
+		$(CLEAN_DOC_DEFAULT_HTML_LIST)
+
+# TODO: Remove all dot related rules.
+# TODO: Remove all png related rules.
+#		$(CLEAN_PREFIX)_$(DIRS_TEMP_DIR) \
+#		$(CLEAN_PREFIX)_$(DIRS_DOTS_DIR) \
+#		$(CLEAN_PREFIX)_$(DIRS_PNGS_DIR) \
 
 $(CONFIG_CLEAN_FULL_RULE)_$(DIRS_APPLICATIONS_DIR): \
 		$(CLEAN_FULL_APPLICATIONS_STANDARD_LIST) \
@@ -124,136 +136,146 @@ $(CONFIG_CLEAN_FULL_RULE)_$(DIRS_TOOLS_DIR): \
 		$(CLEAN_FULL_TOOLS_STANDARD_LIST) \
 		$(CLEAN_FULL_TOOLS_NONSTANDARD_LIST)
 
-$(PNGS_LIST): \
-		$(CONFIG_PNG_PREFIX)_%: \
-		$(CONFIG_DOT_PREFIX)_% \
-		$(DIRS_PNGS_DIR)
-	test \
-		-f \
-		$(DIRS_DOTS_DIR)/$(CONFIG_DOT_PREFIX)_$*.$(CONFIG_DOT_EXT) && \
-	cat \
-		$(DIRS_DOTS_DIR)/$(CONFIG_DOT_PREFIX)_$*.$(CONFIG_DOT_EXT) | \
-		dot \
-			-T$(CONFIG_PNG_PREFIX) \
-			-o \
-			$(DIRS_PNGS_DIR)/$*.$(CONFIG_PNG_EXT) | \
-			eog \
-				$(DIRS_PNGS_DIR)/$*.$(CONFIG_PNG_EXT) || \
-	true
+# TODO: Remove all dot related rules.
+# TODO: Remove all png related rules.
+#$(PNGS_LIST): \
+#		$(CONFIG_PNG_PREFIX)_%: \
+#		$(CONFIG_DOT_PREFIX)_% \
+#		$(DIRS_PNGS_DIR)
+#	test \
+#		-f \
+#		$(DIRS_DOTS_DIR)/$(CONFIG_DOT_PREFIX)_$*.$(CONFIG_DOT_EXT) && \
+#	cat \
+#		$(DIRS_DOTS_DIR)/$(CONFIG_DOT_PREFIX)_$*.$(CONFIG_DOT_EXT) | \
+#		dot \
+#			-T$(CONFIG_PNG_PREFIX) \
+#			-o \
+#			$(DIRS_PNGS_DIR)/$*.$(CONFIG_PNG_EXT) | \
+#			eog \
+#				$(DIRS_PNGS_DIR)/$*.$(CONFIG_PNG_EXT) || \
+#	true
 
 # TODO: Dependencies are not resolved yet!
-$(DOTS_TOOLS_NONSTANDARD_LIST): \
-		$(CONFIG_DOT_PREFIX)_$(CONFIG_TOOL_PREFIX)_%: \
-		$(CONFIG_TOOL_PREFIX)_$(MAKE_TO_GRAPH_NAME) \
-		$(DIRS_DOTS_DIR)
-	LANG=$(LOCALE_LANG) \
-		make \
-			INCLUDER_PATH=$(INCLUDER_PATH) \
-			INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
-			$(LAUNCHER_VARIABLES) \
-			$(FLAGS_MAKE_LIST) \
-			$(MAKE_TO_GRAPH_FLAGS) \
-			-C \
-			$(DIRS_TOOLS_DIR)/$* \
-			-f \
-			$(CONFIG_MAKEFILE_FILE_NAME) \
-			$(CONFIG_ALL_RULE) \
-			$(MAKE_TO_GRAPH_SUFFIX)
+# TODO: Remove all dot related rules.
+# TODO: Remove all png related rules.
+#$(DOTS_TOOLS_NONSTANDARD_LIST): \
+#		$(CONFIG_DOT_PREFIX)_$(CONFIG_TOOL_PREFIX)_%: \
+#		$(CONFIG_TOOL_PREFIX)_$(MAKE_TO_GRAPH_NAME) \
+#		$(DIRS_DOTS_DIR)
+#	LANG=$(LOCALE_LANG) \
+#		make \
+#			INCLUDER_PATH=$(INCLUDER_PATH) \
+#			INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+#			$(LAUNCHER_VARIABLES) \
+#			$(FLAGS_MAKE_LIST) \
+#			$(MAKE_TO_GRAPH_FLAGS) \
+#			-C \
+#			$(DIRS_TOOLS_DIR)/$* \
+#			-f \
+#			$(CONFIG_MAKEFILE_FILE_NAME) \
+#			$(CONFIG_ALL_RULE) \
+#			$(MAKE_TO_GRAPH_SUFFIX)
 
 # TODO: Dependencies are not resolved yet!
-$(DOTS_TOOLS_STANDARD_LIST): \
-		$(CONFIG_DOT_PREFIX)_$(CONFIG_TOOL_PREFIX)_%: \
-		$(CONFIG_TOOL_PREFIX)_$(MAKE_TO_GRAPH_NAME) \
-		$(DIRS_DOTS_DIR)
-	LANG=$(LOCALE_LANG) \
-		make \
-			INCLUDER_PATH=$(INCLUDER_PATH) \
-			INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
-			$(LAUNCHER_VARIABLES) \
-			$(FLAGS_MAKE_LIST) \
-			$(MAKE_TO_GRAPH_FLAGS) \
-			-C \
-			$(DIRS_TOOLS_DIR)/$* \
-			-f \
-			$(TEMPLATE_TOOL_FILE) \
-			$(CONFIG_ALL_RULE) \
-			$(MAKE_TO_GRAPH_SUFFIX)
+# TODO: Remove all dot related rules.
+# TODO: Remove all png related rules.
+#$(DOTS_TOOLS_STANDARD_LIST): \
+#		$(CONFIG_DOT_PREFIX)_$(CONFIG_TOOL_PREFIX)_%: \
+#		$(CONFIG_TOOL_PREFIX)_$(MAKE_TO_GRAPH_NAME) \
+#		$(DIRS_DOTS_DIR)
+#	LANG=$(LOCALE_LANG) \
+#		make \
+#			INCLUDER_PATH=$(INCLUDER_PATH) \
+#			INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+#			$(LAUNCHER_VARIABLES) \
+#			$(FLAGS_MAKE_LIST) \
+#			$(MAKE_TO_GRAPH_FLAGS) \
+#			-C \
+#			$(DIRS_TOOLS_DIR)/$* \
+#			-f \
+#			$(TEMPLATE_TOOL_FILE) \
+#			$(CONFIG_ALL_RULE) \
+#			$(MAKE_TO_GRAPH_SUFFIX)
 
 # TODO: Dependencies are not resolved yet!
-$(DOTS_MODULES_NONSTANDARD_LIST): \
-		$(CONFIG_DOT_PREFIX)_$(CONFIG_MODULE_PREFIX)_%: \
-		$(CONFIG_TOOL_PREFIX)_$(MAKE_TO_GRAPH_NAME) \
-		$(DIRS_DOTS_DIR)
-	LANG=$(LOCALE_LANG) \
-		make \
-			INCLUDER_PATH=$(INCLUDER_PATH) \
-			INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
-			$(LAUNCHER_VARIABLES) \
-			$(FLAGS_MAKE_LIST) \
-			$(MAKE_TO_GRAPH_FLAGS) \
-			-C \
-			$(DIRS_MODULES_DIR)/$* \
-			-f \
-			$(CONFIG_MAKEFILE_FILE_NAME) \
-			$(CONFIG_ALL_RULE) \
-			$(MAKE_TO_GRAPH_SUFFIX)
+# TODO: Remove all dot related rules.
+#$(DOTS_MODULES_NONSTANDARD_LIST): \
+#		$(CONFIG_DOT_PREFIX)_$(CONFIG_MODULE_PREFIX)_%: \
+#		$(CONFIG_TOOL_PREFIX)_$(MAKE_TO_GRAPH_NAME) \
+#		$(DIRS_DOTS_DIR)
+#	LANG=$(LOCALE_LANG) \
+#		make \
+#			INCLUDER_PATH=$(INCLUDER_PATH) \
+#			INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+#			$(LAUNCHER_VARIABLES) \
+#			$(FLAGS_MAKE_LIST) \
+#			$(MAKE_TO_GRAPH_FLAGS) \
+#			-C \
+#			$(DIRS_MODULES_DIR)/$* \
+#			-f \
+#			$(CONFIG_MAKEFILE_FILE_NAME) \
+#			$(CONFIG_ALL_RULE) \
+#			$(MAKE_TO_GRAPH_SUFFIX)
 
 # TODO: Dependencies are not resolved yet!
-$(DOTS_MODULES_STANDARD_LIST): \
-		$(CONFIG_DOT_PREFIX)_$(CONFIG_MODULE_PREFIX)_%: \
-		$(CONFIG_TOOL_PREFIX)_$(MAKE_TO_GRAPH_NAME) \
-		$(DIRS_DOTS_DIR)
-	LANG=$(LOCALE_LANG) \
-		make \
-			INCLUDER_PATH=$(INCLUDER_PATH) \
-			INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
-			$(LAUNCHER_VARIABLES) \
-			$(FLAGS_MAKE_LIST) \
-			$(MAKE_TO_GRAPH_FLAGS) \
-			-C \
-			$(DIRS_MODULES_DIR)/$* \
-			-f \
-			$(TEMPLATE_MODULE_FILE) \
-			$(CONFIG_ALL_RULE) \
-			$(MAKE_TO_GRAPH_SUFFIX)
+# TODO: Remove all dot related rules.
+#$(DOTS_MODULES_STANDARD_LIST): \
+#		$(CONFIG_DOT_PREFIX)_$(CONFIG_MODULE_PREFIX)_%: \
+#		$(CONFIG_TOOL_PREFIX)_$(MAKE_TO_GRAPH_NAME) \
+#		$(DIRS_DOTS_DIR)
+#	LANG=$(LOCALE_LANG) \
+#		make \
+#			INCLUDER_PATH=$(INCLUDER_PATH) \
+#			INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+#			$(LAUNCHER_VARIABLES) \
+#			$(FLAGS_MAKE_LIST) \
+#			$(MAKE_TO_GRAPH_FLAGS) \
+#			-C \
+#			$(DIRS_MODULES_DIR)/$* \
+#			-f \
+#			$(TEMPLATE_MODULE_FILE) \
+#			$(CONFIG_ALL_RULE) \
+#			$(MAKE_TO_GRAPH_SUFFIX)
 
 # TODO: Dependencies are not resolved yet!
-$(DOTS_APPLICATIONS_NONSTANDARD_LIST): \
-		$(CONFIG_DOT_PREFIX)_$(CONFIG_APPLICATION_PREFIX)_%: \
-		$(CONFIG_TOOL_PREFIX)_$(MAKE_TO_GRAPH_NAME) \
-		$(DIRS_DOTS_DIR)
-	LANG=$(LOCALE_LANG) \
-		make \
-			INCLUDER_PATH=$(INCLUDER_PATH) \
-			INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
-			$(LAUNCHER_VARIABLES) \
-			$(FLAGS_MAKE_LIST) \
-			$(MAKE_TO_GRAPH_FLAGS) \
-			-C \
-			$(DIRS_APPLICATIONS_DIR)/$* \
-			-f \
-			$(CONFIG_MAKEFILE_FILE_NAME) \
-			$(CONFIG_ALL_RULE) \
-			$(MAKE_TO_GRAPH_SUFFIX)
+# TODO: Remove all dot related rules.
+#$(DOTS_APPLICATIONS_NONSTANDARD_LIST): \
+#		$(CONFIG_DOT_PREFIX)_$(CONFIG_APPLICATION_PREFIX)_%: \
+#		$(CONFIG_TOOL_PREFIX)_$(MAKE_TO_GRAPH_NAME) \
+#		$(DIRS_DOTS_DIR)
+#	LANG=$(LOCALE_LANG) \
+#		make \
+#			INCLUDER_PATH=$(INCLUDER_PATH) \
+#			INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+#			$(LAUNCHER_VARIABLES) \
+#			$(FLAGS_MAKE_LIST) \
+#			$(MAKE_TO_GRAPH_FLAGS) \
+#			-C \
+#			$(DIRS_APPLICATIONS_DIR)/$* \
+#			-f \
+#			$(CONFIG_MAKEFILE_FILE_NAME) \
+#			$(CONFIG_ALL_RULE) \
+#			$(MAKE_TO_GRAPH_SUFFIX)
 
 # TODO: Dependencies are not resolved yet!
-$(DOTS_APPLICATIONS_STANDARD_LIST): \
-		$(CONFIG_DOT_PREFIX)_$(CONFIG_APPLICATION_PREFIX)_%: \
-		$(CONFIG_TOOL_PREFIX)_$(MAKE_TO_GRAPH_NAME) \
-		$(DIRS_DOTS_DIR)
-	LANG=$(LOCALE_LANG) \
-		make \
-			INCLUDER_PATH=$(INCLUDER_PATH) \
-			INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
-			$(LAUNCHER_VARIABLES) \
-			$(FLAGS_MAKE_LIST) \
-			$(MAKE_TO_GRAPH_FLAGS) \
-			-C \
-			$(DIRS_APPLICATIONS_DIR)/$* \
-			-f \
-			$(TEMPLATE_APPLICATION_FILE) \
-			$(CONFIG_ALL_RULE) \
-			$(MAKE_TO_GRAPH_SUFFIX)
+# TODO: Remove all dot related rules.
+#$(DOTS_APPLICATIONS_STANDARD_LIST): \
+#		$(CONFIG_DOT_PREFIX)_$(CONFIG_APPLICATION_PREFIX)_%: \
+#		$(CONFIG_TOOL_PREFIX)_$(MAKE_TO_GRAPH_NAME) \
+#		$(DIRS_DOTS_DIR)
+#	LANG=$(LOCALE_LANG) \
+#		make \
+#			INCLUDER_PATH=$(INCLUDER_PATH) \
+#			INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+#			$(LAUNCHER_VARIABLES) \
+#			$(FLAGS_MAKE_LIST) \
+#			$(MAKE_TO_GRAPH_FLAGS) \
+#			-C \
+#			$(DIRS_APPLICATIONS_DIR)/$* \
+#			-f \
+#			$(TEMPLATE_APPLICATION_FILE) \
+#			$(CONFIG_ALL_RULE) \
+#			$(MAKE_TO_GRAPH_SUFFIX)
 
 # TODO: Is not able to build in parallel. Should be fixed.
 # TODO: These veriables cannot be passed here! Try solve it like in launcher.
@@ -577,23 +599,25 @@ $(CLEAN_FULL_APPLICATIONS_STANDARD_LIST): \
 		$(TEMPLATE_APPLICATION_FILE) \
 		$(CONFIG_CLEAN_FULL_RULE)
 
-$(CLEAN_PREFIX)_$(DIRS_TEMP_DIR): \
-		$(CLEAN_PREFIX)_%:
-	rm \
-		-rf \
-		$*
+#$(CLEAN_PREFIX)_$(DIRS_TEMP_DIR): \
+#		$(CLEAN_PREFIX)_%:
+#	rm \
+#		-rf \
+#		$*
 
-$(CLEAN_PREFIX)_$(DIRS_DOTS_DIR): \
-		$(CLEAN_PREFIX)_%:
-	rm \
-		-rf \
-		$*
+# TODO: Remove all dot related rules.
+#$(CLEAN_PREFIX)_$(DIRS_DOTS_DIR): \
+#		$(CLEAN_PREFIX)_%:
+#	rm \
+#		-rf \
+#		$*
 
-$(CLEAN_PREFIX)_$(DIRS_PNGS_DIR): \
-		$(CLEAN_PREFIX)_%:
-	rm \
-		-rf \
-		$*
+# TODO: Remove all png related rules.
+#$(CLEAN_PREFIX)_$(DIRS_PNGS_DIR): \
+#		$(CLEAN_PREFIX)_%:
+#	rm \
+#		-rf \
+#		$*
 
 $(CLEAN_DOC_DEFAULT_HTML_LIST): \
 		$(CLEAN_PREFIX)_%:
@@ -739,19 +763,20 @@ $(CONSOLE_LIST): \
 		$(CONFIG_WATCH_LINES) \
 		$(DIRS_APPLICATIONS_DIR)/$*/$(DIRS_INSTALL_DIR)/$(CONSOLE_FILE)
 
-$(DIRS_DOTS_DIR):
-	mkdir \
-		-p \
-		$@
+# TODO: Remove all dot related rules.
+#$(DIRS_DOTS_DIR):
+#	mkdir \
+#		-p \
+#		$@
 
-$(DIRS_PNGS_DIR):
-	mkdir \
-		-p \
-		$@
+# TODO: Remove all png related rules.
+#$(DIRS_PNGS_DIR):
+#	mkdir \
+#		-p \
+#		$@
 
-$(DIRS_TEMP_DIR):
-	mkdir \
-		-p \
-		$@
-
+#$(DIRS_TEMP_DIR):
+#	mkdir \
+#		-p \
+#		$@
 

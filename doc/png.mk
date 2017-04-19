@@ -1,5 +1,5 @@
-ifndef MK_DOC_LATEX_MK
-MK_DOC_LATEX_MK=		TRUE
+ifndef MK_DOC_PNG_MK
+MK_DOC_PNG_MK=		TRUE
 
 INCLUDER_MODULES_LIST=		sources/asciidoc \
 				dirs \
@@ -13,12 +13,12 @@ include $(INCLUDER_PATH)
 endif
 
 ifeq ($(PLATFORM_COMPATIBLE_FLAG), TRUE)
-DOC_LATEX_LIST=			$(patsubst \
-					$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASCIIDOC_FILE_EXT), \
-					$(DIRS_DOC_DIR)/%.$(CONFIG_LATEX_FILE_EXT), \
-					$(SOURCES_ASCIIDOC_LIST))
+DOC_PNG_LIST=			$(patsubst \
+					$(DIRS_SOURCES_DIR)/%.$(CONFIG_DOT_FILE_EXT), \
+					$(DIRS_PNGS_DIR)/%.$(CONFIG_PNG_FILE_EXT), \
+					$(SOURCES_DOT_LIST))
 else
-DOC_LATEX_LIST=
+DOC_PNG_LIST=
 endif
 
 endif

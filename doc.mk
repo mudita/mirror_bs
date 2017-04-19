@@ -4,7 +4,8 @@ MK_DOC_MK=			TRUE
 INCLUDER_MODULES_LIST=		config \
 				doc/html \
 				doc/latex \
-				doc/pdf
+				doc/pdf \
+				doc/png
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
