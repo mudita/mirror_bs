@@ -15,7 +15,7 @@ endif
 ifeq ($(PLATFORM_COMPATIBLE_FLAG), TRUE)
 DOC_PNG_LIST=			$(patsubst \
 					$(DIRS_SOURCES_DIR)/%.$(CONFIG_DOT_FILE_EXT), \
-					$(DIRS_PNGS_DIR)/%.$(CONFIG_PNG_FILE_EXT), \
+					$(DIRS_PNG_DIR)/%.$(CONFIG_PNG_FILE_EXT), \
 					$(SOURCES_DOT_LIST))
 else
 DOC_PNG_LIST=
