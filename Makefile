@@ -728,6 +728,8 @@ $(DOC_DEFAULT_HTML_LIST): \
 		%.$(CONFIG_HTML_FILE_EXT): \
 		%.$(CONFIG_ASCIIDOC_FILE_EXT)
 	asciidoc \
+		-o \
+		$@ \
 		$<
 
 $(CONSOLE_LIST): \
