@@ -87,8 +87,8 @@ $(CONFIG_CLEAN_RULE)_$(DIRS_APPLICATIONS_DIR): \
 		$(CLEAN_APPLICATIONS_PLATFORMS_NONSTANDARD_LIST)
 
 $(CONFIG_CLEAN_RULE)_$(DIRS_MODULES_DIR): \
-		$(CLEAN_MODULES_STANDARD_LIST) \
-		$(CLEAN_MODULES_NONSTANDARD_LIST)
+		$(CLEAN_MODULES_PLATFORMS_STANDARD_LIST) \
+		$(CLEAN_MODULES_PLATFORMS_NONSTANDARD_LIST)
 
 $(CONFIG_CLEAN_RULE)_$(DIRS_TOOLS_DIR): \
 		$(CLEAN_TOOLS_STANDARD_LIST) \
@@ -295,29 +295,59 @@ $(CLEAN_TOOLS_STANDARD_LIST): \
 		$(CONFIG_CLEAN_RULE)
 
 # TODO: These veriables cannot be passed here! Try solve it like in launcher.
-$(CLEAN_MODULES_NONSTANDARD_LIST): \
+$(CLEAN_MODULES_PLATFORMS_NONSTANDARD_LIST): \
 		$(CLEAN_MODULES_PREFIX)_%:
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_MODULES_DIR)/$* \
+		$(DIRS_MODULES_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_CLEAN_RULE)
 
 # TODO: These veriables cannot be passed here! Try solve it like in launcher.
-$(CLEAN_MODULES_STANDARD_LIST): \
+$(CLEAN_MODULES_PLATFORMS_STANDARD_LIST): \
 		$(CLEAN_MODULES_PREFIX)_%:
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_MODULES_DIR)/$* \
+		$(DIRS_MODULES_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(TEMPLATE_MODULE_FILE) \
 		$(CONFIG_CLEAN_RULE)
@@ -409,29 +439,59 @@ $(CLEAN_FULL_TOOLS_STANDARD_LIST): \
 		$(CONFIG_CLEAN_FULL_RULE)
 
 # TODO: These veriables cannot be passed here! Try solve it like in launcher.
-$(CLEAN_FULL_MODULES_NONSTANDARD_LIST): \
+$(CLEAN_FULL_MODULES_PLATFORMS_NONSTANDARD_LIST): \
 		$(CLEAN_FULL_MODULES_PREFIX)_%:
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_MODULES_DIR)/$* \
+		$(DIRS_MODULES_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_CLEAN_FULL_RULE)
 
 # TODO: These veriables cannot be passed here! Try solve it like in launcher.
-$(CLEAN_FULL_MODULES_STANDARD_LIST): \
+$(CLEAN_FULL_MODULES_PLATFORMS_STANDARD_LIST): \
 		$(CLEAN_FULL_MODULES_PREFIX)_%:
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_MODULES_DIR)/$* \
+		$(DIRS_MODULES_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(TEMPLATE_MODULE_FILE) \
 		$(CONFIG_CLEAN_FULL_RULE)
