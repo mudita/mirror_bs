@@ -12,12 +12,13 @@ INCLUDER_MODULES_LIST=		clean \
 				run \
 				dependencies \
 				cgdb \
-				console \
 				templates \
 				self_test \
 				launcher \
 				locale \
 				doc
+
+#				console \
 
 ##############################################################################
 # TODO: Solve it in more clever way (if possible).
@@ -74,8 +75,8 @@ endif
 include $(INCLUDER_PATH)
 ##############################################################################
 
-$(CONFIG_ALL_RULE): \
-		$(APPLICATIONS_LIST)
+#$(CONFIG_ALL_RULE): \
+#		$(APPLICATIONS_PLATFORMS_LIST)
 
 $(CONFIG_CLEAN_RULE): \
 		$(CONFIG_CLEAN_RULE)_$(DIRS_APPLICATIONS_DIR) \
@@ -699,12 +700,12 @@ $(DOC_DEFAULT_HTML_LIST): \
 		$@ \
 		$<
 
-$(CONSOLE_LIST): \
-		$(CONSOLE_PREFIX)_%:
-	tailf \
-		-n \
-		$(CONFIG_WATCH_LINES) \
-		$(DIRS_APPLICATIONS_DIR)/$*/$(DIRS_INSTALL_DIR)/$(CONSOLE_FILE)
+#$(CONSOLE_LIST): \
+#		$(CONSOLE_PREFIX)_%:
+#	tailf \
+#		-n \
+#		$(CONFIG_WATCH_LINES) \
+#		$(DIRS_APPLICATIONS_DIR)/$*/$(DIRS_INSTALL_DIR)/$(CONSOLE_FILE)
 
 $(DIRS_TEMP_DIR):
 	mkdir \

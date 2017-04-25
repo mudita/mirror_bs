@@ -68,7 +68,7 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 	for \
 		module \
 		in \
-		$(APPLICATIONS_LIST); \
+		$(APPLICATIONS_PLATFORMS_LIST); \
 		do \
 			printf \
 				$(SELF_TEST_LOOP_FIRST_FORMATER) \
