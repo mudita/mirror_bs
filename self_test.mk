@@ -116,7 +116,7 @@ $(SELF_TEST_MODULES_FILE): \
 	for \
 		module \
 		in \
-		$(MODULES_LIST); \
+		$(MODULES_PLATFORMS_LIST); \
 		do \
 			printf \
 				$(SELF_TEST_LOOP_FIRST_FORMATER) \
