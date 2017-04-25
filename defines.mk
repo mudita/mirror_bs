@@ -15,8 +15,10 @@ endif
 DEFINES_PREFIX=			-D
 
 # INFO: Do not use quotations ("), use apostrophes instead (').
-DEFINES_BARE=			DEBUG_PID_FILE='$(CONFIG_DEBUG_PID_FILE_NAME)' \
-				CONSOLE_FILE='$(CONSOLE_FILE)'
+#DEFINES_BARE=			DEBUG_PID_FILE='$(CONFIG_DEBUG_PID_FILE_NAME)' \
+#				CONSOLE_FILE='$(CONSOLE_FILE)'
+
+DEFINES_BARE=			DEBUG_PID_FILE='$(CONFIG_DEBUG_PID_FILE_NAME)'
 
 DEFINES=			$(patsubst \
 					%, \
