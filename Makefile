@@ -75,8 +75,8 @@ endif
 include $(INCLUDER_PATH)
 ##############################################################################
 
-#$(CONFIG_ALL_RULE): \
-#		$(APPLICATIONS_PLATFORMS_LIST)
+$(CONFIG_ALL_RULE): \
+		$(APPLICATIONS_PLATFORMS_LIST)
 
 $(CONFIG_CLEAN_RULE): \
 		$(CONFIG_CLEAN_RULE)_$(DIRS_APPLICATIONS_DIR) \

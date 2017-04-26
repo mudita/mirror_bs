@@ -68,7 +68,7 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 		>> \
 		$*
 	for \
-		application \
+		$(CONFIG_APPLICATION_PREFIX) \
 		in \
 		$(APPLICATIONS_PLATFORMS_LIST); \
 		do \
@@ -76,13 +76,13 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 				$(SELF_TEST_LOOP_FIRST_FORMATER) \
 				'\' \
 				'$$(SELF_TEST_PREFIX)' \
-				$$application \
+				$$$(CONFIG_APPLICATION_PREFIX) \
 				>> \
 				$*; \
 			printf \
 				$(SELF_TEST_LOOP_FORMATER) \
 				'$$(SELF_TEST_PREFIX)' \
-				$$application \
+				$$$(CONFIG_APPLICATION_PREFIX) \
 				'\' \
 				'$$(SELF_TEST_PREFIX)_%:' \
 				'make \' \
@@ -97,7 +97,7 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 			printf \
 				$(SELF_TEST_LOOP_THIRD_FORMATER) \
 				'$$(SELF_TEST_PREFIX)' \
-				$$application \
+				$$$(CONFIG_APPLICATION_PREFIX) \
 				>> \
 				$*; \
 		done
@@ -119,7 +119,7 @@ $(SELF_TEST_MODULES_FILE): \
 		>> \
 		$*
 	for \
-		module \
+		$(CONFIG_MODULE_PREFIX) \
 		in \
 		$(MODULES_PLATFORMS_LIST); \
 		do \
@@ -127,13 +127,13 @@ $(SELF_TEST_MODULES_FILE): \
 				$(SELF_TEST_LOOP_FIRST_FORMATER) \
 				'\' \
 				'$$(SELF_TEST_PREFIX)' \
-				$$module \
+				$$$(CONFIG_MODULE_PREFIX) \
 				>> \
 				$*; \
 			printf \
 				$(SELF_TEST_LOOP_FORMATER) \
 				'$$(SELF_TEST_PREFIX)' \
-				$$module \
+				$$$(CONFIG_MODULE_PREFIX) \
 				'\' \
 				'$$(SELF_TEST_PREFIX)_%:' \
 				'make \' \
@@ -148,7 +148,7 @@ $(SELF_TEST_MODULES_FILE): \
 			printf \
 				$(SELF_TEST_LOOP_THIRD_FORMATER) \
 				'$$(SELF_TEST_PREFIX)' \
-				$$module \
+				$$$(CONFIG_MODULE_PREFIX) \
 				>> \
 				$*; \
 		done
