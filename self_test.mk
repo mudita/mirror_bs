@@ -23,7 +23,7 @@ SELF_TEST_MODULES_RULE=			$(CONFIG_SELF_TEST_FILE_NAME)_$(SELF_TEST_MODULES_SUFF
 SELF_TEST_LOOP_FIRST_FORMATER=		' %s\n\t\t%s_%s\n\n'
 SELF_TEST_LOOP_FORMATER=		'%s_%s: %s\n\t\t%s\n\t%s\n\t\t%s\n\t%s\n\t\t%s\n\t%s\n\t\t%s\n\t\t%s\n\n'
 SELF_TEST_LOOP_THIRD_FORMATER=		'%s_%s:'
-SELF_TEST_RULE_FORMATER=		'%s\n\t\t%s\n\n'
+SELF_TEST_RULE_FORMATER=		'%s\n\t\t%s\n\t%s\n\t\t%s\n\n'
 SELF_TEST_BASE_FORMATER=		'%s'
 SELF_TEST_EOF_APPLICATIONS_FORMATER=	' \\\n\t\t%s\n\n'
 SELF_TEST_EOF_MODULES_FORMATER=		'\n\n'
@@ -51,6 +51,8 @@ $(SELF_TEST_FILE): \
 		$(SELF_TEST_RULE_FORMATER) \
 		'$$(SELF_TEST_RULE): \' \
 		'$$(SELF_TEST_APPLICATIONS_RULE)' \
+		'make \' \
+		'$$(CONFIG_CLEAN_RULE)' \
 		>> \
 		$*
 
@@ -66,7 +68,7 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 		>> \
 		$*
 	for \
-		module \
+		application \
 		in \
 		$(APPLICATIONS_PLATFORMS_LIST); \
 		do \
@@ -74,13 +76,13 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 				$(SELF_TEST_LOOP_FIRST_FORMATER) \
 				'\' \
 				'$$(SELF_TEST_PREFIX)' \
-				$$module \
+				$$application \
 				>> \
 				$*; \
 			printf \
 				$(SELF_TEST_LOOP_FORMATER) \
 				'$$(SELF_TEST_PREFIX)' \
-				$$module \
+				$$application \
 				'\' \
 				'$$(SELF_TEST_PREFIX)_%:' \
 				'make \' \
@@ -95,7 +97,7 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 			printf \
 				$(SELF_TEST_LOOP_THIRD_FORMATER) \
 				'$$(SELF_TEST_PREFIX)' \
-				$$module \
+				$$application \
 				>> \
 				$*; \
 		done

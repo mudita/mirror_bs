@@ -112,9 +112,13 @@ MODULES_PLATFORMS_STANDARD_LIST=		$(foreach \
 							$(MODULES_AVAILABLE_STANDARD_LIST), \
 							$(MODULES_PLATFORMS_FULL))
 
-# INFO: All avaiable (rule list).
-MODULES_PLATFORMS_LIST=				$(MODULES_PLATFORMS_STANDARD_LIST) \
+# INFO: All avaiable with platform suffix (unsorted).
+MODULES_PLATFORMS_UNSORTED_LIST=		$(MODULES_PLATFORMS_STANDARD_LIST) \
 						$(MODULES_PLATFORMS_NONSTANDARD_LIST)
+
+# INFO: All avaiable with platform suffix (rule list, sorted).
+MODULES_PLATFORMS_LIST=				$(sort \
+							$(MODULES_PLATFORMS_UNSORTED_LIST))
 
 endif
 

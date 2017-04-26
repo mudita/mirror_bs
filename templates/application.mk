@@ -354,7 +354,6 @@ $(DOC_LATEX_LIST): \
 		$(DIRS_DOC_DIR)
 	echo \
 		$@
-#	false
 
 # TODO: Finish pdf generation.
 $(DOC_PDF_LIST): \
@@ -363,7 +362,6 @@ $(DOC_PDF_LIST): \
 		$(DIRS_DOC_DIR)
 	echo \
 		$@
-#	false
 
 $(DOC_PNG_LIST): \
 		$(DIRS_PNG_DIR)/%.$(CONFIG_PNG_FILE_EXT): \
