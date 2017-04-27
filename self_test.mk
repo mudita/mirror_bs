@@ -23,6 +23,7 @@ SELF_TEST_MODULES_RULE=			$(CONFIG_SELF_TEST_FILE_NAME)_$(SELF_TEST_MODULES_SUFF
 SELF_TEST_LOOP_FIRST_FORMATER=		' %s\n\t\t%s_%s\n\n'
 SELF_TEST_LOOP_SECOND_FORMATER=		'%s_%s: %s\n\t\t%s\n'
 SELF_TEST_LOOP_THIRD_FORMATER=		'\t%s\n\t\t%s\n'
+SELF_TEST_LOOP_CONDITION_FORMATER=	'\t%s\n\t\t%s\n\t%s\n'
 SELF_TEST_LOOP_LOG_FORMATER=		'\t%s\n\t\t%s\n\t\t%s\n\n'
 SELF_TEST_LOOP_LAST_FORMATER=		'%s_%s:'
 SELF_TEST_RULE_FORMATER=		'%s\n\t\t%s\n\t%s\n\t\t%s\n\n'
@@ -102,6 +103,13 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 				>> \
 				$*; \
 			printf \
+				$(SELF_TEST_LOOP_CONDITION_FORMATER) \
+				'if [ -n $$(shell grep -m 1 -P \^\\t\\t$$* bs/tmp/dependencies.mk | tr -d \\\) ]; then \' \
+				'$$(error $$* never used); \' \
+				'fi' \
+				>> \
+				$*; \
+			printf \
 				$(SELF_TEST_LOOP_LOG_FORMATER) \
 				'echo \' \
 				'$$* >> \' \
@@ -153,15 +161,10 @@ $(SELF_TEST_MODULES_FILE): \
 				>> \
 				$*; \
 			printf \
-				$(SELF_TEST_LOOP_THIRD_FORMATER) \
-				'make \' \
-				'$$(CONFIG_CLEAN_RULE)' \
-				>> \
-				$*; \
-			printf \
-				$(SELF_TEST_LOOP_THIRD_FORMATER) \
-				'make \' \
-				'$$*' \
+				$(SELF_TEST_LOOP_CONDITION_FORMATER) \
+				'if [ -n $$(shell grep -m 1 -P \^\\t\\t$$* bs/tmp/dependencies.mk | tr -d \\\) ]; then \' \
+				'$$(error $$* never used); \' \
+				'fi' \
 				>> \
 				$*; \
 			printf \
