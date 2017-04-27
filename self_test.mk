@@ -21,8 +21,10 @@ SELF_TEST_APPLICATIONS_RULE=		$(CONFIG_SELF_TEST_FILE_NAME)_$(SELF_TEST_APPLICAT
 SELF_TEST_MODULES_RULE=			$(CONFIG_SELF_TEST_FILE_NAME)_$(SELF_TEST_MODULES_SUFFIX)
 
 SELF_TEST_LOOP_FIRST_FORMATER=		' %s\n\t\t%s_%s\n\n'
-SELF_TEST_LOOP_FORMATER=		'%s_%s: %s\n\t\t%s\n\t%s\n\t\t%s\n\t%s\n\t\t%s\n\t%s\n\t\t%s\n\t\t%s\n\n'
-SELF_TEST_LOOP_THIRD_FORMATER=		'%s_%s:'
+SELF_TEST_LOOP_SECOND_FORMATER=		'%s_%s: %s\n\t\t%s\n'
+SELF_TEST_LOOP_THIRD_FORMATER=		'\t%s\n\t\t%s\n'
+SELF_TEST_LOOP_LOG_FORMATER=		'\t%s\n\t\t%s\n\t\t%s\n\n'
+SELF_TEST_LOOP_LAST_FORMATER=		'%s_%s:'
 SELF_TEST_RULE_FORMATER=		'%s\n\t\t%s\n\t%s\n\t\t%s\n\n'
 SELF_TEST_BASE_FORMATER=		'%s'
 SELF_TEST_EOF_APPLICATIONS_FORMATER=	' \\\n\t\t%s\n\n'
@@ -80,22 +82,34 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 				>> \
 				$*; \
 			printf \
-				$(SELF_TEST_LOOP_FORMATER) \
+				$(SELF_TEST_LOOP_SECOND_FORMATER) \
 				'$$(SELF_TEST_PREFIX)' \
 				$$$(CONFIG_APPLICATION_PREFIX) \
 				'\' \
 				'$$(SELF_TEST_PREFIX)_%:' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
 				'make \' \
 				'$$(CONFIG_CLEAN_RULE)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
 				'make \' \
 				'$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LOG_FORMATER) \
 				'echo \' \
 				'$$* >> \' \
 				'self_test.log' \
 				>> \
 				$*; \
 			printf \
-				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				$(SELF_TEST_LOOP_LAST_FORMATER) \
 				'$$(SELF_TEST_PREFIX)' \
 				$$$(CONFIG_APPLICATION_PREFIX) \
 				>> \
@@ -131,22 +145,34 @@ $(SELF_TEST_MODULES_FILE): \
 				>> \
 				$*; \
 			printf \
-				$(SELF_TEST_LOOP_FORMATER) \
+				$(SELF_TEST_LOOP_SECOND_FORMATER) \
 				'$$(SELF_TEST_PREFIX)' \
 				$$$(CONFIG_MODULE_PREFIX) \
 				'\' \
 				'$$(SELF_TEST_PREFIX)_%:' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
 				'make \' \
 				'$$(CONFIG_CLEAN_RULE)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
 				'make \' \
 				'$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LOG_FORMATER) \
 				'echo \' \
 				'$$* >> \' \
 				'self_test.log' \
 				>> \
 				$*; \
 			printf \
-				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				$(SELF_TEST_LOOP_LAST_FORMATER) \
 				'$$(SELF_TEST_PREFIX)' \
 				$$$(CONFIG_MODULE_PREFIX) \
 				>> \
