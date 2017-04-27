@@ -53,6 +53,8 @@ $(CONFIG_ALL_RULE): \
 		$(SELF_TEST_FILE)
 endif
 
+# TODO: Not sure if tools should not also to be checked.
+
 $(SELF_TEST_FILE): \
 		%: \
 		$(SELF_TEST_APPLICATIONS_FILE)
