@@ -212,7 +212,7 @@ $(DEPS_ASM_LIST): \
 		$(FLAGS_C_COMPILER_LIST) \
 		$(DEPS_FLAG_LIST) \
 		-MT \
-		$(DIRS_OBJECTS_DIR)/$*.$(CONFIG_C_OBJECT_FILE_EXT) \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/$*.$(CONFIG_ASM_OBJECT_FILE_EXT) \
 		-MF \
 		$@ \
 		-c \
@@ -234,7 +234,7 @@ $(DEPS_C_LIST): \
 		$(FLAGS_C_COMPILER_LIST) \
 		$(DEPS_FLAG_LIST) \
 		-MT \
-		$(DIRS_OBJECTS_DIR)/$*.$(CONFIG_C_OBJECT_FILE_EXT) \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/$*.$(CONFIG_C_OBJECT_FILE_EXT) \
 		-MF \
 		$@ \
 		-c \
@@ -256,7 +256,7 @@ $(DEPS_CPP_LIST): \
 		$(FLAGS_CPP_COMPILER_LIST) \
 		$(DEPS_FLAG_LIST) \
 		-MT \
-		$(DIRS_OBJECTS_DIR)/$*.$(CONFIG_CPP_OBJECT_FILE_EXT) \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/$*.$(CONFIG_CPP_OBJECT_FILE_EXT) \
 		-MF \
 		$@ \
 		-c \
@@ -264,10 +264,10 @@ $(DEPS_CPP_LIST): \
 
 # TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(OBJECTS_ASM_LIST): \
-		$(DIRS_OBJECTS_DIR)/%.$(CONFIG_ASM_OBJECT_FILE_EXT): \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%.$(CONFIG_ASM_OBJECT_FILE_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASM_SOURCE_FILE_EXT) \
 		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT) | \
-		$(DIRS_OBJECTS_DIR) \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM) \
 		$(DIRS_DEP_DIR) \
 		$(DIRS_AUX_DIR)
 	mkdir \
@@ -293,10 +293,10 @@ $(OBJECTS_ASM_LIST): \
 # TODO: Add headers to dependencies system.
 # TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(OBJECTS_C_LIST): \
-		$(DIRS_OBJECTS_DIR)/%.$(CONFIG_C_OBJECT_FILE_EXT): \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%.$(CONFIG_C_OBJECT_FILE_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) \
 		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT) | \
-		$(DIRS_OBJECTS_DIR) \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM) \
 		$(DIRS_AUX_DIR)
 	mkdir \
 		-p \
@@ -320,10 +320,10 @@ $(OBJECTS_C_LIST): \
 
 # TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(OBJECTS_CPP_LIST): \
-		$(DIRS_OBJECTS_DIR)/%.$(CONFIG_CPP_OBJECT_FILE_EXT): \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%.$(CONFIG_CPP_OBJECT_FILE_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_CPP_SOURCE_FILE_EXT) \
 		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT) | \
-		$(DIRS_OBJECTS_DIR)
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)
 	mkdir \
 		-p \
 		$(dir \
@@ -380,19 +380,19 @@ $(DIRS_PNG_DIR):
 		-p \
 		$@
 
-$(DIRS_DOC_DIR): \
-		%:
-	mkdir \
-		-p \
-		$*
-
-$(DIRS_OBJECTS_DIR): \
+$(DIRS_OBJECTS_DIR)/$(PLATFORM): \
 		%:
 	mkdir \
 		-p \
 		$*
 
 $(DIRS_INSTALL_DIR): \
+		%:
+	mkdir \
+		-p \
+		$*
+
+$(DIRS_DOC_DIR): \
 		%:
 	mkdir \
 		-p \
