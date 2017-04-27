@@ -143,7 +143,7 @@ $(SELF_TEST_MODULES_FILE): \
 	for \
 		$(CONFIG_MODULE_PREFIX) \
 		in \
-		$(MODULES_PLATFORMS_LIST); \
+		module_bitutils-or1k module_abc-host module_utils-host; \
 		do \
 			printf \
 				$(SELF_TEST_LOOP_FIRST_FORMATER) \
@@ -161,9 +161,11 @@ $(SELF_TEST_MODULES_FILE): \
 				>> \
 				$*; \
 			printf \
-				$(SELF_TEST_LOOP_CONDITION_FORMATER) \
-				'if [ -n $$(shell grep -m 1 -P \^\\t\\t$$* bs/tmp/dependencies.mk | tr -d \\\) ]; then \' \
-				'$$(error $$* never used); \' \
+				'\t%s\n\t\t%s\n\t%s\n\t\t%s\n\t%s\n' \
+				'if [ -n "$$(shell grep -m 1 -P \^\\t\\t$$* $(DEPENDENCIES_FILE) | tr -d \\\)" ]; then \' \
+				'echo $$* found; false; \' \
+				'else \' \
+				'echo $$* not found; false; \' \
 				'fi' \
 				>> \
 				$*; \
