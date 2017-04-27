@@ -20,16 +20,25 @@ SELF_TEST_RULE=				$(CONFIG_SELF_TEST_FILE_NAME)
 SELF_TEST_APPLICATIONS_RULE=		$(CONFIG_SELF_TEST_FILE_NAME)_$(SELF_TEST_APPLICATIONS_SUFFIX)
 SELF_TEST_MODULES_RULE=			$(CONFIG_SELF_TEST_FILE_NAME)_$(SELF_TEST_MODULES_SUFFIX)
 
-SELF_TEST_LOOP_FIRST_FORMATER=		' %s\n\t\t%s_%s\n\n'
-SELF_TEST_LOOP_SECOND_FORMATER=		'%s_%s: %s\n\t\t%s\n'
-SELF_TEST_LOOP_THIRD_FORMATER=		'\t%s\n\t\t%s\n'
-SELF_TEST_LOOP_CONDITION_FORMATER=	'\t%s\n\t\t%s\n\t%s\n'
-SELF_TEST_LOOP_LOG_FORMATER=		'\t%s\n\t\t%s\n\t\t%s\n\n'
-SELF_TEST_LOOP_LAST_FORMATER=		'%s_%s:'
-SELF_TEST_RULE_FORMATER=		'%s\n\t\t%s\n\t%s\n\t\t%s\n\n'
-SELF_TEST_BASE_FORMATER=		'%s'
-SELF_TEST_EOF_APPLICATIONS_FORMATER=	' \\\n\t\t%s\n\n'
-SELF_TEST_EOF_MODULES_FORMATER=		'\n\n'
+SELF_TEST_LOOP_FIRST_FORMATER=		\ %s\\n\\t\\t%s_%s\\n\\n
+SELF_TEST_LOOP_SECOND_FORMATER=		%s_%s:\ \\\\\\n\\t\\t%s\\n
+SELF_TEST_LOOP_THIRD_FORMATER=		\\t%s\\n\\t\\t%s\\n
+SELF_TEST_LOOP_CONDITION_FORMATER=	\\t%s\\n\\t\\t%s\\n\\t%s\\n
+SELF_TEST_LOOP_LOG_FORMATER=		\\t%s\\n\\t\\t%s\\n\\t\\t%s\\n\\n
+SELF_TEST_LOOP_LAST_FORMATER=		%s_%s:
+
+SELF_TEST_RULE_FIRST_FORMATER=		%s\\n\\t\\t%s\\n
+SELF_TEST_RULE_SECOND_FORMATER=		\\t%s\\n\\t\\t%s\\n\\n
+
+SELF_TEST_BASE_FORMATER=		%s
+
+SELF_TEST_EOF_APPLICATIONS_FORMATER=	\ \\\\\\n\\t\\t%s\\n\\n
+SELF_TEST_EOF_MODULES_FORMATER=		\\n\\n
+
+SELF_TEST_GREP_MATCH_PATTERN=		\^\\t''\\t$$*
+SELF_TEST_GREP_FLAGS=			-m \
+					1 \
+					-P
 
 SELF_TEST_FILE_NAME=			$(CONFIG_SELF_TEST_FILE_NAME).$(CONFIG_BUILD_SYSTEM_SCRIPT_EXT)
 SELF_TEST_APPLICATIONS_FILE_NAME=	$(SELF_TEST_APPLICATIONS_RULE).$(CONFIG_BUILD_SYSTEM_SCRIPT_EXT)
@@ -51,9 +60,13 @@ $(SELF_TEST_FILE): \
 		/dev/null \
 		$*
 	printf \
-		$(SELF_TEST_RULE_FORMATER) \
+		$(SELF_TEST_RULE_FIRST_FORMATER) \
 		'$$(SELF_TEST_RULE): \' \
 		'$$(SELF_TEST_APPLICATIONS_RULE)' \
+		>> \
+		$*
+	printf \
+		$(SELF_TEST_RULE_SECOND_FORMATER) \
 		'make \' \
 		'$$(CONFIG_CLEAN_RULE)' \
 		>> \
@@ -86,7 +99,6 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 				$(SELF_TEST_LOOP_SECOND_FORMATER) \
 				'$$(SELF_TEST_PREFIX)' \
 				$$$(CONFIG_APPLICATION_PREFIX) \
-				'\' \
 				'$$(SELF_TEST_PREFIX)_%:' \
 				>> \
 				$*; \
@@ -100,13 +112,6 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 				$(SELF_TEST_LOOP_THIRD_FORMATER) \
 				'make \' \
 				'$$*' \
-				>> \
-				$*; \
-			printf \
-				$(SELF_TEST_LOOP_CONDITION_FORMATER) \
-				'if [ -n $$(shell grep -m 1 -P \^\\t\\t$$* bs/tmp/dependencies.mk | tr -d \\\) ]; then \' \
-				'$$(error $$* never used); \' \
-				'fi' \
 				>> \
 				$*; \
 			printf \
@@ -143,7 +148,7 @@ $(SELF_TEST_MODULES_FILE): \
 	for \
 		$(CONFIG_MODULE_PREFIX) \
 		in \
-		module_bitutils-or1k module_abc-host module_utils-host; \
+		$(MODULES_PLATFORMS_LIST); \
 		do \
 			printf \
 				$(SELF_TEST_LOOP_FIRST_FORMATER) \
@@ -156,16 +161,25 @@ $(SELF_TEST_MODULES_FILE): \
 				$(SELF_TEST_LOOP_SECOND_FORMATER) \
 				'$$(SELF_TEST_PREFIX)' \
 				$$$(CONFIG_MODULE_PREFIX) \
-				'\' \
 				'$$(SELF_TEST_PREFIX)_%:' \
 				>> \
 				$*; \
 			printf \
-				'\t%s\n\t\t%s\n\t%s\n\t\t%s\n\t%s\n' \
-				'if [ -n "$$(shell grep -m 1 -P \^\\t\\t$$* $(DEPENDENCIES_FILE) | tr -d \\\)" ]; then \' \
-				'echo $$* found; false; \' \
-				'else \' \
-				'echo $$* not found; false; \' \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$(CONFIG_CLEAN_RULE)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_CONDITION_FORMATER) \
+				'if [ -z "$$(shell grep $(SELF_TEST_GREP_FLAGS) $(SELF_TEST_GREP_MATCH_PATTERN) $(DEPENDENCIES_FILE) | tr -d \\\)" ]; then \' \
+				'echo $$* never used; false; \' \
 				'fi' \
 				>> \
 				$*; \
