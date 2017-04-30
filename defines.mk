@@ -3,8 +3,7 @@ MK_DEFINES_MK=			TRUE
 
 INCLUDER_MODULES_LIST=		install \
 				platform \
-				config \
-				console
+				config
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -15,11 +14,10 @@ endif
 DEFINES_PREFIX=			-D
 
 # INFO: Do not use quotations ("), use apostrophes instead (').
-#DEFINES_BARE=			DEBUG_PID_FILE='$(CONFIG_DEBUG_PID_FILE_NAME)' \
-#				CONSOLE_FILE='$(CONSOLE_FILE)'
+#DEFINES_BARE=			BARE_DEFINE_NAME='bare_define_value'
+DEFINES_BARE=
 
-DEFINES_BARE=			DEBUG_PID_FILE='$(CONFIG_DEBUG_PID_FILE_NAME)'
-
+# INFO: Each bare define gets define prefix here.
 DEFINES=			$(patsubst \
 					%, \
 					$(DEFINES_PREFIX)%, \

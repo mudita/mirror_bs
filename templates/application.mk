@@ -17,7 +17,8 @@ INCLUDER_MODULES_LIST=		clean \
 				exec \
 				wd \
 				doc \
-				cgdb
+				cgdb \
+				templates
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -25,29 +26,53 @@ else
 include $(INCLUDER_PATH)
 endif
 
-# TODO: Try to connect dependencies
-#include $(DEPS_ASM_LIST)
-#include $(DEPS_C_LIST)
-#include $(DEPS_CPP_LIST)
-
-# TODO: This variable should be hidden in some build system script module.
-TEMPLATE_APP_COMPONENT_LIST=	$(INSTALL_OTHER_FILE_LIST) \
-				$(DOC_HTML_LIST) \
-				$(DOC_LATEX_LIST) \
-				$(DOC_PDF_LIST) \
-				$(DOC_PNG_LIST)
-
-# TODO: This variable should be hidden in some build system script module.
-# INFO: If C/C++ sources are not present/not present
-ifneq ($(words $(OBJECTS_LIST)), 0)
-TEMPLATE_APP_COMPONENT_LIST+=	$(INSTALL_APPLICATION_ELF_FILE)
-endif
-
 $(CONFIG_ALL_RULE): \
 		$(TEMPLATE_APP_COMPONENT_LIST)
 
 # TODO: If application fails, there is no end of execution information.
 $(CONFIG_RUN_RULE): \
+		$(INSTALL_APPLICATION_ELF_FILE)
+	@echo \
+		$(EXEC_LINE_LABEL)
+	@echo \
+		$(EXEC_BEGIN_LABEL)
+	@echo \
+		$(EXEC_LINE_LABEL)
+ifdef ARGS
+	@cd \
+		$(WD_DIR) && \
+	export \
+		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
+		$(EXEC_APPLICATION_PATH) \
+		$(ARGS)
+else
+ifneq ($(wildcard $(CONFIG_ARGS_FILE_NAME)), )
+	@cd \
+		$(WD_DIR) && \
+	export \
+		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
+		$(EXEC_APPLICATION_PATH) \
+		$(shell \
+			cat \
+			$(CONFIG_ARGS_FILE_NAME))
+else
+	@cd \
+		$(WD_DIR) && \
+	export \
+		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
+		$(EXEC_APPLICATION_PATH)
+endif
+endif
+	@$(MODE_MTRACE_COMMAND)
+	@echo \
+		$(EXEC_LINE_LABEL)
+	@echo \
+		$(EXEC_END_LABEL)
+	@echo \
+		$(EXEC_LINE_LABEL)
+
+# TODO: If application fails, there is no end of execution information.
+$(CONFIG_DEBUG_RULE): \
 		$(INSTALL_APPLICATION_ELF_FILE)
 	@echo \
 		$(EXEC_LINE_LABEL)

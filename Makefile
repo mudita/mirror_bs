@@ -10,6 +10,7 @@ INCLUDER_MODULES_LIST=		clean \
 				modules \
 				applications \
 				run \
+				debug \
 				dependencies \
 				cgdb \
 				templates \
@@ -17,8 +18,6 @@ INCLUDER_MODULES_LIST=		clean \
 				launcher \
 				locale \
 				doc
-
-#				console \
 
 ##############################################################################
 # TODO: Solve it in more clever way (if possible).
@@ -691,6 +690,71 @@ $(RUN_NONSTANDARD_LIST): \
 		-f \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_RUN_RULE)
+
+# TODO: Try to hide realpath via variable
+$(DEBUG_STANDARD_LIST): \
+		$(DEBUG_PREFIX)_%: \
+		$(DEPENDENCIES_FILE)
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		ARGS=$(ARGS) \
+		WD=$(realpath $(WD)) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_APPLICATIONS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
+		-f \
+		$(TEMPLATE_APPLICATION_FILE) \
+		$(CONFIG_DEBUG_RULE)
+
+# TODO: These veriables cannot be passed here! Try solve it like in launcher.
+# TODO: Try to hide realpath via variable
+$(DEBUG_NONSTANDARD_LIST): \
+		$(DEBUG_PREFIX)_%: \
+		$(DEPENDENCIES_FILE)
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		ARGS=$(ARGS) \
+		WD=$(realpath $(WD)) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_APPLICATIONS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
+		-f \
+		$(CONFIG_MAKEFILE_FILE_NAME) \
+		$(CONFIG_DEBUG_RULE)
 
 $(DOC_DEFAULT_HTML_LIST): \
 		%.$(CONFIG_HTML_FILE_EXT): \
