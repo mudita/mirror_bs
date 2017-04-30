@@ -11,7 +11,7 @@ endif
 
 FLAGS_MAKE_LIST=		--warn-undefined-variables \
 				-j \
-				$(JOB_COUNT)
+				$(JOBS_COUNT)
 
 endif
 
