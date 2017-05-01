@@ -2,6 +2,7 @@ INCLUDER_MODULES_LIST=		clean \
 				clean_full \
 				dirs \
 				objects \
+				sources \
 				flags_compiler \
 				includes \
 				defines \
@@ -9,7 +10,8 @@ INCLUDER_MODULES_LIST=		clean \
 				config \
 				platform \
 				deps \
-				doc
+				doc \
+				templates
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -17,25 +19,8 @@ else
 include $(INCLUDER_PATH)
 endif
 
-# TODO: Try to connect dependencies
-#include $(DEPS_ASM_LIST)
-#include $(DEPS_C_LIST)
-#include $(DEPS_CPP_LIST)
-
-# TODO: This variable should be hidden in some build system script module.
-TEMPLATE_APP_COMPONENT_LIST=	$(INSTALL_OTHER_FILE_LIST) \
-				$(DOC_HTML_LIST) \
-				$(DOC_LATEX_LIST) \
-				$(DOC_PDF_LIST)
-
-# TODO: This variable should be hidden in some build system script module.
-# INFO: If C/C++ sources are not present/not present
-ifneq ($(words $(OBJECTS_LIST)), 0)
-TEMPLATE_APP_COMPONENT_LIST+=	$(INSTALL_MODULE_LIB_FILE)
-endif
-
 $(CONFIG_ALL_RULE): \
-		$(INSTALL_MODULE_LIB_FILE)
+		$(TEMPLATE_MOD_COMPONENT_LIST)
 
 # TODO: Make sure, that each header modification causes re-copy - works after
 #       make clean_tmp.
@@ -53,11 +38,18 @@ $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_RULE)
 
 $(CONFIG_CLEAN_RULE): \
+		$(CLEAN_PREFIX)_$(DIRS_PNG_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_DOC_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_OBJECTS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_LIB_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_DEP_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_AUX_DIR)
+
+$(CLEAN_PREFIX)_$(DIRS_PNG_DIR): \
+		$(CLEAN_PREFIX)_%:
+	rm \
+		-rf \
+		$*
 
 $(CLEAN_PREFIX)_$(DIRS_DOC_DIR): \
 		$(CLEAN_PREFIX)_%:
@@ -263,6 +255,23 @@ $(DOC_PDF_LIST): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASCIIDOC_FILE_EXT) \
 		$(DIRS_DOC_DIR)
 	echo \
+		$@
+
+$(DOC_PNG_LIST): \
+		$(DIRS_PNG_DIR)/%.$(CONFIG_PNG_FILE_EXT): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_DOT_FILE_EXT) \
+		$(DIRS_PNG_DIR)
+	cat \
+		$< | \
+	dot \
+		-T \
+		$(CONFIG_PNG_PREFIX) \
+		-o \
+		$(DIRS_PNG_DIR)/$*.$(CONFIG_PNG_FILE_EXT)
+
+$(DIRS_PNG_DIR):
+	mkdir \
+		-p \
 		$@
 
 $(DIRS_OBJECTS_DIR)/$(PLATFORM): \

@@ -1,7 +1,8 @@
 ifndef MK_SOURCES_MK
 MK_SOURCES_MK=			TRUE
 
-INCLUDER_MODULES_LIST=		sources/asm \
+INCLUDER_MODULES_LIST=		sources/asciidoc \
+				sources/asm \
 				sources/c \
 				sources/cpp \
 				sources/dot

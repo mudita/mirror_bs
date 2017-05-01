@@ -31,5 +31,15 @@ ifneq ($(words $(OBJECTS_LIST)), 0)
 TEMPLATE_APP_COMPONENT_LIST+=		$(INSTALL_APPLICATION_ELF_FILE)
 endif
 
+TEMPLATE_MOD_COMPONENT_LIST=		$(DOC_HTML_LIST) \
+					$(DOC_LATEX_LIST) \
+					$(DOC_PDF_LIST) \
+					$(DOC_PNG_LIST)
+
+# INFO: If AMS/C/C++ sources are present.
+#ifneq ($(words $(OBJECTS_LIST)), 0)
+TEMPLATE_MOD_COMPONENT_LIST+=		$(INSTALL_MODULE_LIB_FILE)
+#endif
+
 endif
 

@@ -1,7 +1,7 @@
 ifndef MK_DOC_PNG_MK
 MK_DOC_PNG_MK=		TRUE
 
-INCLUDER_MODULES_LIST=		sources/asciidoc \
+INCLUDER_MODULES_LIST=		sources \
 				dirs \
 				config \
 				platform
