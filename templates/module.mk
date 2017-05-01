@@ -105,7 +105,6 @@ $(DEPS_ASM_LIST): \
 		-c \
 		$<
 
-# TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(DEPS_C_LIST): \
 		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) | \
@@ -127,7 +126,6 @@ $(DEPS_C_LIST): \
 		-c \
 		$<
 
-# TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(DEPS_CPP_LIST): \
 		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_CPP_SOURCE_FILE_EXT) | \
@@ -149,7 +147,6 @@ $(DEPS_CPP_LIST): \
 		-c \
 		$<
 
-# TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(OBJECTS_ASM_LIST): \
 		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_$(SIGNATURE_ASM_OBJECT_SUFFIX): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASM_SOURCE_FILE_EXT) \
@@ -177,8 +174,6 @@ $(OBJECTS_ASM_LIST): \
 		-aux-info \
 		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
 
-# TODO: Add headers to dependencies system.
-# TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(OBJECTS_C_LIST): \
 		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_$(SIGNATURE_C_OBJECT_SUFFIX): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) \
@@ -205,7 +200,6 @@ $(OBJECTS_C_LIST): \
 		-aux-info \
 		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
 
-# TODO: Remove mkdir -p $(dir $@) trick from this rule
 $(OBJECTS_CPP_LIST): \
 		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_$(SIGNATURE_CPP_OBJECT_SUFFIX): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_CPP_SOURCE_FILE_EXT) \

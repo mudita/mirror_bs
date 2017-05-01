@@ -764,13 +764,6 @@ $(DOC_DEFAULT_HTML_LIST): \
 		$@ \
 		$<
 
-#$(CONSOLE_LIST): \
-#		$(CONSOLE_PREFIX)_%:
-#	tailf \
-#		-n \
-#		$(CONFIG_WATCH_LINES) \
-#		$(DIRS_APPLICATIONS_DIR)/$*/$(DIRS_INSTALL_DIR)/$(CONSOLE_FILE)
-
 $(DIRS_TEMP_DIR):
 	mkdir \
 		-p \
