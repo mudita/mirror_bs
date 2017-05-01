@@ -4,7 +4,8 @@ MK_CLEAN_MK=				TRUE
 INCLUDER_MODULES_LIST=			config \
 					applications \
 					modules \
-					tools
+					tools \
+					platform
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -20,8 +21,8 @@ CLEAN_MODULES_PREFIX=			$(CLEAN_PREFIX)_$(CONFIG_MODULE_PREFIX)
 CLEAN_TOOLS_PREFIX=			$(CLEAN_PREFIX)_$(CONFIG_TOOL_PREFIX)
 
 # TODO: Dirty hack to avoid modbuild remove if exits in applications directory.
-CLEAN_IGNORE_LIST=			$(CONFIG_TOOL_PREFIX)_modbuild-host \
-					$(CONFIG_TOOL_PREFIX)_smart_deps-host
+CLEAN_IGNORE_LIST=			$(CONFIG_TOOL_PREFIX)_modbuild-$(PLATFORM_HOST_ARCHITECTURE) \
+					$(CONFIG_TOOL_PREFIX)_smart_deps-$(PLATFORM_HOST_ARCHITECTURE)
 
 CLEAN_APPLICATIONS_PLATFORMS_STANDARD_LIST=	$(addprefix \
 							$(CLEAN_PREFIX)_, \

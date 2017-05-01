@@ -65,9 +65,9 @@ INCLUDER_BINARY_PATH=		$(MODBUILD_BINARY_PATH)
 else
 $(warning ------> WARNING - SLOW VERSION OF THE BUILD SYSTEM <------)
 $(warning To speed up the build system, first run:)
-$(warning make module_check-host)
-$(warning make module_utils-host)
-$(warning make tool_$(MODBUILD_NAME))
+$(warning make module_check-$(PLATFORM_HOST_ARCHITECTURE))
+$(warning make module_utils-$(PLATFORM_HOST_ARCHITECTURE))
+$(warning make tool_$(MODBUILD_NAME)-$(PLATFORM_HOST_ARCHITECTURE))
 $(warning ------> WARNING - SLOW VERSION OF THE BUILD SYSTEM <------)
 
 INCLUDER_PATH=			$(MODBUILD_DIRECTORY)/bs/bootstrap_includer.mk
