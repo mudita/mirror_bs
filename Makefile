@@ -24,6 +24,8 @@ INCLUDER_MODULES_LIST=		clean \
 # INFO: Bootstrap code.
 ##############################################################################
 PLATFORM_C_COMPILER=		gcc
+PLATFORM_HOST_ARCHITECTURE=	host
+
 SIGNATURE_VERSION_SWITCH=	-dumpversion
 SIGNATURE_ARCHITECTURE_SWITCH=	-dumpmachine
 
@@ -51,14 +53,14 @@ MAKE_TO_GRAPH_NAME=		makefile2graph
 MODBUILD_DIRECTORY=		$(TOOLS_DIRECTORY)/$(MODBUILD_NAME)
 MAKE_TO_GRAPH_DIRECTORY=	$(TOOLS_DIRECTORY)/$(MAKE_TO_GRAPH_NAME)
 
-MODBUILD_BINARY_PATH=		$(MODBUILD_DIRECTORY)/install/$(MODBUILD_BINARY_NAME)
-MAKE_TO_GRAPH_BINARY_PATH=	$(MAKE_TO_GRAPH_DIRECTORY)/install/$(MAKE_TO_GRAPH_NAME)
+MODBUILD_BINARY_PATH=		$(MODBUILD_DIRECTORY)/install/$(PLATFORM_HOST_ARCHITECTURE)/$(MODBUILD_BINARY_NAME)
+MAKE_TO_GRAPH_BINARY_PATH=	$(MAKE_TO_GRAPH_DIRECTORY)/install/$(PLATFORM_HOST_ARCHITECTURE)/$(MAKE_TO_GRAPH_NAME)
 
 MODBUILD_CHECK_BINARY=		$(wildcard \
 					$(MODBUILD_BINARY_PATH))
 
 ifneq ($(MODBUILD_CHECK_BINARY), )
-INCLUDER_PATH=			$(MODBUILD_DIRECTORY)/install/bs/includer.mk
+INCLUDER_PATH=			$(MODBUILD_DIRECTORY)/install/$(PLATFORM_HOST_ARCHITECTURE)/bs/includer.mk
 INCLUDER_BINARY_PATH=		$(MODBUILD_BINARY_PATH)
 else
 $(warning ------> WARNING - SLOW VERSION OF THE BUILD SYSTEM <------)
@@ -80,7 +82,7 @@ $(CONFIG_ALL_RULE): \
 $(CONFIG_CLEAN_RULE): \
 		$(CONFIG_CLEAN_RULE)_$(DIRS_APPLICATIONS_DIR) \
 		$(CONFIG_CLEAN_RULE)_$(DIRS_MODULES_DIR) \
-		$(CLEAN_PREFIX)_$(DIRS_TEMP_DIR) \
+		$(CLEAN_PREFIX)_$(DIRS_BS_TEMP_DIR) \
 		$(CLEAN_DOC_DEFAULT_HTML_LIST)
 
 $(CONFIG_CLEAN_RULE)_$(DIRS_APPLICATIONS_DIR): \
@@ -92,14 +94,14 @@ $(CONFIG_CLEAN_RULE)_$(DIRS_MODULES_DIR): \
 		$(CLEAN_MODULES_PLATFORMS_NONSTANDARD_LIST)
 
 $(CONFIG_CLEAN_RULE)_$(DIRS_TOOLS_DIR): \
-		$(CLEAN_TOOLS_STANDARD_LIST) \
-		$(CLEAN_TOOLS_NONSTANDARD_LIST)
+		$(CLEAN_TOOLS_PLATFORMS_STANDARD_LIST) \
+		$(CLEAN_TOOLS_PLATFORMS_NONSTANDARD_LIST)
 
 $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_FULL_RULE)_$(DIRS_APPLICATIONS_DIR) \
 		$(CONFIG_CLEAN_FULL_RULE)_$(DIRS_MODULES_DIR) \
 		$(CONFIG_CLEAN_FULL_RULE)_$(DIRS_TOOLS_DIR) \
-		$(CLEAN_PREFIX)_$(DIRS_TEMP_DIR) \
+		$(CLEAN_PREFIX)_$(DIRS_BS_TEMP_DIR) \
 		$(CLEAN_DOC_DEFAULT_HTML_LIST)
 
 $(CONFIG_CLEAN_FULL_RULE)_$(DIRS_APPLICATIONS_DIR): \
@@ -111,37 +113,67 @@ $(CONFIG_CLEAN_FULL_RULE)_$(DIRS_MODULES_DIR): \
 		$(CLEAN_FULL_MODULES_PLATFORMS_NONSTANDARD_LIST)
 
 $(CONFIG_CLEAN_FULL_RULE)_$(DIRS_TOOLS_DIR): \
-		$(CLEAN_FULL_TOOLS_STANDARD_LIST) \
-		$(CLEAN_FULL_TOOLS_NONSTANDARD_LIST)
+		$(CLEAN_FULL_TOOLS_PLATFORMS_STANDARD_LIST) \
+		$(CLEAN_FULL_TOOLS_PLATFORMS_NONSTANDARD_LIST)
 
 # TODO: Is not able to build in parallel. Should be fixed.
 # TODO: These veriables cannot be passed here! Try solve it like in launcher.
-$(TOOLS_NONSTANDARD_LIST): \
+$(TOOLS_PLATFORMS_NONSTANDARD_LIST): \
 		$(CONFIG_TOOL_PREFIX)_%: \
 		$(DEPENDENCIES_FILE)
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_TOOLS_DIR)/$* \
+		$(DIRS_TOOLS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_ALL_RULE)
 
 # TODO: Is not able to build in parallel. Should be fixed.
 # TODO: These veriables cannot be passed here! Try solve it like in launcher.
-$(TOOLS_STANDARD_LIST): \
+$(TOOLS_PLATFORMS_STANDARD_LIST): \
 		$(CONFIG_TOOL_PREFIX)_%: \
 		$(DEPENDENCIES_FILE)
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_TOOLS_DIR)/$* \
+		$(DIRS_TOOLS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(TEMPLATE_TOOL_FILE) \
 		$(CONFIG_ALL_RULE)
@@ -269,29 +301,59 @@ $(APPLICATIONS_PLATFORMS_STANDARD_LIST): \
 		$(CONFIG_ALL_RULE)
 
 # TODO: These veriables cannot be passed here! Try solve it like in launcher.
-$(CLEAN_TOOLS_NONSTANDARD_LIST): \
+$(CLEAN_TOOLS_PLATFORMS_NONSTANDARD_LIST): \
 		$(CLEAN_TOOLS_PREFIX)_%:
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_TOOLS_DIR)/$* \
+		$(DIRS_TOOLS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_CLEAN_RULE)
 
 # TODO: These veriables cannot be passed here! Try solve it like in launcher.
-$(CLEAN_TOOLS_STANDARD_LIST): \
+$(CLEAN_TOOLS_PLATFORMS_STANDARD_LIST): \
 		$(CLEAN_TOOLS_PREFIX)_%:
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_TOOLS_DIR)/$* \
+		$(DIRS_TOOLS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(TEMPLATE_TOOL_FILE) \
 		$(CONFIG_CLEAN_RULE)
@@ -413,29 +475,59 @@ $(CLEAN_APPLICATIONS_PLATFORMS_STANDARD_LIST): \
 		$(CONFIG_CLEAN_RULE)
 
 # TODO: These veriables cannot be passed here! Try solve it like in launcher.
-$(CLEAN_FULL_TOOLS_NONSTANDARD_LIST): \
+$(CLEAN_FULL_TOOLS_PLATFORMS_NONSTANDARD_LIST): \
 		$(CLEAN_FULL_TOOLS_PREFIX)_%:
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_TOOLS_DIR)/$* \
+		$(DIRS_TOOLS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_CLEAN_FULL_RULE)
 
 # TODO: These veriables cannot be passed here! Try solve it like in launcher.
-$(CLEAN_FULL_TOOLS_STANDARD_LIST): \
+$(CLEAN_FULL_TOOLS_PLATFORMS_STANDARD_LIST): \
 		$(CLEAN_FULL_TOOLS_PREFIX)_%:
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_TOOLS_DIR)/$* \
+		$(DIRS_TOOLS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(TEMPLATE_TOOL_FILE) \
 		$(CONFIG_CLEAN_FULL_RULE)
@@ -556,7 +648,7 @@ $(CLEAN_FULL_APPLICATIONS_PLATFORMS_STANDARD_LIST): \
 		$(TEMPLATE_APPLICATION_FILE) \
 		$(CONFIG_CLEAN_FULL_RULE)
 
-$(CLEAN_PREFIX)_$(DIRS_TEMP_DIR): \
+$(CLEAN_PREFIX)_$(DIRS_BS_TEMP_DIR): \
 		$(CLEAN_PREFIX)_%:
 	rm \
 		-rf \
@@ -764,7 +856,7 @@ $(DOC_DEFAULT_HTML_LIST): \
 		$@ \
 		$<
 
-$(DIRS_TEMP_DIR):
+$(DIRS_BS_TEMP_DIR):
 	mkdir \
 		-p \
 		$@
