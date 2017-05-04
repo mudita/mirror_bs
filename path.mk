@@ -12,7 +12,8 @@ endif
 
 PATH_TOOLS_DIR_PREFIX=		$(RELATIVE_ROOT_DIR)/$(DIRS_TOOLS_DIR)
 
-# TODO: Make list of bare module names
+# TODO: Make list of bare tools names.
+# TODO: If added, this should be checked if tool is already built.
 PATH_TOOLS_ENABLED_LIST=	or1k_toolchain_newlib/$(DIRS_INSTALL_DIR)/$(DIRS_BIN_DIR)
 
 PATH_TOOLS_PATH_LIST=		$(addprefix \
