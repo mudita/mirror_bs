@@ -5,7 +5,8 @@ INCLUDER_MODULES_LIST=			config \
 					applications \
 					modules \
 					tools \
-					platform
+					platform \
+					ignore
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -15,14 +16,9 @@ endif
 
 CLEAN_PREFIX=				$(CONFIG_CLEAN_RULE)
 
-# TODO: APPLICATIONS vs APPLICATION - fix it
-CLEAN_APPLICATIONS_PREFIX=		$(CLEAN_PREFIX)_$(CONFIG_APPLICATION_PREFIX)
-CLEAN_MODULES_PREFIX=			$(CLEAN_PREFIX)_$(CONFIG_MODULE_PREFIX)
-CLEAN_TOOLS_PREFIX=			$(CLEAN_PREFIX)_$(CONFIG_TOOL_PREFIX)
-
-# TODO: Dirty hack to avoid modbuild remove if exits in applications directory.
-CLEAN_IGNORE_LIST=			$(CONFIG_TOOL_PREFIX)_modbuild-$(PLATFORM_HOST_ARCHITECTURE) \
-					$(CONFIG_TOOL_PREFIX)_smart_deps-$(PLATFORM_HOST_ARCHITECTURE)
+CLEAN_APPLICATION_PREFIX=		$(CLEAN_PREFIX)_$(CONFIG_APPLICATION_PREFIX)
+CLEAN_MODULE_PREFIX=			$(CLEAN_PREFIX)_$(CONFIG_MODULE_PREFIX)
+CLEAN_TOOL_PREFIX=			$(CLEAN_PREFIX)_$(CONFIG_TOOL_PREFIX)
 
 CLEAN_APPLICATIONS_PLATFORMS_STANDARD_LIST=	$(addprefix \
 							$(CLEAN_PREFIX)_, \
@@ -40,9 +36,9 @@ CLEAN_MODULES_PLATFORMS_NONSTANDARD_LIST=	$(addprefix \
 							$(CLEAN_PREFIX)_, \
 							$(MODULES_PLATFORMS_NONSTANDARD_LIST))
 
-# TODO: Dirty hack to avoid modbuild remove if exits in tools directory.
+# INFO: Avoid bootstrap tools to be removed.
 CLEAN_TOOLS_STANDARD_MODIFIED_LIST=	$(filter-out \
-						$(CLEAN_IGNORE_LIST), \
+						$(IGNORE_TOOLS_LIST), \
 						$(TOOLS_PLATFORMS_STANDARD_LIST))
 
 CLEAN_TOOLS_PLATFORMS_STANDARD_LIST=	$(addprefix \
