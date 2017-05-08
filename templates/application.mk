@@ -300,15 +300,17 @@ $(DEPS_CPP_LIST): \
 
 # TODO: Local development hacks.
 $(UNIT_TEST_C_LIST): \
-		$(DIRS_UNIT_TEST_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT): \
+		$(DIRS_UNIT_TEST_DIR)/%_$(UNIT_TEST_C_SUFFIX): \
 		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) | \
 		$(DIRS_UNIT_TEST_DIR)
 	mkdir \
 		-p \
 		$(dir \
 			$(DIRS_UNIT_TEST_DIR)/$*)
-	./$(RELATIVE_ROOT_DIR)/applications/embunit_tcuppa/install/host/embunit_tcuppa_gcc_6.3.1_x86_64-pc-linux-gnu \
-		$(DIRS_UNIT_TEST_DIR)/$* \
+	cd \
+		$(DIRS_UNIT_TEST_DIR) && \
+	../$(RELATIVE_ROOT_DIR)/$(DIRS_APPLICATIONS_DIR)/embunit_tcuppa/$(DIRS_INSTALL_DIR)/$(PLATFORM_HOST_ARCHITECTURE)/embunit_tcuppa_$(SIGNATURE_SUFFIX) \
+		$*_test \
 		$(shell cat $< | grep function | cut -d ' ' -f 1 | sed 's/.*/&_test/g')
 
 $(CTAGS_C_LIST): \
