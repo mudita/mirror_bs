@@ -11,7 +11,8 @@ INCLUDER_MODULES_LIST=		clean \
 				platform \
 				deps \
 				doc \
-				templates
+				templates \
+				ctags
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -21,6 +22,9 @@ endif
 
 $(CONFIG_ALL_RULE): \
 		$(TEMPLATE_MOD_COMPONENT_LIST)
+
+$(CONFIG_UNIT_TEST_GEN_RULE): \
+	$(CTAGS_LIST)
 
 # TODO: Make sure, that each header modification causes re-copy - works after
 #       make clean_tmp.
@@ -145,6 +149,20 @@ $(DEPS_CPP_LIST): \
 		-MF \
 		$@ \
 		-c \
+		$<
+
+$(CTAGS_C_LIST): \
+		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) | \
+		$(DIRS_CTAGS_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_CTAGS_DIR)/$*)
+	ctags \
+		-u \
+		-f \
+		$@ \
 		$<
 
 $(OBJECTS_ASM_LIST): \
@@ -287,6 +305,12 @@ $(DIRS_DOC_DIR): \
 		$*
 
 $(DIRS_DEP_DIR): \
+		%:
+	mkdir \
+		-p \
+		$*
+
+$(DIRS_CTAGS_DIR): \
 		%:
 	mkdir \
 		-p \
