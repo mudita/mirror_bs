@@ -19,8 +19,7 @@ INCLUDER_MODULES_LIST=		clean \
 				doc \
 				cgdb \
 				templates \
-				ctags \
-				unit_test
+				ctags
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -136,7 +135,6 @@ $(CONFIG_CGDB_RULE): \
 
 $(CONFIG_UNIT_TEST_GEN_RULE): \
 	$(CTAGS_LIST)
-
 
 $(INSTALL_OTHER_FILE_LIST): \
 		$(DIRS_INSTALL_DIR)/$(PLATFORM)/%: \
