@@ -12,7 +12,8 @@ INCLUDER_MODULES_LIST=		clean \
 				deps \
 				doc \
 				templates \
-				ctags
+				ctags \
+				unit_test
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -24,7 +25,8 @@ $(CONFIG_ALL_RULE): \
 		$(TEMPLATE_MOD_COMPONENT_LIST)
 
 $(CONFIG_UNIT_TEST_GEN_RULE): \
-	$(CTAGS_LIST)
+		$(UNIT_TEST_LIST) \
+		$(CTAGS_LIST)
 
 # TODO: Make sure, that each header modification causes re-copy - works after
 #       make clean_tmp.
@@ -47,6 +49,7 @@ $(CONFIG_CLEAN_RULE): \
 		$(CLEAN_PREFIX)_$(DIRS_OBJECTS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_LIB_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_DEP_DIR) \
+		$(CLEAN_PREFIX)_$(DIRS_CTAGS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_AUX_DIR)
 
 $(CLEAN_PREFIX)_$(DIRS_PNG_DIR): \
@@ -74,6 +77,12 @@ $(CLEAN_PREFIX)_$(DIRS_LIB_DIR): \
 		$*
 
 $(CLEAN_PREFIX)_$(DIRS_DEP_DIR): \
+		$(CLEAN_PREFIX)_%:
+	rm \
+		-rf \
+		$*
+
+$(CLEAN_PREFIX)_$(DIRS_CTAGS_DIR): \
 		$(CLEAN_PREFIX)_%:
 	rm \
 		-rf \
@@ -151,6 +160,19 @@ $(DEPS_CPP_LIST): \
 		-c \
 		$<
 
+# TODO: Local development hacks.
+$(UNIT_TEST_C_LIST): \
+		$(DIRS_UNIT_TEST_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT): \
+		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) | \
+		$(DIRS_UNIT_TEST_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_UNIT_TEST_DIR)/$*)
+	./$(RELATIVE_ROOT_DIR)/applications/embunit_tcuppa/install/host/embunit_tcuppa_gcc_6.3.1_x86_64-pc-linux-gnu \
+		$(DIRS_UNIT_TEST_DIR)/$* \
+		$(shell cat $< | grep function | cut -d ' ' -f 1 | sed 's/.*/&_test/g')
+
 $(CTAGS_C_LIST): \
 		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) | \
@@ -160,10 +182,10 @@ $(CTAGS_C_LIST): \
 		$(dir \
 			$(DIRS_CTAGS_DIR)/$*)
 	ctags \
+		-x \
 		-u \
-		-f \
-		$@ \
-		$<
+		$< > \
+		$@
 
 $(OBJECTS_ASM_LIST): \
 		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_$(SIGNATURE_ASM_OBJECT_SUFFIX): \
@@ -305,6 +327,12 @@ $(DIRS_DOC_DIR): \
 		$*
 
 $(DIRS_DEP_DIR): \
+		%:
+	mkdir \
+		-p \
+		$*
+
+$(DIRS_UNIT_TEST_DIR): \
 		%:
 	mkdir \
 		-p \

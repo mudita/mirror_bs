@@ -19,7 +19,8 @@ INCLUDER_MODULES_LIST=		clean \
 				doc \
 				cgdb \
 				templates \
-				ctags
+				ctags \
+				unit_test
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -134,7 +135,8 @@ $(CONFIG_CGDB_RULE): \
 		$(INSTALL_APPLICATION_ELF_FILE)
 
 $(CONFIG_UNIT_TEST_GEN_RULE): \
-	$(CTAGS_LIST)
+		$(UNIT_TEST_LIST) \
+		$(CTAGS_LIST)
 
 $(INSTALL_OTHER_FILE_LIST): \
 		$(DIRS_INSTALL_DIR)/$(PLATFORM)/%: \
@@ -296,6 +298,19 @@ $(DEPS_CPP_LIST): \
 		-c \
 		$<
 
+# TODO: Local development hacks.
+$(UNIT_TEST_C_LIST): \
+		$(DIRS_UNIT_TEST_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT): \
+		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) | \
+		$(DIRS_UNIT_TEST_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_UNIT_TEST_DIR)/$*)
+	./$(RELATIVE_ROOT_DIR)/applications/embunit_tcuppa/install/host/embunit_tcuppa_gcc_6.3.1_x86_64-pc-linux-gnu \
+		$(DIRS_UNIT_TEST_DIR)/$* \
+		$(shell cat $< | grep function | cut -d ' ' -f 1 | sed 's/.*/&_test/g')
+
 $(CTAGS_C_LIST): \
 		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) | \
@@ -305,10 +320,10 @@ $(CTAGS_C_LIST): \
 		$(dir \
 			$(DIRS_CTAGS_DIR)/$*)
 	ctags \
+		-x \
 		-u \
-		-f \
-		$@ \
-		$<
+		$< > \
+		$@
 
 $(OBJECTS_ASM_LIST): \
 		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_$(SIGNATURE_ASM_OBJECT_SUFFIX): \
@@ -444,6 +459,12 @@ $(DIRS_DOC_DIR): \
 		$*
 
 $(DIRS_DEP_DIR): \
+		%:
+	mkdir \
+		-p \
+		$*
+
+$(DIRS_UNIT_TEST_DIR): \
 		%:
 	mkdir \
 		-p \
