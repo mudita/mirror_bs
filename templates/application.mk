@@ -18,7 +18,9 @@ INCLUDER_MODULES_LIST=		clean \
 				wd \
 				doc \
 				cgdb \
-				templates
+				templates \
+				ctags \
+				unit_test
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -132,6 +134,10 @@ $(CONFIG_CGDB_RULE): \
 		"target remote localhost:9000" \
 		$(INSTALL_APPLICATION_ELF_FILE)
 
+$(CONFIG_UNIT_TEST_GEN_RULE): \
+	$(CTAGS_LIST)
+
+
 $(INSTALL_OTHER_FILE_LIST): \
 		$(DIRS_INSTALL_DIR)/$(PLATFORM)/%: \
 		% \
@@ -174,6 +180,7 @@ $(CONFIG_CLEAN_RULE): \
 		$(CLEAN_PREFIX)_$(DIRS_OBJECTS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_INSTALL_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_DEP_DIR) \
+		$(CLEAN_PREFIX)_$(DIRS_CTAGS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_MAP_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_AUX_DIR)
 
@@ -202,6 +209,12 @@ $(CLEAN_PREFIX)_$(DIRS_INSTALL_DIR): \
 		$*
 
 $(CLEAN_PREFIX)_$(DIRS_DEP_DIR): \
+		$(CLEAN_PREFIX)_%:
+	rm \
+		-rf \
+		$*
+
+$(CLEAN_PREFIX)_$(DIRS_CTAGS_DIR): \
 		$(CLEAN_PREFIX)_%:
 	rm \
 		-rf \
@@ -283,6 +296,20 @@ $(DEPS_CPP_LIST): \
 		-MF \
 		$@ \
 		-c \
+		$<
+
+$(CTAGS_C_LIST): \
+		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) | \
+		$(DIRS_CTAGS_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_CTAGS_DIR)/$*)
+	ctags \
+		-u \
+		-f \
+		$@ \
 		$<
 
 $(OBJECTS_ASM_LIST): \
@@ -419,6 +446,12 @@ $(DIRS_DOC_DIR): \
 		$*
 
 $(DIRS_DEP_DIR): \
+		%:
+	mkdir \
+		-p \
+		$*
+
+$(DIRS_CTAGS_DIR): \
 		%:
 	mkdir \
 		-p \
