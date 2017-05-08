@@ -17,7 +17,8 @@ INCLUDER_MODULES_LIST=		clean \
 				self_test \
 				launcher \
 				locale \
-				doc
+				doc \
+				unit_test
 
 ##############################################################################
 # TODO: Solve it in more clever way (if possible).
@@ -844,6 +845,32 @@ $(DEBUG_NONSTANDARD_LIST): \
 		-f \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_DEBUG_RULE)
+
+$(UNIT_TEST_GEN_STANDARD_LIST): \
+		$(UNIT_TEST_GEN_PREFIX)_%:
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_APPLICATIONS_DIR)/$* \
+		-f \
+		$(TEMPLATE_APPLICATION_FILE) \
+		$(CONFIG_UNIT_TEST_GEN_RULE)
+
+
+$(UNIT_TEST_GEN_NONSTANDARD_LIST): \
+		$(UNIT_TEST_GEN_PREFIX)_%:
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_APPLICATIONS_DIR)/$* \
+		$(CONFIG_MAKEFILE_FILE_NAME) \
+		$(CONFIG_UNIT_TEST_GEN_RULE)
 
 $(DOC_DEFAULT_HTML_LIST): \
 		%.$(CONFIG_HTML_FILE_EXT): \

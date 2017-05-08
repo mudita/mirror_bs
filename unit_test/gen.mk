@@ -1,0 +1,27 @@
+ifndef MK_UNIT_TEST_GEN_MK
+MK_UNIT_TEST_GEN_MK=			TRUE
+
+INCLUDER_MODULES_LIST=			config \
+					applications
+
+ifndef INCLUDER_PATH
+$(error aosmake package is not installed in your OS!)
+else
+include $(INCLUDER_PATH)
+endif
+
+UNIT_TEST_GEN_PREFIX=			$(CONFIG_UNIT_TEST_GEN_RULE)
+
+UNIT_TEST_GEN_STANDARD_LIST=	$(patsubst \
+					$(CONFIG_APPLICATION_PREFIX)_%, \
+					$(UNIT_TEST_GEN_PREFIX)_%, \
+					$(APPLICATIONS_STANDARD_LIST))
+
+
+UNIT_TEST_GEN_NONSTANDARD_LIST=	$(patsubst \
+					$(CONFIG_APPLICATION_PREFIX)_%, \
+					$(UNIT_TEST_GEN_PREFIX)_%, \
+					$(APPLICATIONS_NONSTANDARD_LIST))
+
+endif
+
