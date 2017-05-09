@@ -13,7 +13,7 @@ endif
 ifdef WD
 WD_DIR=				$(WD)
 else
-WD_DIR=				$(DIRS_INSTALL_DIR)/$(PLATFORM)
+WD_DIR=				$(INSTALL_PLATFORM_DIR)
 endif
 
 endif
