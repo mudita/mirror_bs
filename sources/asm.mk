@@ -15,7 +15,8 @@ SOURCES_ASM_COMMAND=		find \
 					-type \
 					f | \
 					grep \
-						"\.$(CONFIG_ASM_SOURCE_FILE_EXT)$$"
+						"\.$(CONFIG_ASM_SOURCE_FILE_EXT)$$" | \
+					sort
 
 ifneq ($(wildcard $(DIRS_SOURCES_DIR)), )
 SOURCES_ASM_LIST=		$(shell \

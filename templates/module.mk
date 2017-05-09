@@ -25,8 +25,7 @@ $(CONFIG_ALL_RULE): \
 		$(TEMPLATE_MOD_COMPONENT_LIST)
 
 $(CONFIG_UNIT_TEST_GEN_RULE): \
-		$(UNIT_TEST_LIST) \
-		$(CTAGS_LIST)
+		$(UNIT_TEST_C_ENTRY_FILE)
 
 # TODO: Make sure, that each header modification causes re-copy - works after
 #       make clean_tmp.
@@ -162,7 +161,7 @@ $(DEPS_CPP_LIST): \
 
 # TODO: Local development hacks.
 $(UNIT_TEST_C_LIST): \
-		$(DIRS_UNIT_TEST_DIR)/%_$(UNIT_TEST_C_SUFFIX): \
+		$(DIRS_UNIT_TEST_DIR)/%_$(UNIT_TEST_C_EXT_SUFFIX): \
 		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) | \
 		$(DIRS_UNIT_TEST_DIR)
 	mkdir \
@@ -171,9 +170,18 @@ $(UNIT_TEST_C_LIST): \
 			$(DIRS_UNIT_TEST_DIR)/$*)
 	cd \
 		$(DIRS_UNIT_TEST_DIR) && \
-	../$(RELATIVE_ROOT_DIR)/$(DIRS_APPLICATIONS_DIR)/embunit_tcuppa/$(DIRS_INSTALL_DIR)/$(PLATFORM_HOST_ARCHITECTURE)/embunit_tcuppa_$(SIGNATURE_SUFFIX) \
+	../$(UNIT_TEST_TCUPPA_COMMAND) \
 		$*_test \
 		$(shell cat $< | grep function | cut -d ' ' -f 1 | sed 's/.*/&_test/g')
+
+$(UNIT_TEST_C_ENTRY_FILE): \
+		$(DIRS_UNIT_TEST_DIR)/%_$(UNIT_TEST_C_EXT_ENTRY_SUFFIX): \
+		$(UNIT_TEST_C_LIST)
+	cd \
+		$(DIRS_UNIT_TEST_DIR) && \
+	../$(UNIT_TEST_BCUPPA_COMMAND) \
+		$*_$(UNIT_TEST_C_ENTRY_SUFFIX) \
+		$(UNIT_TEST_C_LIST:$(DIRS_UNIT_TEST_DIR)/%_test.c=%)
 
 $(CTAGS_C_LIST): \
 		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT): \

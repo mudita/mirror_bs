@@ -15,7 +15,8 @@ SOURCES_ASCIIDOC_COMMAND=	find \
 					-type \
 					f | \
 					grep \
-						"\.$(CONFIG_ASCIIDOC_FILE_EXT)$$"
+						"\.$(CONFIG_ASCIIDOC_FILE_EXT)$$" | \
+					sort
 
 ifneq ($(wildcard $(DIRS_SOURCES_DIR)), )
 SOURCES_ASCIIDOC_LIST=		$(shell \

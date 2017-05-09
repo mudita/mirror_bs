@@ -15,7 +15,8 @@ SOURCES_DOT_COMMAND=	find \
 					-type \
 					f | \
 					grep \
-						"\.$(CONFIG_DOT_FILE_EXT)$$"
+						"\.$(CONFIG_DOT_FILE_EXT)$$" | \
+					sort
 
 ifneq ($(wildcard $(DIRS_SOURCES_DIR)), )
 SOURCES_DOT_LIST=		$(shell \

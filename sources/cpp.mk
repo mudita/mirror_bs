@@ -15,7 +15,8 @@ SOURCES_CPP_COMMAND=		find \
 					-type \
 					f | \
 					grep \
-						"\.$(CONFIG_CPP_SOURCE_FILE_EXT)$$"
+						"\.$(CONFIG_CPP_SOURCE_FILE_EXT)$$" | \
+					sort
 
 ifneq ($(wildcard $(DIRS_SOURCES_DIR)), )
 SOURCES_CPP_LIST=		$(shell \
