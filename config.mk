@@ -10,6 +10,10 @@ CONFIG_DOT_PREFIX=			dot
 CONFIG_PNG_PREFIX=			png
 CONFIG_LIB_PREFIX=			lib
 
+# INFO: 
+CONFIG_GDB_HOST=			localhost
+CONFIG_GDB_PORT=			9000
+
 # INFO: Suffixes.
 CONFIG_FULL_SUFFIX=			full
 

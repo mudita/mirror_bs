@@ -20,7 +20,8 @@ INCLUDER_MODULES_LIST=		clean \
 				cgdb \
 				templates \
 				ctags \
-				unit_test
+				unit_test \
+				debug
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -88,7 +89,7 @@ ifdef ARGS
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
 	gdbserver \
-		:9000 \
+		$(DEBUG_GDBSERVER_FLAGS) \
 		$(EXEC_APPLICATION_PATH) \
 		$(ARGS)
 else
@@ -98,7 +99,7 @@ ifneq ($(wildcard $(CONFIG_ARGS_FILE_NAME)), )
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
 	gdbserver \
-		:9000 \
+		$(DEBUG_GDBSERVER_FLAGS) \
 		$(EXEC_APPLICATION_PATH) \
 		$(shell \
 			cat \
@@ -109,7 +110,7 @@ else
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
 	gdbserver \
-		:9000 \
+		$(DEBUG_GDBSERVER_FLAGS) \
 		$(EXEC_APPLICATION_PATH)
 endif
 endif
@@ -126,12 +127,7 @@ $(CONFIG_CGDB_RULE): \
 	export \
 		SHELL=/bin/bash && \
 	cgdb \
-		-d \
-		$(PLATFORM_GDB) \
-		-x \
-		$(DIRS_GDB_DIR)/$(CONFIG_GDB_SCRIPT_FILE_NAME) \
-		-ex \
-		"target remote localhost:9000" \
+		$(CGDB_FLAGS) \
 		$(INSTALL_APPLICATION_ELF_FILE)
 
 $(CONFIG_UNIT_TEST_GEN_RULE): \

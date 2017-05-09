@@ -2,7 +2,9 @@ ifndef MK_CGDB_MK
 MK_CGDB_MK=			TRUE
 
 INCLUDER_MODULES_LIST=		applications \
-				config
+				config \
+				platform \
+				dirs
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -35,6 +37,17 @@ CGDB_NONSTANDARD_LIST=		$(patsubst \
 					$(CONFIG_APPLICATION_PREFIX)_%, \
 					$(CGDB_PREFIX)_%, \
 					$(APPLICATIONS_PLATFORMS_NONSTANDARD_LIST))
+
+CGDB_GDB_COMMAND=		target\ \
+				remote\ \
+				$(CONFIG_GDB_HOST):$(CONFIG_GDB_PORT)
+
+CGDB_FLAGS=			-d \
+				$(PLATFORM_GDB) \
+				-x \
+				$(DIRS_GDB_DIR)/$(CONFIG_GDB_SCRIPT_FILE_NAME) \
+				-ex \
+				$(CGDB_GDB_COMMAND) \
 
 endif
 
