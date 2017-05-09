@@ -27,8 +27,6 @@ $(CONFIG_ALL_RULE): \
 $(CONFIG_UNIT_TEST_GEN_RULE): \
 		$(UNIT_TEST_C_ENTRY_FILE)
 
-# TODO: Make sure, that each header modification causes re-copy - works after
-#       make clean_tmp.
 $(INSTALL_MODULE_LIB_FILE): \
 		$(OBJECTS_ASM_LIST) \
 		$(OBJECTS_C_LIST) \
@@ -159,7 +157,6 @@ $(DEPS_CPP_LIST): \
 		-c \
 		$<
 
-# TODO: Local development hacks.
 $(UNIT_TEST_C_LIST): \
 		$(DIRS_UNIT_TEST_DIR)/%_$(UNIT_TEST_C_EXT_SUFFIX): \
 		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) | \
@@ -171,8 +168,8 @@ $(UNIT_TEST_C_LIST): \
 	cd \
 		$(DIRS_UNIT_TEST_DIR) && \
 	../$(UNIT_TEST_TCUPPA_COMMAND) \
-		$*_test \
-		$(shell cat $< | grep function | cut -d ' ' -f 1 | sed 's/.*/&_test/g')
+		$*_$(UNIT_TEST_C_SUFFIX) \
+		$(UNIT_TEST_C_ENTRY_LIST)
 
 $(UNIT_TEST_C_ENTRY_FILE): \
 		$(DIRS_UNIT_TEST_DIR)/%_$(UNIT_TEST_C_EXT_ENTRY_SUFFIX): \
@@ -181,7 +178,7 @@ $(UNIT_TEST_C_ENTRY_FILE): \
 		$(DIRS_UNIT_TEST_DIR) && \
 	../$(UNIT_TEST_BCUPPA_COMMAND) \
 		$*_$(UNIT_TEST_C_ENTRY_SUFFIX) \
-		$(UNIT_TEST_C_LIST:$(DIRS_UNIT_TEST_DIR)/%_test.c=%)
+		$(UNIT_TEST_C_TEST_FILE_LIST)
 
 $(CTAGS_C_LIST): \
 		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT): \
