@@ -10,10 +10,15 @@ INCLUDER_MODULES_LIST=		clean \
 				config \
 				platform \
 				deps \
+				libs \
+				flags_linker \
+				externals \
 				doc \
 				templates \
 				ctags \
-				unit_test_sources
+				unit_test_sources \
+				unit_test_objects \
+				debug
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -25,7 +30,7 @@ $(CONFIG_ALL_RULE): \
 		$(TEMPLATE_MOD_COMPONENT_LIST)
 
 $(CONFIG_UNIT_TEST_GEN_RULE): \
-		$(UNIT_TEST_SOURCES_C_ENTRY_FILE)
+		$(INSTALL_APPLICATION_TEST_ELF_FILE)
 
 $(INSTALL_MODULE_LIB_FILE): \
 		$(OBJECTS_ASM_LIST) \
@@ -37,6 +42,30 @@ $(INSTALL_MODULE_LIB_FILE): \
 		$@ \
 		$(OBJECTS_LIST)
 
+# TODO: Does not work with host g++
+#		-Map \
+#		$(DIRS_MAP_DIR)/$*.$(CONFIG_MAP_EXT) \
+
+$(INSTALL_APPLICATION_TEST_ELF_FILE): \
+		$(INSTALL_PLATFORM_DIR)/%_$(SIGNATURE_APPLICATION_TEST_SUFFIX): \
+		$(UNIT_TEST_OBJECTS_C_ENTRY_FILE) \
+		$(UNIT_TEST_OBJECTS_C_LIST) \
+		$(OBJECTS_LIST) | \
+		$(INSTALL_PLATFORM_DIR)
+	$(PLATFORM_CPP_COMPILER) \
+		$(DEFINES) \
+		$(INCLUDES_LIST) \
+		-nostartfiles \
+		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_CPP_COMPILER_LIST) \
+		$^ \
+		$(LIBS_LIST) \
+		$(EXTERNALS_LIST) \
+		-o \
+		$@ \
+		$(FLAGS_LINKER) \
+		-Wl,-eunit_test_main
+
 $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_RULE)
 
@@ -45,8 +74,10 @@ $(CONFIG_CLEAN_RULE): \
 		$(CLEAN_PREFIX)_$(DIRS_DOC_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_OBJECTS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_LIB_DIR) \
+		$(CLEAN_PREFIX)_$(DIRS_INSTALL_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_DEP_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_CTAGS_DIR) \
+		$(CLEAN_PREFIX)_$(DIRS_MAP_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_AUX_DIR)
 
 $(CLEAN_PREFIX)_$(DIRS_PNG_DIR): \
@@ -73,6 +104,12 @@ $(CLEAN_PREFIX)_$(DIRS_LIB_DIR): \
 		-rf \
 		$*
 
+$(CLEAN_PREFIX)_$(DIRS_INSTALL_DIR): \
+		$(CLEAN_PREFIX)_%:
+	rm \
+		-rf \
+		$*
+
 $(CLEAN_PREFIX)_$(DIRS_DEP_DIR): \
 		$(CLEAN_PREFIX)_%:
 	rm \
@@ -80,6 +117,12 @@ $(CLEAN_PREFIX)_$(DIRS_DEP_DIR): \
 		$*
 
 $(CLEAN_PREFIX)_$(DIRS_CTAGS_DIR): \
+		$(CLEAN_PREFIX)_%:
+	rm \
+		-rf \
+		$*
+
+$(CLEAN_PREFIX)_$(DIRS_MAP_DIR): \
 		$(CLEAN_PREFIX)_%:
 	rm \
 		-rf \
@@ -167,18 +210,70 @@ $(UNIT_TEST_SOURCES_C_LIST): \
 			$(DIRS_UNIT_TEST_DIR)/$*)
 	cd \
 		$(DIRS_UNIT_TEST_DIR) && \
-	../$(UNIT_TEST_TCUPPA_COMMAND) \
+	../$(UNIT_TEST_SOURCES_TCUPPA_COMMAND) \
 		$*_$(UNIT_TEST_SOURCES_C_SUFFIX) \
-		$(UNIT_TEST_C_ENTRY_LIST)
+		$(UNIT_TEST_SOURCES_C_ENTRY_LIST)
 
 $(UNIT_TEST_SOURCES_C_ENTRY_FILE): \
 		$(DIRS_UNIT_TEST_DIR)/%_$(UNIT_TEST_SOURCES_C_EXT_ENTRY_SUFFIX): \
 		$(UNIT_TEST_SOURCES_C_LIST)
 	cd \
 		$(DIRS_UNIT_TEST_DIR) && \
-	../$(UNIT_TEST_BCUPPA_COMMAND) \
-		$*_$(UNIT_TEST_C_ENTRY_SUFFIX) \
-		$(UNIT_TEST_C_TEST_FILE_LIST)
+	../$(UNIT_TEST_SOURCES_BCUPPA_COMMAND) \
+		$*_$(UNIT_TEST_SOURCES_C_ENTRY_SUFFIX) \
+		$(UNIT_TEST_SOURCES_C_TEST_FILE_LIST)
+
+# TODO: Deps for unit_test objects.
+$(UNIT_TEST_OBJECTS_C_ENTRY_FILE): \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_$(UNIT_TEST_OBJECTS_C_EXT_ENTRY_SUFFIX): \
+		$(DIRS_UNIT_TEST_DIR)/%_$(UNIT_TEST_SOURCES_C_EXT_ENTRY_SUFFIX) \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM) \
+		$(DIRS_AUX_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$@)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_AUX_DIR)/$*)
+	$(PLATFORM_C_COMPILER) \
+		$(DEFINES) \
+		$(INCLUDES_LIST) \
+		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_C_COMPILER_LIST) \
+		-c \
+		$< \
+		-o \
+		$@ \
+		-aux-info \
+		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
+
+# TODO: Deps for unit_test objects.
+$(UNIT_TEST_OBJECTS_C_LIST): \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_$(UNIT_TEST_OBJECTS_C_EXT_SUFFIX): \
+		$(DIRS_UNIT_TEST_DIR)/%_$(UNIT_TEST_SOURCES_C_EXT_SUFFIX) \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM) \
+		$(DIRS_AUX_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$@)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_AUX_DIR)/$*)
+	$(PLATFORM_C_COMPILER) \
+		$(DEFINES) \
+		$(INCLUDES_LIST) \
+		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_C_COMPILER_LIST) \
+		-c \
+		$< \
+		-o \
+		$@ \
+		-aux-info \
+		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
 
 $(CTAGS_C_LIST): \
 		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT): \
@@ -310,10 +405,11 @@ $(DOC_PNG_LIST): \
 		-o \
 		$(DIRS_PNG_DIR)/$*.$(CONFIG_PNG_FILE_EXT)
 
-$(DIRS_PNG_DIR):
+$(DIRS_PNG_DIR): \
+		%:
 	mkdir \
 		-p \
-		$@
+		$*
 
 $(DIRS_OBJECTS_DIR)/$(PLATFORM): \
 		%:
@@ -322,6 +418,12 @@ $(DIRS_OBJECTS_DIR)/$(PLATFORM): \
 		$*
 
 $(DIRS_LIB_DIR)/$(PLATFORM): \
+		%:
+	mkdir \
+		-p \
+		$*
+
+$(INSTALL_PLATFORM_DIR): \
 		%:
 	mkdir \
 		-p \
@@ -346,6 +448,12 @@ $(DIRS_UNIT_TEST_DIR): \
 		$*
 
 $(DIRS_CTAGS_DIR): \
+		%:
+	mkdir \
+		-p \
+		$*
+
+$(DIRS_MAP_DIR): \
 		%:
 	mkdir \
 		-p \

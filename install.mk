@@ -45,7 +45,9 @@ INSTALL_IGNORE_LIST=		$(DIRS_INSTALL_DIR) \
 				$(DIRS_PNG_DIR) \
 				$(DIRS_AUX_DIR) \
 				$(DIRS_DEP_DIR) \
-				$(DIRS_GDB_DIR)
+				$(DIRS_GDB_DIR) \
+				$(DIRS_CTAGS_DIR) \
+				$(DIRS_UNIT_TEST_DIR)
 
 INSTALL_TO_COPY_DIR_LIST=	$(filter-out \
 					$(INSTALL_IGNORE_LIST), \

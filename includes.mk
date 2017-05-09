@@ -36,7 +36,7 @@ INCLUDES_CHECK=			$(wildcard \
 ##############################################################################
 
 INCLUDES_DEPENDENCIES_EXISTENCE=	$(wildcard \
-					$(CONFIG_MODULE_DEP_FILE_NAME))
+						$(CONFIG_MODULE_DEP_FILE_NAME))
 
 ifneq ($(INCLUDES_DEPENDENCIES_EXISTENCE), )
 INCLUDES_DEPENDENCIES_COMMAND=	cat \

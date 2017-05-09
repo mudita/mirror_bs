@@ -21,6 +21,7 @@ INCLUDER_MODULES_LIST=		clean \
 				templates \
 				ctags \
 				unit_test_sources \
+				unit_test_objects \
 				debug
 
 ifndef INCLUDER_PATH
@@ -148,8 +149,7 @@ $(INSTALL_OTHER_FILE_LIST): \
 $(INSTALL_APPLICATION_ELF_FILE): \
 		$(INSTALL_PLATFORM_DIR)/%: \
 		$(OBJECTS_LIST) | \
-		$(INSTALL_PLATFORM_DIR) \
-		$(DIRS_MAP_DIR)
+		$(INSTALL_PLATFORM_DIR)
 	$(PLATFORM_CPP_COMPILER) \
 		$(DEFINES) \
 		$(INCLUDES_LIST) \
@@ -168,25 +168,23 @@ $(INSTALL_APPLICATION_ELF_FILE): \
 
 $(INSTALL_APPLICATION_TEST_ELF_FILE): \
 		$(INSTALL_PLATFORM_DIR)/%_$(SIGNATURE_APPLICATION_TEST_SUFFIX): \
-		$(INSTALL_PLATFORM_DIR)/%_$(SIGNATURE_APPLICATION_SUFFIX) \
-		$(UNIT_TEST_SOURCES_C_ENTRY_FILE)
+		$(UNIT_TEST_OBJECTS_C_ENTRY_FILE) \
+		$(UNIT_TEST_OBJECTS_C_LIST) \
+		$(OBJECTS_LIST) | \
+		$(INSTALL_PLATFORM_DIR)
 	$(PLATFORM_CPP_COMPILER) \
 		$(DEFINES) \
 		$(INCLUDES_LIST) \
-		-I ../../modules/embunit/include \
+		-nostartfiles \
 		$(PLATFORM_FLAG_LIST) \
 		$(FLAGS_CPP_COMPILER_LIST) \
-		$(UNIT_TEST_SOURCES_C_ENTRY_FILE) \
-		$(UNIT_TEST_SOURCES_C_LIST) \
+		$^ \
 		$(LIBS_LIST) \
-		-L \
-		../../modules/embunit/lib/host \
-		-l \
-		embunit_gcc_6.3.1_x86_64-pc-linux-gnu \
 		$(EXTERNALS_LIST) \
 		-o \
 		$@ \
-		$(FLAGS_LINKER)
+		$(FLAGS_LINKER) \
+		-Wl,-eunit_test_main
 
 $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_RULE)
@@ -325,18 +323,70 @@ $(UNIT_TEST_SOURCES_C_LIST): \
 			$(DIRS_UNIT_TEST_DIR)/$*)
 	cd \
 		$(DIRS_UNIT_TEST_DIR) && \
-	../$(UNIT_TEST_TCUPPA_COMMAND) \
+	../$(UNIT_TEST_SOURCES_TCUPPA_COMMAND) \
 		$*_$(UNIT_TEST_SOURCES_C_SUFFIX) \
-		$(UNIT_TEST_C_ENTRY_LIST)
+		$(UNIT_TEST_SOURCES_C_ENTRY_LIST)
 
 $(UNIT_TEST_SOURCES_C_ENTRY_FILE): \
 		$(DIRS_UNIT_TEST_DIR)/%_$(UNIT_TEST_SOURCES_C_EXT_ENTRY_SUFFIX): \
 		$(UNIT_TEST_SOURCES_C_LIST)
 	cd \
 		$(DIRS_UNIT_TEST_DIR) && \
-	../$(UNIT_TEST_BCUPPA_COMMAND) \
-		$*_$(UNIT_TEST_C_ENTRY_SUFFIX) \
-		$(UNIT_TEST_C_TEST_FILE_LIST)
+	../$(UNIT_TEST_SOURCES_BCUPPA_COMMAND) \
+		$*_$(UNIT_TEST_SOURCES_C_ENTRY_SUFFIX) \
+		$(UNIT_TEST_SOURCES_C_TEST_FILE_LIST)
+
+# TODO: Deps for unit_test objects.
+$(UNIT_TEST_OBJECTS_C_ENTRY_FILE): \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_$(UNIT_TEST_OBJECTS_C_EXT_ENTRY_SUFFIX): \
+		$(DIRS_UNIT_TEST_DIR)/%_$(UNIT_TEST_SOURCES_C_EXT_ENTRY_SUFFIX) \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM) \
+		$(DIRS_AUX_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$@)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_AUX_DIR)/$*)
+	$(PLATFORM_C_COMPILER) \
+		$(DEFINES) \
+		$(INCLUDES_LIST) \
+		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_C_COMPILER_LIST) \
+		-c \
+		$< \
+		-o \
+		$@ \
+		-aux-info \
+		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
+
+# TODO: Deps for unit_test objects.
+$(UNIT_TEST_OBJECTS_C_LIST): \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_$(UNIT_TEST_OBJECTS_C_EXT_SUFFIX): \
+		$(DIRS_UNIT_TEST_DIR)/%_$(UNIT_TEST_SOURCES_C_EXT_SUFFIX) \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM) \
+		$(DIRS_AUX_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$@)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_AUX_DIR)/$*)
+	$(PLATFORM_C_COMPILER) \
+		$(DEFINES) \
+		$(INCLUDES_LIST) \
+		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_C_COMPILER_LIST) \
+		-c \
+		$< \
+		-o \
+		$@ \
+		-aux-info \
+		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
 
 $(CTAGS_C_LIST): \
 		$(DIRS_CTAGS_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT): \
@@ -409,11 +459,16 @@ $(OBJECTS_CPP_LIST): \
 		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_$(SIGNATURE_CPP_OBJECT_SUFFIX): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_CPP_SOURCE_FILE_EXT) \
 		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT) | \
-		$(DIRS_OBJECTS_DIR)/$(PLATFORM)
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM) \
+		$(DIRS_AUX_DIR)
 	mkdir \
 		-p \
 		$(dir \
 			$@)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_AUX_DIR)/$*)
 	$(PLATFORM_CPP_COMPILER) \
 		$(DEFINES) \
 		$(INCLUDES_LIST) \
@@ -422,7 +477,9 @@ $(OBJECTS_CPP_LIST): \
 		-c \
 		$< \
 		-o \
-		$@
+		$@ \
+		-aux-info \
+		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
 
 $(DOC_HTML_LIST): \
 		$(DIRS_DOC_DIR)/%.$(CONFIG_HTML_FILE_EXT): \
