@@ -1,8 +1,7 @@
 ifndef MK_UNIT_TEST_SOURCES_MK
 MK_UNIT_TEST_SOURCES_MK=		TRUE
 
-INCLUDER_MODULES_LIST=			unit_test_sources/gen \
-					unit_test_sources/c
+INCLUDER_MODULES_LIST=			unit_test_sources/c
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
