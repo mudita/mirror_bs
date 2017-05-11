@@ -10,5 +10,12 @@ else
 include $(INCLUDER_PATH)
 endif
 
+UNIT_TEST_ENTRY_POINT=			unit_test_main
+
+# TODO: Default platform should not be assumed!
+#ifndef UNIT_TEST
+#UNIT_TEST=				0
+#endif
+
 endif
 
