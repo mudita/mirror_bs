@@ -15,9 +15,9 @@ endif
 UNIT_TEST_ENTRY_POINT=			$(CONFIG_UNIT_TEST_PREFIX)_main
 
 # TODO: Default platform should not be assumed!
-#ifndef UNIT_TEST
-#UNIT_TEST=				0
-#endif
+ifndef UNIT_TEST
+UNIT_TEST=				0
+endif
 
 endif
 
