@@ -1,7 +1,9 @@
 ifndef MK_UNIT_TEST_MK
 MK_UNIT_TEST_MK=			TRUE
 
-INCLUDER_MODULES_LIST=			unit_test/gen \
+INCLUDER_MODULES_LIST=			config \
+					unit_test/gen \
+					unit_test/build \
 					unit_test/run
 
 ifndef INCLUDER_PATH
@@ -10,7 +12,7 @@ else
 include $(INCLUDER_PATH)
 endif
 
-UNIT_TEST_ENTRY_POINT=			unit_test_main
+UNIT_TEST_ENTRY_POINT=			$(CONFIG_UNIT_TEST_PREFIX)_main
 
 # TODO: Default platform should not be assumed!
 #ifndef UNIT_TEST

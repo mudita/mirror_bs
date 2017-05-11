@@ -966,6 +966,122 @@ $(UNIT_TEST_GEN_APP_NONSTANDARD_LIST): \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_UNIT_TEST_GEN_RULE)
 
+$(UNIT_TEST_BUILD_MOD_STANDARD_LIST): \
+		$(UNIT_TEST_BUILD_MOD_PREFIX)_%: \
+		$(UNIT_TEST_GEN_MOD_PREFIX)_%
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_MODULES_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
+		-f \
+		$(TEMPLATE_MODULE_FILE) \
+		$(CONFIG_UNIT_TEST_BUILD_RULE)
+
+$(UNIT_TEST_BUILD_MOD_NONSTANDARD_LIST): \
+		$(UNIT_TEST_BUILD_MOD_PREFIX)_%: \
+		$(UNIT_TEST_GEN_MOD_PREFIX)_%
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_MODULES_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
+		-f \
+		$(CONFIG_MAKEFILE_FILE_NAME) \
+		$(CONFIG_UNIT_TEST_BUILD_RULE)
+
+$(UNIT_TEST_BUILD_APP_STANDARD_LIST): \
+		$(UNIT_TEST_BUILD_APP_PREFIX)_%: \
+		$(UNIT_TEST_GEN_APP_PREFIX)_%
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_APPLICATIONS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
+		-f \
+		$(TEMPLATE_APPLICATION_FILE) \
+		$(CONFIG_UNIT_BUILD_RUN_RULE)
+
+$(UNIT_TEST_BUILD_APP_NONSTANDARD_LIST): \
+		$(UNIT_TEST_BUILD_APP_PREFIX)_%: \
+		$(UNIT_TEST_GEN_APP_PREFIX)_%
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_APPLICATIONS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
+		-f \
+		$(CONFIG_MAKEFILE_FILE_NAME) \
+		$(CONFIG_UNIT_TEST_BUILD_RULE)
+
 $(UNIT_TEST_RUN_MOD_STANDARD_LIST): \
 		$(UNIT_TEST_RUN_MOD_PREFIX)_%: \
 		$(UNIT_TEST_GEN_MOD_PREFIX)_% \
