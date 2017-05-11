@@ -198,7 +198,7 @@ $(INSTALL_APPLICATION_TEST_ELF_FILE): \
 		$(INSTALL_PLATFORM_DIR)/%_$(SIGNATURE_APPLICATION_TEST_SUFFIX): \
 		$(UNIT_TEST_OBJECTS_C_ENTRY_FILE) \
 		$(UNIT_TEST_OBJECTS_C_LIST) \
-		$(OBJECTS_LIST) | \
+		$(OBJECTS_FOR_TEST_LIST) \
 		$(INSTALL_PLATFORM_DIR)
 	$(PLATFORM_CPP_COMPILER) \
 		$(DEFINES_LIST) \
@@ -504,6 +504,65 @@ $(OBJECTS_CPP_LIST): \
 		$(INCLUDES_LIST) \
 		$(PLATFORM_FLAG_LIST) \
 		$(FLAGS_CPP_COMPILER_LIST) \
+		-c \
+		$< \
+		-o \
+		$@ \
+		-aux-info \
+		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
+
+#		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT) | \
+
+$(OBJECTS_ASM_FOR_TEST_LIST): \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_for_test_$(SIGNATURE_ASM_OBJECT_SUFFIX): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASM_SOURCE_FILE_EXT) \
+		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT) | \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM) \
+		$(DIRS_DEP_DIR) \
+		$(DIRS_AUX_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$@)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_AUX_DIR)/$*)
+	$(PLATFORM_C_COMPILER) \
+		$(DEFINES_LIST) \
+		$(INCLUDES_LIST) \
+		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_C_COMPILER_LIST) \
+		-nostdinc \
+		-isystem \
+		/usr/lib/gcc/arm-none-eabi/$(shell $(PLATFORM_C_COMPILER) -dumpversion)/include \
+		-c \
+		$< \
+		-o \
+		$@ \
+		-aux-info \
+		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
+
+$(OBJECTS_C_FOR_TEST_LIST): \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_for_test_$(SIGNATURE_C_OBJECT_SUFFIX): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)
+	echo \
+		OBJECTS_C_FOR_TEST_LIST: \
+		$(OBJECTS_C_FOR_TEST_LIST)
+	mkdir \
+		-p \
+		$(dir \
+			$@)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_AUX_DIR)/$*)
+	$(PLATFORM_C_COMPILER) \
+		$(DEFINES_LIST) \
+		$(INCLUDES_LIST) \
+		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_C_COMPILER_LIST) \
 		-c \
 		$< \
 		-o \
