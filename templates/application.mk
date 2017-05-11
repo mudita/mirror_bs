@@ -136,9 +136,24 @@ $(CONFIG_UNIT_TEST_GEN_RULE): \
 
 $(CONFIG_UNIT_TEST_RUN_RULE): \
 		$(CONFIG_UNIT_TEST_GEN_RULE)
-	echo \
-		$@ \
-	false
+	@echo \
+		$(EXEC_LINE_LABEL)
+	@echo \
+		$(EXEC_BEGIN_LABEL)
+	@echo \
+		$(EXEC_LINE_LABEL)
+	@cd \
+		$(WD_DIR) && \
+	export \
+		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
+		$(EXEC_TEST_APPLICATION_PATH)
+	@$(MODE_MTRACE_COMMAND)
+	@echo \
+		$(EXEC_LINE_LABEL)
+	@echo \
+		$(EXEC_END_LABEL)
+	@echo \
+		$(EXEC_LINE_LABEL)
 
 $(INSTALL_OTHER_FILE_LIST): \
 		$(INSTALL_PLATFORM_DIR)/%: \

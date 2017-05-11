@@ -13,6 +13,8 @@ INCLUDER_MODULES_LIST=		clean \
 				libs \
 				flags_linker \
 				externals \
+				exec \
+				wd \
 				doc \
 				templates \
 				ctags \
@@ -34,9 +36,24 @@ $(CONFIG_UNIT_TEST_GEN_RULE): \
 
 $(CONFIG_UNIT_TEST_RUN_RULE): \
 		$(CONFIG_UNIT_TEST_GEN_RULE)
-	echo \
-		$@ \
-	false
+	@echo \
+		$(EXEC_LINE_LABEL)
+	@echo \
+		$(EXEC_BEGIN_LABEL)
+	@echo \
+		$(EXEC_LINE_LABEL)
+	@cd \
+		$(WD_DIR) && \
+	export \
+		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
+		$(EXEC_TEST_MODULE_PATH)
+	@$(MODE_MTRACE_COMMAND)
+	@echo \
+		$(EXEC_LINE_LABEL)
+	@echo \
+		$(EXEC_END_LABEL)
+	@echo \
+		$(EXEC_LINE_LABEL)
 
 $(INSTALL_MODULE_LIB_FILE): \
 		$(OBJECTS_ASM_LIST) \
