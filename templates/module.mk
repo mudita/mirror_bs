@@ -63,10 +63,22 @@ ifneq ($(words $(TEMPLATE_MOD_COMPONENT_TEST_LIST)), 0)
 		$(EXEC_LINE_LABEL)
 endif
 
-$(CONFIG_FORMAT_RULE):
-	echo \
+$(CONFIG_FORMAT_RULE): \
+		$(FORMAT_SOURCES_C_LIST)
+
+# TODO: If source and source.format is the same, source.format should be
+#       removed.
+# TODO: Add nex rule to merge automaticly formated sources with original
+#       sources.
+# TODO: Almost for sure add unit_test sources, but should be also generated
+#       acording to the convention.
+$(FORMAT_SOURCES_C_LIST): \
+		$(DIRS_SOURCES_DIR)/%.$(FORMAT_SOURCE_C_EXT_SUFFIX): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT)
+	$(FORMAT_COMMAND) \
+		$(FORMAT_FLAGS) \
+		$< > \
 		$@
-	false
 
 $(INSTALL_MODULE_LIB_FILE): \
 		$(OBJECTS_ASM_LIST) \
