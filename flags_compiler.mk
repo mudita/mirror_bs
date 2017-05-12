@@ -57,9 +57,9 @@ endif
 # INFO: Check if coverage options were specified.
 ifndef FLAGS_COMPILER_COVERAGE
 $(warning FLAGS_COMPILER_COVERAGE was not specified!)
-#else
-#FLAGS_C_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_COVERAGE)
-#FLAGS_CPP_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_COVERAGE)
+else
+FLAGS_C_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_COVERAGE)
+FLAGS_CPP_COMPILER_TEMP_LIST+=	$(FLAGS_COMPILER_COVERAGE)
 endif
 
 # INFO: Check if optimization options were specified.
