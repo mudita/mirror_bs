@@ -22,7 +22,8 @@ INCLUDER_MODULES_LIST=		clean \
 				ctags \
 				unit_test_sources \
 				unit_test_objects \
-				debug
+				debug \
+				format
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -162,6 +163,11 @@ ifneq ($(words $(TEMPLATE_MOD_COMPONENT_TEST_LIST)), 0)
 		$(EXEC_LINE_LABEL)
 endif
 
+$(CONFIG_FORMAT_RULE):
+	echo \
+		$@
+	false
+
 $(INSTALL_OTHER_FILE_LIST): \
 		$(INSTALL_PLATFORM_DIR)/%: \
 		% \
@@ -198,7 +204,7 @@ $(INSTALL_APPLICATION_TEST_ELF_FILE): \
 		$(INSTALL_PLATFORM_DIR)/%_$(SIGNATURE_APPLICATION_TEST_SUFFIX): \
 		$(UNIT_TEST_OBJECTS_C_ENTRY_FILE) \
 		$(UNIT_TEST_OBJECTS_C_LIST) \
-		$(OBJECTS_FOR_TEST_LIST) \
+		$(OBJECTS_FOR_TEST_LIST) | \
 		$(INSTALL_PLATFORM_DIR)
 	$(PLATFORM_CPP_COMPILER) \
 		$(DEFINES_LIST) \
