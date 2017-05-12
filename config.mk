@@ -60,6 +60,7 @@ CONFIG_DEP_EXT=				dep
 CONFIG_DEP_EXT=				dep
 CONFIG_ARGS_EXT=			args
 CONFIG_LIST_EXT=			list
+CONFIG_CFG_EXT=				cfg
 CONFIG_GDB_SCRIPT_EXT=			gdb
 
 # INFO: File names.
