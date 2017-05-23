@@ -53,5 +53,10 @@ CLEAN_DOC_DEFAULT_HTML_LIST=		$(addprefix \
 						$(CLEAN_PREFIX)_, \
 						$(DOC_DEFAULT_HTML_LIST))
 
+CLEAN_FORMAT_SOURCES_LIST=		$(addprefix \
+						$(CLEAN_PREFIX)_, \
+						$(FORMAT_SOURCES_LIST))
+
+
 endif
 
