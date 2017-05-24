@@ -166,6 +166,11 @@ endif
 $(CONFIG_FORMAT_RULE): \
 		$(FORMAT_SOURCES_C_LIST)
 
+$(CONFIG_DOC_RULE):
+	echo \
+		$@
+	false
+
 # TODO: If source and source.format is the same, source.format should be
 #       removed.
 # TODO: Add nex rule to merge automaticly formated sources with original
@@ -600,6 +605,14 @@ $(DOC_HTML_LIST): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASCIIDOC_FILE_EXT) \
 		$(DIRS_DOC_DIR)
 	asciidoc \
+		-o \
+		$@ \
+		$<
+
+$(DOC_DEFAULT_HTML_LIST): \
+		%.$(CONFIG_HTML_FILE_EXT): \
+		%.$(CONFIG_ASCIIDOC_FILE_EXT)
+	asciidoctor \
 		-o \
 		$@ \
 		$<

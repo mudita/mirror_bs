@@ -66,6 +66,11 @@ endif
 $(CONFIG_FORMAT_RULE): \
 		$(FORMAT_SOURCES_C_LIST)
 
+$(CONFIG_DOC_RULE):
+	echo \
+		$@
+	false
+
 # TODO: If source and source.format is the same, source.format should be
 #       removed.
 # TODO: Add nex rule to merge automaticly formated sources with original
