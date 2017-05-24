@@ -6,7 +6,8 @@ INCLUDER_MODULES_LIST=			config \
 					modules \
 					tools \
 					platform \
-					ignore
+					ignore \
+					doc
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -57,6 +58,9 @@ CLEAN_FORMAT_SOURCES_LIST=		$(addprefix \
 						$(CLEAN_PREFIX)_, \
 						$(FORMAT_SOURCES_LIST))
 
+CLEAN_DOC_DEFAULT_HTML_LIST=		$(addprefix \
+						$(CLEAN_PREFIX)_, \
+						$(DOC_DEFAULT_HTML_LIST))
 
 endif
 
