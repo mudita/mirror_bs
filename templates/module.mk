@@ -66,10 +66,8 @@ endif
 $(CONFIG_FORMAT_RULE): \
 		$(FORMAT_SOURCES_C_LIST)
 
-$(CONFIG_DOC_RULE):
-	echo \
-		$@
-	false
+$(CONFIG_DOC_RULE): \
+		$(DOC_DEFAULT_HTML_LIST)
 
 # TODO: If source and source.format is the same, source.format should be
 #       removed.
@@ -137,7 +135,8 @@ $(CONFIG_CLEAN_RULE): \
 		$(CLEAN_PREFIX)_$(DIRS_CTAGS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_MAP_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_AUX_DIR) \
-		$(CLEAN_FORMAT_SOURCES_LIST)
+		$(CLEAN_FORMAT_SOURCES_LIST) \
+		$(CLEAN_DOC_DEFAULT_HTML_LIST)
 
 $(CLEAN_PREFIX)_$(DIRS_PNG_DIR): \
 		$(CLEAN_PREFIX)_%:
@@ -199,8 +198,11 @@ $(CLEAN_FORMAT_SOURCES_LIST): \
 		-rf \
 		$*
 
-$(CONFIG_CLEAN_FULL_RULE): \
-		$(CONFIG_CLEAN_RULE)
+$(CLEAN_DOC_DEFAULT_HTML_LIST): \
+		$(CLEAN_PREFIX)_%:
+	rm \
+		-rf \
+		$*
 
 $(DEPS_ASM_LIST): \
 		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT): \
@@ -492,11 +494,19 @@ $(OBJECTS_C_FOR_TEST_LIST): \
 		-aux-info \
 		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
 
+$(DOC_DEFAULT_HTML_LIST): \
+		%.$(CONFIG_HTML_FILE_EXT): \
+		%.$(CONFIG_ASCIIDOC_FILE_EXT)
+	asciidoctor \
+		-o \
+		$@ \
+		$<
+
 $(DOC_HTML_LIST): \
 		$(DIRS_DOC_DIR)/%.$(CONFIG_HTML_FILE_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASCIIDOC_FILE_EXT) \
 		$(DIRS_DOC_DIR)
-	asciidoc \
+	asciidoctor \
 		-o \
 		$@ \
 		$<

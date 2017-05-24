@@ -614,7 +614,7 @@ $(DOC_HTML_LIST): \
 		$(DIRS_DOC_DIR)/%.$(CONFIG_HTML_FILE_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASCIIDOC_FILE_EXT) \
 		$(DIRS_DOC_DIR)
-	asciidoc \
+	asciidoctor \
 		-o \
 		$@ \
 		$<
