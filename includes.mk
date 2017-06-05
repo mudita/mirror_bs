@@ -20,7 +20,7 @@ INCLUDES_OWN_LIST=		$(addprefix \
 					$(INCLUDES_DIRS_PREFIX) , \
 					$(INCLUDES_OWN_DIR))
 else
-INCLUDES_OWN_LIST=		
+INCLUDES_OWN_LIST=
 endif
 
 INCLUDES_LIST=			$(INCLUDES_OWN_LIST)
@@ -50,14 +50,32 @@ endif
 
 ##############################################################################
 
+INCLUDES_LOCAL_EXISTENCE=	$(wildcard \
+					$(CONFIG_INCLUDES_FILE_NAME))
+
+ifneq ($(INCLUDES_LOCAL_EXISTENCE), )
+INCLUDES_LOCAL_COMMAND=		cat \
+					$(CONFIG_INCLUDES_FILE_NAME)
+
+INCLUDES_LOCAL_LIST=		$(shell \
+					$(INCLUDES_LOCAL_COMMAND))
+else
+INCLUDES_LOCAL_LIST=
+endif
+
+##############################################################################
+
 INCLUDES_EXISTING=		$(foreach \
 					$(CONFIG_MODULE_PREFIX), \
 					$(INCLUDES_MODULES_LIST), \
 					$(INCLUDES_CHECK))
 
+INCLUDES_ALL_LIST=		$(INCLUDES_EXISTING) \
+				$(INCLUDES_LOCAL_LIST)
+
 INCLUDES_LIST+=			$(addprefix \
 					$(INCLUDES_DIRS_PREFIX) , \
-					$(INCLUDES_EXISTING))
+					$(INCLUDES_ALL_LIST))
 
 endif
 
