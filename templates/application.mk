@@ -46,6 +46,7 @@ $(CONFIG_RUN_RULE): \
 ifdef ARGS
 	@cd \
 		$(WD_DIR) && \
+	$(PATH_EXPORT_COMMAND) && \
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
 		$(EXEC_APPLICATION_PATH) \
@@ -54,6 +55,7 @@ else
 ifneq ($(wildcard $(CONFIG_ARGS_FILE_NAME)), )
 	@cd \
 		$(WD_DIR) && \
+	$(PATH_EXPORT_COMMAND) && \
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
 		$(EXEC_APPLICATION_PATH) \
@@ -63,6 +65,7 @@ ifneq ($(wildcard $(CONFIG_ARGS_FILE_NAME)), )
 else
 	@cd \
 		$(WD_DIR) && \
+	$(PATH_EXPORT_COMMAND) && \
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
 		$(EXEC_APPLICATION_PATH)
@@ -88,6 +91,7 @@ $(CONFIG_DEBUG_RULE): \
 ifdef ARGS
 	@cd \
 		$(WD_DIR) && \
+	$(PATH_EXPORT_COMMAND) && \
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
 	gdbserver \
@@ -98,6 +102,7 @@ else
 ifneq ($(wildcard $(CONFIG_ARGS_FILE_NAME)), )
 	@cd \
 		$(WD_DIR) && \
+	$(PATH_EXPORT_COMMAND) && \
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
 	gdbserver \
@@ -109,6 +114,7 @@ ifneq ($(wildcard $(CONFIG_ARGS_FILE_NAME)), )
 else
 	@cd \
 		$(WD_DIR) && \
+	$(PATH_EXPORT_COMMAND) && \
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
 	gdbserver \
@@ -151,6 +157,7 @@ ifneq ($(words $(TEMPLATE_MOD_COMPONENT_TEST_LIST)), 0)
 		$(EXEC_LINE_LABEL)
 	@cd \
 		$(WD_DIR) && \
+	$(PATH_EXPORT_COMMAND) && \
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
 		$(EXEC_TEST_APPLICATION_PATH)

@@ -51,6 +51,7 @@ ifneq ($(words $(TEMPLATE_MOD_COMPONENT_TEST_LIST)), 0)
 		$(EXEC_LINE_LABEL)
 	@cd \
 		$(WD_DIR) && \
+	$(PATH_EXPORT_COMMAND) && \
 	export \
 		MALLOC_TRACE=$(CONFIG_MTRACE_FILE_NAME) && \
 		$(EXEC_TEST_MODULE_PATH)
