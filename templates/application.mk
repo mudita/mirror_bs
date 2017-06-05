@@ -23,7 +23,8 @@ INCLUDER_MODULES_LIST=		clean \
 				unit_test_sources \
 				unit_test_objects \
 				debug \
-				format
+				format \
+				signature
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
