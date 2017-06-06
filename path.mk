@@ -15,7 +15,9 @@ endif
 # TODO: If added, this should be checked if tool or app exists.
 
 PATH_ALL_BARE_LIST=		xterm_rw \
-				fb_viewer
+				chronograph \
+				fb_viewer \
+				fb_viewer_io
 
 PATH_APPLICATIONS_PREFIX=	$(ROOT_DIR)/$(DIRS_APPLICATIONS_DIR)
 PATH_APPLICATIONS_SUFFIX=	$(INSTALL_PLATFORM_DIR)
