@@ -147,6 +147,9 @@ PLATFORM_GDB=			$(PLATFORM_PREFIX)-$(PLATFORM_HOST_GDB)
 PLATFORM_C_COMPILER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_C_COMPILER)
 PLATFORM_CPP_COMPILER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_C_COMPILER)
 
+PLATFORM_SPECS_LIST=		-mcpu=cortex-a9 \
+				-march=armv7-a
+
 PLATFORM_QEMU=			qemu-system-arm
 
 # INFO: ARM RealView Platform Baseboard Explore for Cortex-A9
@@ -167,7 +170,7 @@ PLATFORM_CPU=			cortex-a9
 #PLATFORM_FLAG_LIST=		-mcpu=cortex-a9
 
 # INFO: Working for application cortex_a9
-PLATFORM_FLAG_LIST=		-mcpu=cortex-a9 \
+PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
 				-mword-relocations
 endif
 
