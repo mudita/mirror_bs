@@ -419,7 +419,9 @@ FLAGS_COMPILER_WARNINGS+=		-Winit-self
 #
 # INFO: -Wmissing-include-dirs (C, C++, Objective-C and Objective-C++ only)
 #       Warn if a user-supplied include directory does not exist.
-#
+
+FLAGS_COMPILER_WARNINGS+=		-Wmissing-include-dirs
+
 # INFO: -Wparentheses
 #       Warn if parentheses are omitted in certain contexts, such as when there
 #       is an assignment in a context where a truth value is expected, or when
