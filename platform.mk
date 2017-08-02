@@ -270,7 +270,7 @@ endif
 #endif
 
 # INFO: If sanity check has passed, everything should be fine here.
-#PLATFORM_COMPATIBLE_FLAG=	TRUE
+PLATFORM_COMPATIBLE_FLAG=	TRUE
 
 endif
 
