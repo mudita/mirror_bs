@@ -64,7 +64,7 @@ else
 $(warning ------> WARNING - SLOW VERSION OF THE BUILD SYSTEM <------)
 $(warning To speed up the build system, first run:)
 $(warning make module_check-$(PLATFORM_HOST_ARCHITECTURE))
-$(warning make module_utils-$(PLATFORM_HOST_ARCHITECTURE))
+$(warning make module_utils_functions-$(PLATFORM_HOST_ARCHITECTURE))
 $(warning make tool_$(MODBUILD_NAME)-$(PLATFORM_HOST_ARCHITECTURE))
 $(warning make tool_smart_deps-$(PLATFORM_HOST_ARCHITECTURE))
 $(warning ------> WARNING - SLOW VERSION OF THE BUILD SYSTEM <------)
