@@ -95,8 +95,8 @@ PLATFORM_GDB=			$(PLATFORM_PREFIX)-$(PLATFORM_HOST_GDB)
 PLATFORM_SIZE=			$(PLATFORM_PREFIX)-$(PLATFORM_HOST_SIZE)
 PLATFORM_C_COMPILER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_C_COMPILER)
 PLATFORM_CPP_COMPILER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_C_COMPILER)
-# TODO: Cut of not obligatory!
-# TODO: remove -march=armv7e-m if possible
+PLATFORM_QEMU=			/opt/gnuarmeclipse/bin/qemu-system-gnuarmeclipse
+
 PLATFORM_SPECS_LIST=		-mfpu=fpv4-sp-d16 \
 				-mfloat-abi=softfp \
 				-mcpu=cortex-m4 \
@@ -154,28 +154,12 @@ PLATFORM_GDB=			$(PLATFORM_PREFIX)-$(PLATFORM_HOST_GDB)
 PLATFORM_SIZE=			$(PLATFORM_PREFIX)-$(PLATFORM_HOST_SIZE)
 PLATFORM_C_COMPILER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_C_COMPILER)
 PLATFORM_CPP_COMPILER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_C_COMPILER)
-# TODO: Cut of not obligatory!
-# TODO: remove -march=armv7e-m if possible
-#PLATFORM_SPECS_LIST=		-mfpu=fpv4-sp-d16 \
-#				-mfloat-abi=softfp \
-#				-mcpu=cortex-m4 \
-#				-march=armv7e-m \
-#				-mthumb
+PLATFORM_QEMU=			/opt/gnuarmeclipse/bin/qemu-system-gnuarmeclipse
 
 PLATFORM_SPECS_LIST=		-mcpu=cortex-m4 \
 				-march=armv7e-m \
 				-mfloat-abi=soft \
 				-mthumb
-
-#PLATFORM_DEFINES_LIST=		-DREVISION_STR=\"@\" \
-#				-DREVISION_SGN=0x00000000 \
-#				-DPROJECT_NAME=\"ekofone\" \
-#				-DREENTRANT_SYSCALLS_PROVIDED=1 \
-#				-DDEBUG \
-#				-DNO_VCP \
-#				-DBATTERY_SIZE=710 \
-#				-DCORE_M4 \
-#				-DARM_MATH_CM4
 
 PLATFORM_DEFINES_LIST=		-DDEBUG \
 				-DUSE_FULL_ASSERT \
@@ -185,56 +169,6 @@ PLATFORM_DEFINES_LIST=		-DDEBUG \
 				-DSTM32F407xx \
 				-DUSE_HAL_DRIVER \
 				-DHSE_VALUE=8000000
-
-#PLATFORM_WARNINGS_LIST=	-Wno-unused-function \
-#				-Werror \
-#				-Wall \
-#				-Wstrict-prototypes \
-#				-Wreturn-type \
-#				-Wmissing-prototypes \
-#				-Wmissing-declarations \
-#				-Wimplicit-function-declaration \
-#				-Wmaybe-uninitialized \
-#				-Wuninitialized
-
-#				-Wno-bad-function-cast \
-#				-Wno-conversion \
-#				-Wno-sign-conversion \
-#				-Wno-missing-prototypes \
-#				-Wno-missing-declarations \
-
-#PLATFORM_IMPERS_LIST=		-fno-strict-aliasing \
-#				-ffunction-sections \
-#				-fdata-sections \
-#				-fno-builtin-printf \
-#				-finput-charset=UTF-8
-
-# INFO: ANSI C and C++
-#				-fmessage-length=0 \
-#				-fsigned-char \
-#				-ffunction-sections \
-#				-fdata-sections \
-#				-fno-move-loop-invariants
-
-# INFO: Only C++
-#				-fabi-version=0 \
-#				-fno-exceptions \
-#				-fno-rtti \
-#				-fno-use-cxa-atexit \
-#				-fno-threadsafe-statics
-
-#PLATFORM_LINKER_LIST=		-Wl,--gc-sections \
-#				-Os \
-#				-DSTM32L476xx \
-#				-DUSED_PROCESSOR_L4 \
-#				-DUSE_HAL_DRIVER=1
-
-#PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
-#				$(PLATFORM_DEFINES_LIST) \
-#				$(PLATFORM_WARNINGS_LIST) \
-#				$(PLATFORM_IMPERS_LIST) \
-#				$(PLATFORM_LINKER_LIST) \
-#				-specs=nosys.specs
 
 PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
 				$(PLATFORM_DEFINES_LIST)
