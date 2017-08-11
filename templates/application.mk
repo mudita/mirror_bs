@@ -218,7 +218,8 @@ $(INSTALL_APPLICATION_ELF_FILE): \
 		$(EXTERNALS_LIST) \
 		-o \
 		$@ \
-		$(FLAGS_LINKER)
+		$(FLAGS_LINKER) \
+		-Wl,-Map,$(DIRS_MAP_DIR)/$*.$(CONFIG_MAP_EXT)
 	$(PLATFORM_SIZE) \
 		--format=berkeley \
 		$@
