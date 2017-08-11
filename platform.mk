@@ -177,7 +177,7 @@ PLATFORM_SPECS_LIST=		-mcpu=cortex-m4 \
 #				-DCORE_M4 \
 #				-DARM_MATH_CM4
 
-#PLATFORM_WARNINGS_LIST=		-Wno-unused-function \
+#PLATFORM_WARNINGS_LIST=	-Wno-unused-function \
 #				-Werror \
 #				-Wall \
 #				-Wstrict-prototypes \
@@ -188,11 +188,31 @@ PLATFORM_SPECS_LIST=		-mcpu=cortex-m4 \
 #				-Wmaybe-uninitialized \
 #				-Wuninitialized
 
+#				-Wno-bad-function-cast \
+#				-Wno-conversion \
+#				-Wno-sign-conversion \
+#				-Wno-missing-prototypes \
+#				-Wno-missing-declarations \
+
 #PLATFORM_IMPERS_LIST=		-fno-strict-aliasing \
 #				-ffunction-sections \
 #				-fdata-sections \
 #				-fno-builtin-printf \
 #				-finput-charset=UTF-8
+
+# INFO: ANSI C and C++
+#				-fmessage-length=0 \
+#				-fsigned-char \
+#				-ffunction-sections \
+#				-fdata-sections \
+#				-fno-move-loop-invariants
+
+# INFO: Only C++
+#				-fabi-version=0 \
+#				-fno-exceptions \
+#				-fno-rtti \
+#				-fno-use-cxa-atexit \
+#				-fno-threadsafe-statics
 
 #PLATFORM_LINKER_LIST=		-Wl,--gc-sections \
 #				-Os \

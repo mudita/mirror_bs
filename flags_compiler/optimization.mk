@@ -155,10 +155,8 @@ MK_FLAGS_COMPILER_OPTIMIZATION_MK=	TRUE
 #
 # INFO: -O0
 #       Reduce compilation time and make debugging produce the expected
-#       results. This is the default. 
-
-FLAGS_COMPILER_OPTIMIZATION=	-O0
-
+#       results. This is the default.
+#
 # INFO: -Os
 #       Optimize for size. -Os enables all -O2 optimizations that do not
 #       typically increase code size. It also performs further optimizations
@@ -196,7 +194,9 @@ FLAGS_COMPILER_OPTIMIZATION=	-O0
 #
 #       If you use multiple -O options, with or without level numbers, the last
 #       such option is the one that is effective.
-#
+
+FLAGS_COMPILER_OPTIMIZATION=	-Og
+
 # INFO: Options of the form -fflag specify machine-independent flags. Most
 #       flags have both positive and negative forms; the negative form of
 #       -ffoo is -fno-foo. In the table below, only one of the forms is
