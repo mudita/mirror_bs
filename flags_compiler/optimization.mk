@@ -155,10 +155,8 @@ MK_FLAGS_COMPILER_OPTIMIZATION_MK=	TRUE
 #
 # INFO: -O0
 #       Reduce compilation time and make debugging produce the expected
-#       results. This is the default. 
-
-FLAGS_COMPILER_OPTIMIZATION=	-O0
-
+#       results. This is the default.
+#
 # INFO: -Os
 #       Optimize for size. -Os enables all -O2 optimizations that do not
 #       typically increase code size. It also performs further optimizations
@@ -196,7 +194,9 @@ FLAGS_COMPILER_OPTIMIZATION=	-O0
 #
 #       If you use multiple -O options, with or without level numbers, the last
 #       such option is the one that is effective.
-#
+
+FLAGS_COMPILER_OPTIMIZATION=	-Og
+
 # INFO: Options of the form -fflag specify machine-independent flags. Most
 #       flags have both positive and negative forms; the negative form of
 #       -ffoo is -fno-foo. In the table below, only one of the forms is
@@ -2225,8 +2225,11 @@ FLAGS_COMPILER_OPTIMIZATION=	-O0
 #       so. When you specify these options, the assembler and linker create
 #       larger object and executable files and are also slower. You cannot use
 #       gprof on all systems if you specify this option, and you may have
-#       problems with debugging if you specify both this option and -g. 
-#
+#       problems with debugging if you specify both this option and -g.
+
+FLAGS_COMPILER_OPTIMIZATION+=	-ffunction-sections
+FLAGS_COMPILER_OPTIMIZATION+=	-fdata-sections
+
 # INFO: -fbranch-target-load-optimize
 #       Perform branch target register load optimization before prologue /
 #       epilogue threading. The use of target registers can typically be

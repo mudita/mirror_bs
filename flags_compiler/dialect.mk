@@ -131,7 +131,8 @@ MK_FLAGS_COMPILER_DIALECT_MK=	TRUE
 #              will almost certainly change in incompatible ways in future
 #              releases.
 
-FLAGS_C_COMPILER_DIALECT+=		-std=c11
+#FLAGS_C_COMPILER_DIALECT+=		-std=c11
+FLAGS_C_COMPILER_DIALECT+=		-std=gnu11
 FLAGS_CPP_COMPILER_DIALECT+=		-std=c++11
 
 # INFO: -fgnu89-inline
