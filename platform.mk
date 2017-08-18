@@ -3,7 +3,8 @@ MK_PLATFORM_MK=			TRUE
 
 INCLUDER_MODULES_LIST=		config \
 				jobs \
-				path
+				path \
+				root
 
 ifndef INCLUDER_PATH
 $(error aosmake package is not installed in your OS!)
@@ -154,7 +155,7 @@ PLATFORM_GDB=			$(PLATFORM_PREFIX)-$(PLATFORM_HOST_GDB)
 PLATFORM_SIZE=			$(PLATFORM_PREFIX)-$(PLATFORM_HOST_SIZE)
 PLATFORM_C_COMPILER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_C_COMPILER)
 PLATFORM_CPP_COMPILER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_C_COMPILER)
-PLATFORM_QEMU=			/opt/gnuarmeclipse/bin/qemu-system-gnuarmeclipse
+PLATFORM_QEMU=			$(ROOT_DIR)/$(DIRS_TOOLS_DIR)/qemu_gnuarmeclipse/$(DIRS_TEMP_DIR)/opt/gnuarmeclipse/$(DIRS_BIN_DIR)/qemu-system-gnuarmeclipse
 
 PLATFORM_SPECS_LIST=		-mcpu=cortex-m4 \
 				-march=armv7e-m \
