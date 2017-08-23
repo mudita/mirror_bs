@@ -617,31 +617,6 @@ $(DOC_DEFAULT_HTML_LIST): \
 		$@ \
 		$<
 
-$(DOC_HTML_LIST): \
-		$(DIRS_DOC_DIR)/%.$(CONFIG_HTML_FILE_EXT): \
-		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASCIIDOC_FILE_EXT) \
-		$(DIRS_DOC_DIR)
-	asciidoctor \
-		-o \
-		$@ \
-		$<
-
-# TODO: Finish latex generation.
-$(DOC_LATEX_LIST): \
-		$(DIRS_DOC_DIR)/%.$(CONFIG_LATEX_FILE_EXT): \
-		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASCIIDOC_FILE_EXT) \
-		$(DIRS_DOC_DIR)
-	echo \
-		$@
-
-# TODO: Finish pdf generation.
-$(DOC_PDF_LIST): \
-		$(DIRS_DOC_DIR)/%.$(CONFIG_PDF_FILE_EXT): \
-		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASCIIDOC_FILE_EXT) \
-		$(DIRS_DOC_DIR)
-	echo \
-		$@
-
 $(DOC_PNG_LIST): \
 		$(DIRS_PNG_DIR)/%.$(CONFIG_PNG_FILE_EXT): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_DOT_FILE_EXT) \

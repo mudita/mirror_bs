@@ -4,7 +4,8 @@ MK_INSTALL_MK=			TRUE
 INCLUDER_MODULES_LIST=		config \
 				dirs \
 				signature \
-				includes
+				includes \
+				doc
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -13,6 +14,8 @@ include $(INCLUDER_PATH)
 endif
 
 # TODO: Implement analogue with lib.
+# TODO: Implement analogue with coverage.
+# TODO: Implement analogue with object.
 INSTALL_PLATFORM_DIR=		$(DIRS_INSTALL_DIR)/$(PLATFORM)
 
 INSTALL_APPLICATION_ELF_FILE=	$(INSTALL_PLATFORM_DIR)/$(SIGNATURE_APPLICATION_FILE_NAME)
@@ -46,11 +49,11 @@ INSTALL_STATIC_IGNORE_LIST=	$(DIRS_INSTALL_DIR) \
 				$(DIRS_PNG_DIR) \
 				$(DIRS_AUX_DIR) \
 				$(DIRS_DEP_DIR) \
+				$(DIRS_COVERAGE_DIR) \
 				$(DIRS_GDB_DIR) \
 				$(DIRS_CTAGS_DIR) \
-				$(DIRS_UNIT_TEST_DIR)
-
-
+				$(DIRS_UNIT_TEST_DIR) \
+				$(DOC_DEFAULT_HTML_LIST)
 
 ##############################################################################
 
