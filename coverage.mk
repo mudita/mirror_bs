@@ -23,21 +23,20 @@ COVERAGE_C_LIST=		$(patsubst \
 					$(SOURCES_C_LIST))
 
 
-COVERAGE_H_LIST_COMMAND=	find \
-					$(DIRS_SOURCES_DIR) \
-					-type \
-					f | \
-					grep \
-						"\.$(CONFIG_H_HEADER_FILE_EXT)$$" | \
-					sort
+#COVERAGE_H_LIST_COMMAND=	find \
+#					$(DIRS_SOURCES_DIR) \
+#					-type \
+#					f | \
+#					grep \
+#						"\.$(CONFIG_H_HEADER_FILE_EXT)$$" | \
+#					sort
 
-ifneq ($(wildcard $(DIRS_SOURCES_DIR)), )
-COVERAGE_H_LIST=		$(shell \
+#ifneq ($(wildcard $(DIRS_SOURCES_DIR)), )
+#COVERAGE_H_LIST=		$(shell \
 					$(COVERAGE_H_LIST_COMMAND))
-else
-COVERAGE_H_LIST=
-endif
-
+#else
+#COVERAGE_H_LIST=
+#endif
 
 endif
 

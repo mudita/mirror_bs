@@ -22,8 +22,7 @@ DEFINES_PREFIX=			-D
 #       generated or taken from build system script.
 DEFINES_DEFAULT_LIST=		ETRACE_IF_CHRONOGRAPH_COMMAND='chronograph_gcc_7_1_1_x86_64_pc_linux_gnu' \
 				CPU_LOGS_CHRONOGRAPH_COMMAND='chronograph_gcc_7_1_1_x86_64_pc_linux_gnu' \
-				USE_STDPERIPH_DRIVER \
-				OS_USE_SEMIHOSTING
+				USE_STDPERIPH_DRIVER
 
 ifeq ($(UNIT_TEST), 1)
 DEFINES_DEFAULT_LIST+=		UNIT_TEST_ENTRY_POINT=$(UNIT_TEST_ENTRY_POINT)
