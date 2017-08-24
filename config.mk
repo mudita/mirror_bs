@@ -45,6 +45,8 @@ CONFIG_UNIT_TEST_RUN_RULE=		$(CONFIG_UNIT_TEST_PREFIX)_run
 # INFO: Sanity test rules.
 # TODO: Change to sanity_test
 CONFIG_SELF_TEST_RULE=			self_test
+CONFIG_SELF_TEST_DEEP_RULE=		self_test_$(CONFIG_DEEP_SUFFIX)
+CONFIG_SELF_TEST_FULL_RULE=		self_test_$(CONFIG_FULL_SUFFIX)
 
 # INFO: Documentation rules.
 CONFIG_DOC_RULE=			document
