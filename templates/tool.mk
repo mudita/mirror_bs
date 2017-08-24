@@ -1,5 +1,6 @@
 INCLUDER_MODULES_LIST=		clean \
 				clean_full \
+				clean_deep \
 				dirs \
 				objects \
 				sources \
@@ -63,6 +64,9 @@ $(INSTALL_TOOL_ELF_FILE): \
 #		$(DIRS_MAP_DIR)/$*.$(CONFIG_MAP_EXT) \
 
 $(CONFIG_CLEAN_FULL_RULE): \
+		$(CONFIG_CLEAN_RULE)
+
+$(CONFIG_CLEAN_DEEP_RULE): \
 		$(CONFIG_CLEAN_RULE)
 
 $(CONFIG_CLEAN_RULE): \
