@@ -249,7 +249,6 @@ $(SELF_TEST_MODULES_FILE): \
 		>> \
 		$*
 
-
 $(SELF_TEST_TOOLS_FILE): \
 		%: | \
 		$(DIRS_BS_TEMP_DIR)
@@ -348,12 +347,129 @@ $(SELF_TEST_APPLICATIONS_DEEP_FILE): \
 	cp \
 		$(SELF_TEST_DEV_NULL_FILE) \
 		$*
+	printf \
+		$(SELF_TEST_BASE_FORMATER) \
+		'$$(SELF_TEST_APPLICATIONS_DEEP_RULE):' \
+		>> \
+		$*
+	for \
+		$(CONFIG_APPLICATION_PREFIX) \
+		in \
+		$(APPLICATIONS_PLATFORMS_LIST); \
+		do \
+			printf \
+				$(SELF_TEST_LOOP_FIRST_FORMATER) \
+				'\' \
+				'$$(SELF_TEST_DEEP_PREFIX)' \
+				$$$(CONFIG_APPLICATION_PREFIX) \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_SECOND_FORMATER) \
+				'$$(SELF_TEST_DEEP_PREFIX)' \
+				$$$(CONFIG_APPLICATION_PREFIX) \
+				'$$(SELF_TEST_DEEP_PREFIX)_%:' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$(CONFIG_CLEAN_RULE)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LOG_FORMATER) \
+				'echo \' \
+				'$$* >> \' \
+				'$$(SELF_TEST_DEEP_PREFIX).$$(CONFIG_LOG_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LAST_FORMATER) \
+				'$$(SELF_TEST_DEEP_PREFIX)' \
+				$$$(CONFIG_APPLICATION_PREFIX) \
+				>> \
+				$*; \
+		done
+	printf \
+		$(SELF_TEST_EOF_APPLICATIONS_FORMATER) \
+		'$$(SELF_TEST_MODULES_DEEP_RULE)' \
+		>> \
+		$*
 
 $(SELF_TEST_MODULES_DEEP_FILE): \
 		%: \
 		$(SELF_TEST_TOOLS_DEEP_FILE)
 	cp \
 		$(SELF_TEST_DEV_NULL_FILE) \
+		$*
+	printf \
+		$(SELF_TEST_BASE_FORMATER) \
+		'$$(SELF_TEST_MODULES_DEEP_FILE):' \
+		>> \
+		$*
+	for \
+		$(CONFIG_MODULE_PREFIX) \
+		in \
+		$(MODULES_PLATFORMS_LIST); \
+		do \
+			printf \
+				$(SELF_TEST_LOOP_FIRST_FORMATER) \
+				'\' \
+				'$$(SELF_TEST_DEEP_PREFIX)' \
+				$$$(CONFIG_MODULE_PREFIX) \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_SECOND_FORMATER) \
+				'$$(SELF_TEST_DEEP_PREFIX)' \
+				$$$(CONFIG_MODULE_PREFIX) \
+				'$$(SELF_TEST_DEEP_PREFIX)_%:' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_CONDITION_FORMATER) \
+				'if [ -z "$$(shell grep $(SELF_TEST_GREP_FLAGS) $(SELF_TEST_GREP_MATCH_PATTERN) $(DEPENDENCIES_FILE) | tr -d \\\)" ]; then \' \
+				'echo $$* never used; false; \' \
+				'fi' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$(CONFIG_CLEAN_RULE)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LOG_FORMATER) \
+				'echo \' \
+				'$$* >> \' \
+				'$$(SELF_TEST_DEEP_PREFIX).$$(CONFIG_LOG_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LAST_FORMATER) \
+				'$$(SELF_TEST_DEEP_PREFIX)' \
+				$$$(CONFIG_MODULE_PREFIX) \
+				>> \
+				$*; \
+		done
+	printf \
+		$(SELF_TEST_EOF_MODULES_FORMATER) \
+		'$$(SELF_TEST_TOOLS_DEEP_FILE)' \
+		>> \
 		$*
 
 $(SELF_TEST_TOOLS_DEEP_FILE): \
@@ -362,12 +478,72 @@ $(SELF_TEST_TOOLS_DEEP_FILE): \
 	cp \
 		$(SELF_TEST_DEV_NULL_FILE) \
 		$*
+	printf \
+		$(SELF_TEST_BASE_FORMATER) \
+		'$$(SELF_TEST_TOOLS_DEEP_RULE):' \
+		>> \
+		$*
+	for \
+		$(CONFIG_TOOL_PREFIX) \
+		in \
+		$(TOOLS_PLATFORMS_LIST); \
+		do \
+			printf \
+				$(SELF_TEST_LOOP_FIRST_FORMATER) \
+				'\' \
+				'$$(SELF_TEST_DEEP_PREFIX)' \
+				$$$(CONFIG_TOOL_PREFIX) \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_SECOND_FORMATER) \
+				'$$(SELF_TEST_DEEP_PREFIX)' \
+				$$$(CONFIG_TOOL_PREFIX) \
+				'$$(SELF_TEST_DEEP_PREFIX)_%:' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_CONDITION_FORMATER) \
+				'if [ -z "$$(shell grep $(SELF_TEST_GREP_FLAGS) $(SELF_TEST_GREP_MATCH_PATTERN) $(DEPENDENCIES_FILE) | tr -d \\\)" ]; then \' \
+				'echo $$* never used; false; \' \
+				'fi' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$(CONFIG_CLEAN_RULE)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LOG_FORMATER) \
+				'echo \' \
+				'$$* >> \' \
+				'$$(SELF_TEST_DEEP_PREFIX).$$(CONFIG_LOG_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LAST_FORMATER) \
+				'$$(SELF_TEST_DEEP_PREFIX)' \
+				$$$(CONFIG_TOOL_PREFIX) \
+				>> \
+				$*; \
+		done
+	printf \
+		$(SELF_TEST_EOF_TOOLS_FORMATER) \
+		>> \
+		$*
 
 include $(SELF_TEST_DEEP_FILE)
 include $(SELF_TEST_APPLICATIONS_DEEP_FILE)
 include $(SELF_TEST_MODULES_DEEP_FILE)
 include $(SELF_TEST_TOOLS_DEEP_FILE)
-
 
 $(SELF_TEST_FULL_FILE): \
 		%: \
@@ -394,6 +570,61 @@ $(SELF_TEST_APPLICATIONS_FULL_FILE): \
 	cp \
 		$(SELF_TEST_DEV_NULL_FILE) \
 		$*
+	printf \
+		$(SELF_TEST_BASE_FORMATER) \
+		'$$(SELF_TEST_APPLICATIONS_FULL_RULE):' \
+		>> \
+		$*
+	for \
+		$(CONFIG_APPLICATION_PREFIX) \
+		in \
+		$(APPLICATIONS_PLATFORMS_LIST); \
+		do \
+			printf \
+				$(SELF_TEST_LOOP_FIRST_FORMATER) \
+				'\' \
+				'$$(SELF_TEST_FULL_PREFIX)' \
+				$$$(CONFIG_APPLICATION_PREFIX) \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_SECOND_FORMATER) \
+				'$$(SELF_TEST_FULL_PREFIX)' \
+				$$$(CONFIG_APPLICATION_PREFIX) \
+				'$$(SELF_TEST_FULL_PREFIX)_%:' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$(CONFIG_CLEAN_RULE)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LOG_FORMATER) \
+				'echo \' \
+				'$$* >> \' \
+				'$$(SELF_TEST_FULL_PREFIX).$$(CONFIG_LOG_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LAST_FORMATER) \
+				'$$(SELF_TEST_FULL_PREFIX)' \
+				$$$(CONFIG_APPLICATION_PREFIX) \
+				>> \
+				$*; \
+		done
+	printf \
+		$(SELF_TEST_EOF_APPLICATIONS_FORMATER) \
+		'$$(SELF_TEST_MODULES_FULL_RULE)' \
+		>> \
+		$*
 
 $(SELF_TEST_MODULES_FULL_FILE): \
 		%: \
@@ -401,12 +632,135 @@ $(SELF_TEST_MODULES_FULL_FILE): \
 	cp \
 		$(SELF_TEST_DEV_NULL_FILE) \
 		$*
+	printf \
+		$(SELF_TEST_BASE_FORMATER) \
+		'$$(SELF_TEST_MODULES_FULL_RULE):' \
+		>> \
+		$*
+	for \
+		$(CONFIG_MODULE_PREFIX) \
+		in \
+		$(MODULES_PLATFORMS_LIST); \
+		do \
+			printf \
+				$(SELF_TEST_LOOP_FIRST_FORMATER) \
+				'\' \
+				'$$(SELF_TEST_FULL_PREFIX)' \
+				$$$(CONFIG_MODULE_PREFIX) \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_SECOND_FORMATER) \
+				'$$(SELF_TEST_FULL_PREFIX)' \
+				$$$(CONFIG_MODULE_PREFIX) \
+				'$$(SELF_TEST_FULL_PREFIX)_%:' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_CONDITION_FORMATER) \
+				'if [ -z "$$(shell grep $(SELF_TEST_GREP_FLAGS) $(SELF_TEST_GREP_MATCH_PATTERN) $(DEPENDENCIES_FILE) | tr -d \\\)" ]; then \' \
+				'echo $$* never used; false; \' \
+				'fi' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$(CONFIG_CLEAN_RULE)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LOG_FORMATER) \
+				'echo \' \
+				'$$* >> \' \
+				'$$(SELF_TEST_FULL_PREFIX).$$(CONFIG_LOG_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LAST_FORMATER) \
+				'$$(SELF_TEST_FULL_PREFIX)' \
+				$$$(CONFIG_MODULE_PREFIX) \
+				>> \
+				$*; \
+		done
+	printf \
+		$(SELF_TEST_EOF_MODULES_FORMATER) \
+		'$$(SELF_TEST_TOOLS_FULL_FILE)' \
+		>> \
+		$*
 
 $(SELF_TEST_TOOLS_FULL_FILE): \
 		%: | \
 		$(DIRS_BS_TEMP_DIR)
 	cp \
 		$(SELF_TEST_DEV_NULL_FILE) \
+		$*
+	printf \
+		$(SELF_TEST_BASE_FORMATER) \
+		'$$(SELF_TEST_TOOLS_FULL_RULE):' \
+		>> \
+		$*
+	for \
+		$(CONFIG_TOOL_PREFIX) \
+		in \
+		$(TOOLS_PLATFORMS_LIST); \
+		do \
+			printf \
+				$(SELF_TEST_LOOP_FIRST_FORMATER) \
+				'\' \
+				'$$(SELF_TEST_FULL_PREFIX)' \
+				$$$(CONFIG_TOOL_PREFIX) \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_SECOND_FORMATER) \
+				'$$(SELF_TEST_FULL_PREFIX)' \
+				$$$(CONFIG_TOOL_PREFIX) \
+				'$$(SELF_TEST_FULL_PREFIX)_%:' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_CONDITION_FORMATER) \
+				'if [ -z "$$(shell grep $(SELF_TEST_GREP_FLAGS) $(SELF_TEST_GREP_MATCH_PATTERN) $(DEPENDENCIES_FILE) | tr -d \\\)" ]; then \' \
+				'echo $$* never used; false; \' \
+				'fi' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$(CONFIG_CLEAN_RULE)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_THIRD_FORMATER) \
+				'make \' \
+				'$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LOG_FORMATER) \
+				'echo \' \
+				'$$* >> \' \
+				'$$(SELF_TEST_FULL_PREFIX).$$(CONFIG_LOG_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_LOOP_LAST_FORMATER) \
+				'$$(SELF_TEST_FULL_PREFIX)' \
+				$$$(CONFIG_TOOL_PREFIX) \
+				>> \
+				$*; \
+		done
+	printf \
+		$(SELF_TEST_EOF_TOOLS_FORMATER) \
+		>> \
 		$*
 
 include $(SELF_TEST_FULL_FILE)
