@@ -50,7 +50,7 @@ SELF_TEST_BASE_FORMATER=		%s
 
 SELF_TEST_EOF_APPLICATIONS_FORMATER=	\ \\\\\\n\\t\\t%s\\n\\n
 SELF_TEST_EOF_MODULES_FORMATER=		\ \\\\\\n\\t\\t%s\\n\\n
-SELF_TEST_RM_LOG_FORMATER=		\\n\\t%s\\n\\t\\t%s\\n\\t\\t%s\\n
+SELF_TEST_DATE_FORMATER=		\\n\\t%s\\n\\t\\t%s\\n\\t\\t%s\\n
 
 SELF_TEST_GREP_MATCH_PATTERN=		\^\\t''\\t$$*
 SELF_TEST_GREP_FLAGS=			-m \
@@ -315,9 +315,9 @@ $(SELF_TEST_TOOLS_FILE): \
 				$*; \
 		done
 	printf \
-		$(SELF_TEST_RM_LOG_FORMATER) \
-		'rm \' \
-		'-f \' \
+		$(SELF_TEST_DATE_FORMATER) \
+		'date \' \
+		'+"%d-%m-%Y %T %Z" > \' \
 		'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
 		>> \
 		$*
