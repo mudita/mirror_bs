@@ -88,7 +88,7 @@ CONFIG_ARGS_EXT=			args
 CONFIG_LIST_EXT=			list
 # TODO: Not sure if needed
 CONFIG_CFG_EXT=				cfg
-CONFIG_LOG_EXT=				log
+CONFIG_CSV_EXT=				csv
 CONFIG_GDB_SCRIPT_EXT=			gdb
 CONFIG_GITREPO_EXT=			gitrepo
 

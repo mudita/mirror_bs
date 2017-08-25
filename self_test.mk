@@ -57,25 +57,28 @@ SELF_TEST_DEV_NULL_FILE=		/dev/null
 
 SELF_TEST_BASE_FORMATER=		%s
 
-SELF_TEST_DEEP_TAB_FORMATER=		\\t\\t%s\\n
+SELF_TEST_DEEP_TAB_FORMATER=		\\t\\t%s
+SELF_TEST_DEEP_TAB_NEW_LINE_FORMATER=	$(SELF_TEST_DEEP_TAB_FORMATER)\\n
 
 SELF_TEST_RULE_FORMATER=		$(SELF_TEST_BASE_FORMATER)_$(SELF_TEST_BASE_FORMATER):
 
 SELF_TEST_LOOP_FIRST_FORMATER=		\ %s\\n\\t\\t%s_%s\\n\\n
-SELF_TEST_LOOP_SECOND_FORMATER=		$(SELF_TEST_RULE_FORMATER)\ \\\\\\n$(SELF_TEST_DEEP_TAB_FORMATER)
+SELF_TEST_LOOP_SECOND_FORMATER=		$(SELF_TEST_RULE_FORMATER)\ \\\\\\n$(SELF_TEST_DEEP_TAB_NEW_LINE_FORMATER)
 
-SELF_TEST_RULE_FIRST_FORMATER=		%s\\n$(SELF_TEST_DEEP_TAB_FORMATER)
+SELF_TEST_RULE_FIRST_FORMATER=		%s\\n$(SELF_TEST_DEEP_TAB_NEW_LINE_FORMATER)
+SELF_TEST_RULE_DEEP_FORMATER=		%s\\n\\t$(SELF_TEST_DEEP_TAB_NEW_LINE_FORMATER)
 
 SELF_TEST_CONDITION_FORMATER=		\\t%s\\n
-SELF_TEST_CONDITION_BODY_FORMATER=	\\t\\t$(SELF_TEST_RULE_FIRST_FORMATER)
-SELF_TEST_CONDITION_MESSAGE=		'echo $$* never used >> \'
+SELF_TEST_CONDITION_BODY_FORMATER=	\\t\\t$(SELF_TEST_RULE_DEEP_FORMATER)
+SELF_TEST_CONDITION_NOT_USED_MESSAGE=	'echo unused >> \'
+SELF_TEST_CONDITION_USED_MESSAGE=	'echo used >> \'
 
 SELF_TEST_MAKE_FORMATER=		\\t$(SELF_TEST_RULE_FIRST_FORMATER)
-SELF_TEST_GENERIC_FORMATER=		\\t$(SELF_TEST_RULE_FIRST_FORMATER)$(SELF_TEST_DEEP_TAB_FORMATER)
+SELF_TEST_GENERIC_NEW_LINE_FORMATER=	\\t$(SELF_TEST_RULE_FIRST_FORMATER)$(SELF_TEST_DEEP_TAB_NEW_LINE_FORMATER)
 
-SELF_TEST_DATE_FORMATER=		\\t$(SELF_TEST_RULE_FIRST_FORMATER)$(SELF_TEST_DEEP_TAB_FORMATER)
+SELF_TEST_DATE_FORMATER=		\\t$(SELF_TEST_RULE_FIRST_FORMATER)$(SELF_TEST_DEEP_TAB_NEW_LINE_FORMATER)
 
-SELF_TEST_EOF_FORMATER=			\ \\\\\\n$(SELF_TEST_DEEP_TAB_FORMATER)\\n
+SELF_TEST_EOF_FORMATER=			\ \\\\\\n$(SELF_TEST_DEEP_TAB_NEW_LINE_FORMATER)\\n
 SELF_TEST_DATE_FORMAT=			'+"%d-%m-%Y,%T,%Z," | tr -d "\n" >> \'
 
 SELF_TEST_GREP_MATCH_PATTERN=		\^\\t''\\t$$*
@@ -133,14 +136,14 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 				$(SELF_TEST_DATE_FORMATER) \
 				'date \' \
 				$(SELF_TEST_DATE_FORMAT) \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 				>> \
 				$*; \
 			printf \
-				$(SELF_TEST_GENERIC_FORMATER) \
+				$(SELF_TEST_GENERIC_NEW_LINE_FORMATER) \
 				'echo \' \
-				'$$* >> \' \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+				'$$*, >> \' \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 				>> \
 				$*; \
 			printf \
@@ -153,14 +156,14 @@ $(SELF_TEST_APPLICATIONS_FILE): \
 				$(SELF_TEST_DATE_FORMATER) \
 				'date \' \
 				$(SELF_TEST_DATE_FORMAT) \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 				>> \
 				$*; \
 			printf \
-				$(SELF_TEST_GENERIC_FORMATER) \
+				$(SELF_TEST_GENERIC_NEW_LINE_FORMATER) \
 				'echo \' \
-				'$$(CONFIG_CLEAN_DEEP_RULE)_$$* >> \' \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+				'$$(CONFIG_CLEAN_DEEP_RULE)_$$*, >> \' \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 				>> \
 				$*; \
 			printf \
@@ -219,14 +222,14 @@ $(SELF_TEST_MODULES_FILE): \
 				$(SELF_TEST_DATE_FORMATER) \
 				'date \' \
 				$(SELF_TEST_DATE_FORMAT) \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 				>> \
 				$*; \
 			printf \
-				$(SELF_TEST_GENERIC_FORMATER) \
-				'echo \' \
-				'$$* >> \' \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+				$(SELF_TEST_GENERIC_NEW_LINE_FORMATER) \
+				'echo -n \' \
+				'$$*, >> \' \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 				>> \
 				$*; \
 			printf \
@@ -236,8 +239,19 @@ $(SELF_TEST_MODULES_FILE): \
 				$*; \
 			printf \
 				$(SELF_TEST_CONDITION_BODY_FORMATER) \
-				$(SELF_TEST_CONDITION_MESSAGE) \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT); \' \
+				$(SELF_TEST_CONDITION_NOT_USED_MESSAGE) \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT); \' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_CONDITION_FORMATER) \
+				'else \' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_CONDITION_BODY_FORMATER) \
+				$(SELF_TEST_CONDITION_USED_MESSAGE) \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT); \' \
 				>> \
 				$*; \
 			printf \
@@ -255,14 +269,14 @@ $(SELF_TEST_MODULES_FILE): \
 				$(SELF_TEST_DATE_FORMATER) \
 				'date \' \
 				$(SELF_TEST_DATE_FORMAT) \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 				>> \
 				$*; \
 			printf \
-				$(SELF_TEST_GENERIC_FORMATER) \
+				$(SELF_TEST_GENERIC_NEW_LINE_FORMATER) \
 				'echo \' \
-				'$$(CONFIG_CLEAN_DEEP_RULE)_$$* >> \' \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+				'$$(CONFIG_CLEAN_DEEP_RULE)_$$*, >> \' \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 				>> \
 				$*; \
 			printf \
@@ -321,14 +335,14 @@ $(SELF_TEST_TOOLS_FILE): \
 				$(SELF_TEST_DATE_FORMATER) \
 				'date \' \
 				$(SELF_TEST_DATE_FORMAT) \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 				>> \
 				$*; \
 			printf \
-				$(SELF_TEST_GENERIC_FORMATER) \
-				'echo \' \
-				'$$* >> \' \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+				$(SELF_TEST_GENERIC_NEW_LINE_FORMATER) \
+				'echo -n \' \
+				'$$*, >> \' \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 				>> \
 				$*; \
 			printf \
@@ -338,8 +352,19 @@ $(SELF_TEST_TOOLS_FILE): \
 				$*; \
 			printf \
 				$(SELF_TEST_CONDITION_BODY_FORMATER) \
-				$(SELF_TEST_CONDITION_MESSAGE) \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT); \' \
+				$(SELF_TEST_CONDITION_NOT_USED_MESSAGE) \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT); \' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_CONDITION_FORMATER) \
+				'else \' \
+				>> \
+				$*; \
+			printf \
+				$(SELF_TEST_CONDITION_BODY_FORMATER) \
+				$(SELF_TEST_CONDITION_USED_MESSAGE) \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT); \' \
 				>> \
 				$*; \
 			printf \
@@ -357,14 +382,14 @@ $(SELF_TEST_TOOLS_FILE): \
 				$(SELF_TEST_DATE_FORMATER) \
 				'date \' \
 				$(SELF_TEST_DATE_FORMAT) \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 				>> \
 				$*; \
 			printf \
-				$(SELF_TEST_GENERIC_FORMATER) \
+				$(SELF_TEST_GENERIC_NEW_LINE_FORMATER) \
 				'echo \' \
-				'$$(CONFIG_CLEAN_DEEP_RULE)_$$* >> \' \
-				'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+				'$$(CONFIG_CLEAN_DEEP_RULE)_$$*, >> \' \
+				'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 				>> \
 				$*; \
 			printf \
@@ -398,24 +423,24 @@ $(SELF_TEST_TOOLS_FILE): \
 		>> \
 		$*; \
 	printf \
-		$(SELF_TEST_GENERIC_FORMATER) \
+		$(SELF_TEST_GENERIC_NEW_LINE_FORMATER) \
 		'cp \' \
 		'/dev/null \' \
-		'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+		'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 		>> \
 		$*
 	printf \
 		$(SELF_TEST_DATE_FORMATER) \
 		'date \' \
 		$(SELF_TEST_DATE_FORMAT) \
-		'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+		'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 		>> \
 		$*
 	printf \
-		$(SELF_TEST_GENERIC_FORMATER) \
+		$(SELF_TEST_GENERIC_NEW_LINE_FORMATER) \
 		'echo \' \
-		'$$(CONFIG_CLEAN_RULE) >> \' \
-		'$$(SELF_TEST_PREFIX).$$(CONFIG_LOG_EXT)' \
+		'$$(CONFIG_CLEAN_RULE), >> \' \
+		'$$(SELF_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
 		>> \
 		$*
 	printf \
