@@ -46,7 +46,7 @@ CONFIG_UNIT_TEST_RUN_RULE=		$(CONFIG_UNIT_TEST_PREFIX)_run
 CONFIG_SANITY_TEST_RULE=		sanity_test
 
 # INFO: Documentation rules.
-CONFIG_DOC_RULE=			document
+CONFIG_DOC_RULE=			doc
 
 # INFO: Sources extensions.
 CONFIG_ASM_SOURCE_FILE_EXT=		S

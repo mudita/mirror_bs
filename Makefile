@@ -1456,10 +1456,26 @@ $(DOC_MOD_STANDARD_LIST): \
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		UNIT_TEST=1 \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_MODULES_DIR)/$* \
+		$(DIRS_APPLICATIONS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(TEMPLATE_MODULE_FILE) \
 		$(CONFIG_DOC_RULE)
@@ -1469,10 +1485,26 @@ $(DOC_MOD_NONSTANDARD_LIST): \
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		UNIT_TEST=1 \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_MODULES_DIR)/$* \
+		$(DIRS_APPLICATIONS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_DOC_RULE)
@@ -1482,10 +1514,26 @@ $(DOC_APP_STANDARD_LIST): \
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		UNIT_TEST=1 \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_APPLICATIONS_DIR)/$* \
+		$(DIRS_APPLICATIONS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(TEMPLATE_APPLICATION_FILE) \
 		$(CONFIG_DOC_RULE)
@@ -1495,10 +1543,26 @@ $(DOC_APP_NONSTANDARD_LIST): \
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		UNIT_TEST=1 \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
-		$(DIRS_APPLICATIONS_DIR)/$* \
+		$(DIRS_APPLICATIONS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
 		-f \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_DOC_RULE)
