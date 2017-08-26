@@ -1,0 +1,481 @@
+ifndef MK_SANITY_TEST_MK
+MK_SANITY_TEST_MK=			TRUE
+
+INCLUDER_MODULES_LIST=			dirs \
+					config \
+					modules \
+					applications
+
+ifndef INCLUDER_PATH
+$(error aosmake package is not installed in your OS!)
+else
+include $(INCLUDER_PATH)
+endif
+
+SANITY_TEST_APPLICATIONS_SUFFIX=		$(CONFIG_APPLICATION_PREFIX)s
+SANITY_TEST_MODULES_SUFFIX=		$(CONFIG_MODULE_PREFIX)s
+SANITY_TEST_TOOLS_SUFFIX=			$(CONFIG_TOOL_PREFIX)s
+
+# INFO: 
+SANITY_TEST_PREFIX=			$(CONFIG_SANITY_TEST_RULE)
+SANITY_TEST_DEEP_PREFIX=			$(CONFIG_SANITY_TEST_DEEP_RULE)
+SANITY_TEST_FULL_PREFIX=			$(CONFIG_SANITY_TEST_FULL_RULE)
+
+# INFO: 
+SANITY_TEST_APPLICATIONS_RULE=		$(SANITY_TEST_PREFIX)_$(SANITY_TEST_APPLICATIONS_SUFFIX)
+SANITY_TEST_APPLICATIONS_DEEP_RULE=	$(SANITY_TEST_DEEP_PREFIX)_$(SANITY_TEST_APPLICATIONS_SUFFIX)
+SANITY_TEST_APPLICATIONS_FULL_RULE=	$(SANITY_TEST_FULL_PREFIX)_$(SANITY_TEST_APPLICATIONS_SUFFIX)
+
+# INFO: 
+SANITY_TEST_MODULES_RULE=			$(SANITY_TEST_PREFIX)_$(SANITY_TEST_MODULES_SUFFIX)
+SANITY_TEST_MODULES_DEEP_RULE=		$(SANITY_TEST_DEEP_PREFIX)_$(SANITY_TEST_MODULES_SUFFIX)
+SANITY_TEST_MODULES_FULL_RULE=		$(SANITY_TEST_FULL_PREFIX)_$(SANITY_TEST_MODULES_SUFFIX)
+
+# INFO: 
+SANITY_TEST_TOOLS_RULE=			$(SANITY_TEST_PREFIX)_$(SANITY_TEST_TOOLS_SUFFIX)
+SANITY_TEST_TOOLS_DEEP_RULE=		$(SANITY_TEST_DEEP_PREFIX)_$(SANITY_TEST_TOOLS_SUFFIX)
+SANITY_TEST_TOOLS_FULL_RULE=		$(SANITY_TEST_FULL_PREFIX)_$(SANITY_TEST_TOOLS_SUFFIX)
+
+# INFO: 
+SANITY_TEST_FILE_NAME=			$(SANITY_TEST_PREFIX).$(CONFIG_BUILD_SYSTEM_SCRIPT_EXT)
+SANITY_TEST_APPLICATIONS_FILE_NAME=	$(SANITY_TEST_APPLICATIONS_RULE).$(CONFIG_BUILD_SYSTEM_SCRIPT_EXT)
+SANITY_TEST_MODULES_FILE_NAME=		$(SANITY_TEST_MODULES_RULE).$(CONFIG_BUILD_SYSTEM_SCRIPT_EXT)
+SANITY_TEST_TOOLS_FILE_NAME=		$(SANITY_TEST_TOOLS_RULE).$(CONFIG_BUILD_SYSTEM_SCRIPT_EXT)
+SANITY_TEST_LOG_FILE_NAME=		$(SANITY_TEST_PREFIX).$(CONFIG_CSV_EXT)
+
+# INFO: 
+SANITY_TEST_FILE=				$(DIRS_BS_TEMP_DIR)/$(SANITY_TEST_FILE_NAME)
+SANITY_TEST_APPLICATIONS_FILE=		$(DIRS_BS_TEMP_DIR)/$(SANITY_TEST_APPLICATIONS_FILE_NAME)
+SANITY_TEST_MODULES_FILE=			$(DIRS_BS_TEMP_DIR)/$(SANITY_TEST_MODULES_FILE_NAME)
+SANITY_TEST_TOOLS_FILE=			$(DIRS_BS_TEMP_DIR)/$(SANITY_TEST_TOOLS_FILE_NAME)
+SANITY_TEST_LOG_FILE=			$(SANITY_TEST_LOG_FILE_NAME)
+
+# INFO: 
+SANITY_TEST_DEV_NULL_FILE=		/dev/null
+
+SANITY_TEST_BASE_FORMATER=		%s
+
+SANITY_TEST_DEEP_TAB_FORMATER=		\\t\\t%s
+SANITY_TEST_DEEP_TAB_NEW_LINE_FORMATER=	$(SANITY_TEST_DEEP_TAB_FORMATER)\\n
+
+SANITY_TEST_RULE_FORMATER=		$(SANITY_TEST_BASE_FORMATER)_$(SANITY_TEST_BASE_FORMATER):
+
+SANITY_TEST_LOOP_FIRST_FORMATER=		\ %s\\n\\t\\t%s_%s\\n\\n
+SANITY_TEST_LOOP_SECOND_FORMATER=		$(SANITY_TEST_RULE_FORMATER)\ \\\\\\n$(SANITY_TEST_DEEP_TAB_NEW_LINE_FORMATER)
+
+SANITY_TEST_RULE_FIRST_FORMATER=		%s\\n$(SANITY_TEST_DEEP_TAB_NEW_LINE_FORMATER)
+SANITY_TEST_RULE_DEEP_FORMATER=		%s\\n\\t$(SANITY_TEST_DEEP_TAB_NEW_LINE_FORMATER)
+
+SANITY_TEST_CONDITION_FORMATER=		\\t%s\\n
+SANITY_TEST_CONDITION_BODY_FORMATER=	\\t\\t$(SANITY_TEST_RULE_DEEP_FORMATER)
+SANITY_TEST_CONDITION_NOT_USED_MESSAGE=	'echo unused >> \'
+SANITY_TEST_CONDITION_USED_MESSAGE=	'echo used >> \'
+
+SANITY_TEST_MAKE_FORMATER=		\\t$(SANITY_TEST_RULE_FIRST_FORMATER)
+SANITY_TEST_GENERIC_NEW_LINE_FORMATER=	\\t$(SANITY_TEST_RULE_FIRST_FORMATER)$(SANITY_TEST_DEEP_TAB_NEW_LINE_FORMATER)
+
+SANITY_TEST_DATE_FORMATER=		\\t$(SANITY_TEST_RULE_FIRST_FORMATER)$(SANITY_TEST_DEEP_TAB_NEW_LINE_FORMATER)
+
+SANITY_TEST_EOF_FORMATER=			\ \\\\\\n$(SANITY_TEST_DEEP_TAB_NEW_LINE_FORMATER)\\n
+SANITY_TEST_DATE_FORMAT=			'+"%d-%m-%Y,%T,%Z," | tr -d "\n" >> \'
+
+SANITY_TEST_GREP_MATCH_PATTERN=		\^\\t''\\t$$*
+SANITY_TEST_GREP_FLAGS=			-m \
+					1 \
+					-P
+
+
+ifneq ($(wildcard $(SANITY_TEST_LOG_FILE)), )
+SANITY_TEST_LOG_FILE_CONTENT_COMMAND=	cat \
+						$(SANITY_TEST_LOG_FILE) | \
+					cut \
+						-d \
+						, \
+						-f \
+						4
+
+SANITY_TEST_LOG_FILE_CONTENT=		$(shell \
+						$(SANITY_TEST_LOG_FILE_CONTENT_COMMAND))
+else
+SANITY_TEST_LOG_FILE_CONTENT=
+endif
+
+SANITY_TEST_APPLICATIONS_LIST=		$(filter-out \
+						$(SANITY_TEST_LOG_FILE_CONTENT), \
+						$(APPLICATIONS_PLATFORMS_LIST))
+
+SANITY_TEST_MODULES_LIST=			$(filter-out \
+						$(SANITY_TEST_LOG_FILE_CONTENT), \
+						$(MODULES_PLATFORMS_LIST))
+
+SANITY_TEST_TOOLS_LIST=			$(filter-out \
+						$(SANITY_TEST_LOG_FILE_CONTENT), \
+						$(TOOLS_PLATFORMS_LIST))
+
+$(SANITY_TEST_FILE): \
+		%: \
+		$(SANITY_TEST_APPLICATIONS_FILE)
+	cp \
+		$(SANITY_TEST_DEV_NULL_FILE) \
+		$*
+	printf \
+		$(SANITY_TEST_RULE_FIRST_FORMATER) \
+		'$$(CONFIG_SANITY_TEST_RULE): \' \
+		'$$(SANITY_TEST_APPLICATIONS_RULE)' \
+		>> \
+		$*
+	echo \
+		>> \
+		$*
+
+$(SANITY_TEST_APPLICATIONS_FILE): \
+		%: \
+		$(SANITY_TEST_MODULES_FILE)
+	cp \
+		$(SANITY_TEST_DEV_NULL_FILE) \
+		$*
+	printf \
+		$(SANITY_TEST_BASE_FORMATER) \
+		'$$(SANITY_TEST_APPLICATIONS_RULE):' \
+		>> \
+		$*
+	for \
+		$(CONFIG_APPLICATION_PREFIX) \
+		in \
+		$(SANITY_TEST_APPLICATIONS_LIST); \
+		do \
+			printf \
+				$(SANITY_TEST_LOOP_FIRST_FORMATER) \
+				'\' \
+				'$$(SANITY_TEST_PREFIX)' \
+				$$$(CONFIG_APPLICATION_PREFIX) \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_LOOP_SECOND_FORMATER) \
+				'$$(SANITY_TEST_PREFIX)' \
+				$$$(CONFIG_APPLICATION_PREFIX) \
+				'$$(SANITY_TEST_PREFIX)_%:' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_MAKE_FORMATER) \
+				'make \' \
+				'$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_DATE_FORMATER) \
+				'date \' \
+				$(SANITY_TEST_DATE_FORMAT) \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_GENERIC_NEW_LINE_FORMATER) \
+				'echo \' \
+				'$$*, >> \' \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_MAKE_FORMATER) \
+				'make \' \
+				'$$(CONFIG_CLEAN_DEEP_RULE)_$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_DATE_FORMATER) \
+				'date \' \
+				$(SANITY_TEST_DATE_FORMAT) \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_GENERIC_NEW_LINE_FORMATER) \
+				'echo \' \
+				'$$(CONFIG_CLEAN_DEEP_RULE)_$$*, >> \' \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+				>> \
+				$*; \
+			echo \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_RULE_FORMATER) \
+				'$$(SANITY_TEST_PREFIX)' \
+				$$$(CONFIG_APPLICATION_PREFIX) \
+				>> \
+				$*; \
+		done
+	printf \
+		$(SANITY_TEST_EOF_FORMATER) \
+		'$$(SANITY_TEST_MODULES_RULE)' \
+		>> \
+		$*
+
+$(SANITY_TEST_MODULES_FILE): \
+		%: \
+		$(SANITY_TEST_TOOLS_FILE)
+	cp \
+		$(SANITY_TEST_DEV_NULL_FILE) \
+		$*
+	printf \
+		$(SANITY_TEST_BASE_FORMATER) \
+		'$$(SANITY_TEST_MODULES_RULE):' \
+		>> \
+		$*
+	for \
+		$(CONFIG_MODULE_PREFIX) \
+		in \
+		$(SANITY_TEST_MODULES_LIST); \
+		do \
+			printf \
+				$(SANITY_TEST_LOOP_FIRST_FORMATER) \
+				'\' \
+				'$$(SANITY_TEST_PREFIX)' \
+				$$$(CONFIG_MODULE_PREFIX) \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_LOOP_SECOND_FORMATER) \
+				'$$(SANITY_TEST_PREFIX)' \
+				$$$(CONFIG_MODULE_PREFIX) \
+				'$$(SANITY_TEST_PREFIX)_%:' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_MAKE_FORMATER) \
+				'make \' \
+				'$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_DATE_FORMATER) \
+				'date \' \
+				$(SANITY_TEST_DATE_FORMAT) \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_GENERIC_NEW_LINE_FORMATER) \
+				'echo -n \' \
+				'$$*, >> \' \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_CONDITION_FORMATER) \
+				'if [ -z "$$(shell grep $(SANITY_TEST_GREP_FLAGS) $(SANITY_TEST_GREP_MATCH_PATTERN) $(DEPENDENCIES_FILE) | tr -d \\\)" ]; then \' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_CONDITION_BODY_FORMATER) \
+				$(SANITY_TEST_CONDITION_NOT_USED_MESSAGE) \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT); \' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_CONDITION_FORMATER) \
+				'else \' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_CONDITION_BODY_FORMATER) \
+				$(SANITY_TEST_CONDITION_USED_MESSAGE) \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT); \' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_CONDITION_FORMATER) \
+				'fi' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_MAKE_FORMATER) \
+				'make \' \
+				'$$(CONFIG_CLEAN_DEEP_RULE)_$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_DATE_FORMATER) \
+				'date \' \
+				$(SANITY_TEST_DATE_FORMAT) \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_GENERIC_NEW_LINE_FORMATER) \
+				'echo \' \
+				'$$(CONFIG_CLEAN_DEEP_RULE)_$$*, >> \' \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+				>> \
+				$*; \
+			echo \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_RULE_FORMATER) \
+				'$$(SANITY_TEST_PREFIX)' \
+				$$$(CONFIG_MODULE_PREFIX) \
+				>> \
+				$*; \
+		done
+	printf \
+		$(SANITY_TEST_EOF_FORMATER) \
+		'$$(SANITY_TEST_TOOLS_RULE)' \
+		>> \
+		$*
+
+$(SANITY_TEST_TOOLS_FILE): \
+		%: | \
+		$(DIRS_BS_TEMP_DIR)
+	cp \
+		$(SANITY_TEST_DEV_NULL_FILE) \
+		$*
+	printf \
+		$(SANITY_TEST_BASE_FORMATER) \
+		'$$(SANITY_TEST_TOOLS_RULE):' \
+		>> \
+		$*
+	for \
+		$(CONFIG_TOOL_PREFIX) \
+		in \
+		$(SANITY_TEST_TOOLS_LIST); \
+		do \
+			printf \
+				$(SANITY_TEST_LOOP_FIRST_FORMATER) \
+				'\' \
+				'$$(SANITY_TEST_PREFIX)' \
+				$$$(CONFIG_TOOL_PREFIX) \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_LOOP_SECOND_FORMATER) \
+				'$$(SANITY_TEST_PREFIX)' \
+				$$$(CONFIG_TOOL_PREFIX) \
+				'$$(SANITY_TEST_PREFIX)_%:' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_MAKE_FORMATER) \
+				'make \' \
+				'$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_DATE_FORMATER) \
+				'date \' \
+				$(SANITY_TEST_DATE_FORMAT) \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_GENERIC_NEW_LINE_FORMATER) \
+				'echo -n \' \
+				'$$*, >> \' \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_CONDITION_FORMATER) \
+				'if [ -z "$$(shell grep $(SANITY_TEST_GREP_FLAGS) $(SANITY_TEST_GREP_MATCH_PATTERN) $(DEPENDENCIES_FILE) | tr -d \\\)" ]; then \' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_CONDITION_BODY_FORMATER) \
+				$(SANITY_TEST_CONDITION_NOT_USED_MESSAGE) \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT); \' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_CONDITION_FORMATER) \
+				'else \' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_CONDITION_BODY_FORMATER) \
+				$(SANITY_TEST_CONDITION_USED_MESSAGE) \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT); \' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_CONDITION_FORMATER) \
+				'fi' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_MAKE_FORMATER) \
+				'make \' \
+				'$$(CONFIG_CLEAN_DEEP_RULE)_$$*' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_DATE_FORMATER) \
+				'date \' \
+				$(SANITY_TEST_DATE_FORMAT) \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_GENERIC_NEW_LINE_FORMATER) \
+				'echo \' \
+				'$$(CONFIG_CLEAN_DEEP_RULE)_$$*, >> \' \
+				'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+				>> \
+				$*; \
+			echo \
+				>> \
+				$*; \
+			printf \
+				$(SANITY_TEST_RULE_FORMATER) \
+				'$$(SANITY_TEST_PREFIX)' \
+				$$$(CONFIG_TOOL_PREFIX) \
+				>> \
+				$*; \
+		done
+	printf \
+		$(SANITY_TEST_LOOP_FIRST_FORMATER) \
+		'\' \
+		'$$(SANITY_TEST_PREFIX)' \
+		init \
+		>> \
+		$*
+	printf \
+		$(SANITY_TEST_LOOP_SECOND_FORMATER) \
+		'$$(SANITY_TEST_PREFIX)' \
+		init \
+		'$$(SANITY_TEST_PREFIX)_%:' \
+		>> \
+		$*
+	printf \
+		$(SANITY_TEST_MAKE_FORMATER) \
+		'make \' \
+		'$$(CONFIG_CLEAN_RULE)' \
+		>> \
+		$*
+	printf \
+		$(SANITY_TEST_DATE_FORMATER) \
+		'date \' \
+		$(SANITY_TEST_DATE_FORMAT) \
+		'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+		>> \
+		$*
+	printf \
+		$(SANITY_TEST_GENERIC_NEW_LINE_FORMATER) \
+		'echo \' \
+		'$$(CONFIG_CLEAN_RULE), >> \' \
+		'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+		>> \
+		$*
+	echo \
+		>> \
+		$*
+
+include $(SANITY_TEST_FILE)
+include $(SANITY_TEST_APPLICATIONS_FILE)
+include $(SANITY_TEST_MODULES_FILE)
+include $(SANITY_TEST_TOOLS_FILE)
+
+endif
+

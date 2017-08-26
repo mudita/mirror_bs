@@ -15,7 +15,7 @@ INCLUDER_MODULES_LIST=		clean \
 				dependencies \
 				cgdb \
 				templates \
-				self_test \
+				sanity_test \
 				launcher \
 				locale \
 				doc \
