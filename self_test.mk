@@ -414,14 +414,14 @@ $(SELF_TEST_TOOLS_FILE): \
 		'$$(SELF_TEST_PREFIX)' \
 		init \
 		>> \
-		$*; \
+		$*
 	printf \
 		$(SELF_TEST_LOOP_SECOND_FORMATER) \
 		'$$(SELF_TEST_PREFIX)' \
 		init \
 		'$$(SELF_TEST_PREFIX)_%:' \
 		>> \
-		$*; \
+		$*
 	printf \
 		$(SELF_TEST_GENERIC_NEW_LINE_FORMATER) \
 		'cp \' \
