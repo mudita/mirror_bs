@@ -4,7 +4,8 @@ MK_COVERAGE_MK=			TRUE
 INCLUDER_MODULES_LIST=		config \
 				dirs \
 				signature \
-				sources/c
+				sources/c \
+				sources/cpp
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -22,21 +23,10 @@ COVERAGE_C_LIST=		$(patsubst \
 					$(COVERAGE_PLATFORM_DIR)/%.$(CONFIG_GCOV_FILE_EXT), \
 					$(SOURCES_C_LIST))
 
-
-#COVERAGE_H_LIST_COMMAND=	find \
-#					$(DIRS_SOURCES_DIR) \
-#					-type \
-#					f | \
-#					grep \
-#						"\.$(CONFIG_H_HEADER_FILE_EXT)$$" | \
-#					sort
-
-#ifneq ($(wildcard $(DIRS_SOURCES_DIR)), )
-#COVERAGE_H_LIST=		$(shell \
-					$(COVERAGE_H_LIST_COMMAND))
-#else
-#COVERAGE_H_LIST=
-#endif
+COVERAGE_CPP_LIST=		$(patsubst \
+					$(DIRS_SOURCES_DIR)/%, \
+					$(COVERAGE_PLATFORM_DIR)/%.$(CONFIG_GCOV_FILE_EXT), \
+					$(SOURCES_CPP_LIST))
 
 endif
 
