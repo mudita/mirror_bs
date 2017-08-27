@@ -1,11 +1,6 @@
 ifndef MK_LINKER_MK
 MK_LINKER_MK=			TRUE
 
-#INCLUDER_MODULES_LIST=		install \
-#				platform \
-#				config \
-#				unit_test
-
 INCLUDER_MODULES_LIST=		config \
 				platform \
 				dirs
