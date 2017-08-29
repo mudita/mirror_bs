@@ -461,26 +461,26 @@ $(SANITY_TEST_TOOLS_FILE): \
 		'$$(SANITY_TEST_PREFIX)_%:' \
 		>> \
 		$*
-#	printf \
-#		$(SANITY_TEST_MAKE_FORMATER) \
-#		'make \' \
-#		'$$(CONFIG_CLEAN_RULE)' \
-#		>> \
-#		$*
-#	printf \
-#		$(SANITY_TEST_DATE_FORMATER) \
-#		'date \' \
-#		$(SANITY_TEST_DATE_FORMAT) \
-#		'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
-#		>> \
-#		$*
-#	printf \
-#		$(SANITY_TEST_GENERIC_NEW_LINE_FORMATER) \
-#		'echo \' \
-#		'$$(CONFIG_CLEAN_RULE), >> \' \
-#		'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
-#		>> \
-#		$*
+	printf \
+		$(SANITY_TEST_MAKE_FORMATER) \
+		'make \' \
+		'$$(CONFIG_CLEAN_RULE)' \
+		>> \
+		$*
+	printf \
+		$(SANITY_TEST_DATE_FORMATER) \
+		'date \' \
+		$(SANITY_TEST_DATE_FORMAT) \
+		'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+		>> \
+		$*
+	printf \
+		$(SANITY_TEST_GENERIC_NEW_LINE_FORMATER) \
+		'echo \' \
+		'$$(CONFIG_CLEAN_RULE), >> \' \
+		'$$(SANITY_TEST_PREFIX).$$(CONFIG_CSV_EXT)' \
+		>> \
+		$*
 	echo \
 		>> \
 		$*
