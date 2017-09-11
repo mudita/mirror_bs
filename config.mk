@@ -1,5 +1,5 @@
 ifndef MK_CONFIG_MK
-MK_CONFIG_MK=			TRUE
+MK_CONFIG_MK=				TRUE
 
 # INFO: Prefixes.
 CONFIG_MODULE_PREFIX=			module
