@@ -23,55 +23,11 @@ INCLUDER_MODULES_LIST=		clean \
 				format
 
 ##############################################################################
-# TODO: Solve it in more clever way (if possible).
 # INFO: Bootstrap code.
 ##############################################################################
-PLATFORM_C_COMPILER=		gcc
-PLATFORM_HOST_ARCHITECTURE=	host
 
-SIGNATURE_VERSION_SWITCH=	-dumpversion
-SIGNATURE_ARCHITECTURE_SWITCH=	-dumpmachine
-
-SIGNATURE_VERSION_COMMAND=	$(PLATFORM_C_COMPILER) \
-					$(SIGNATURE_VERSION_SWITCH)
-
-SIGNATURE_ARCHITECTURE_COMMAND=	$(PLATFORM_C_COMPILER) \
-					$(SIGNATURE_ARCHITECTURE_SWITCH)
-
-SIGNATURE_COMPILER_VERSION=	$(shell \
-					$(SIGNATURE_VERSION_COMMAND))
-
-SIGNATURE_TARGET_ARCHITECTURE=	$(shell \
-					$(SIGNATURE_ARCHITECTURE_COMMAND))
-
-SIGNATURE_SUFFIX=		$(PLATFORM_C_COMPILER)_$(SIGNATURE_COMPILER_VERSION)_$(SIGNATURE_TARGET_ARCHITECTURE)
-
-TOOLS_DIRECTORY=		$(realpath .)/tools
-APPLICATIONS_DIRECTORY=		$(realpath .)/applications
-
-MODBUILD_NAME=			modbuild
-
-MODBUILD_DIRECTORY=		$(TOOLS_DIRECTORY)/$(MODBUILD_NAME)
-
-MODBUILD_BINARY_PATH=		$(MODBUILD_DIRECTORY)/install/$(PLATFORM_HOST_ARCHITECTURE)/$(MODBUILD_NAME)
-
-MODBUILD_CHECK_BINARY=		$(wildcard \
-					$(MODBUILD_BINARY_PATH))
-
-ifneq ($(MODBUILD_CHECK_BINARY), )
-INCLUDER_PATH=			$(MODBUILD_DIRECTORY)/install/$(PLATFORM_HOST_ARCHITECTURE)/bs/includer.mk
-INCLUDER_BINARY_PATH=		$(MODBUILD_BINARY_PATH)
-else
-$(warning ------> WARNING - SLOW VERSION OF THE BUILD SYSTEM <------)
-$(warning To speed up the build system, first run:)
-$(warning make module_check-$(PLATFORM_HOST_ARCHITECTURE))
-$(warning make module_utils_functions-$(PLATFORM_HOST_ARCHITECTURE))
-$(warning make tool_$(MODBUILD_NAME)-$(PLATFORM_HOST_ARCHITECTURE))
-$(warning make tool_smart_deps-$(PLATFORM_HOST_ARCHITECTURE))
-$(warning ------> WARNING - SLOW VERSION OF THE BUILD SYSTEM <------)
-
-INCLUDER_PATH=			$(MODBUILD_DIRECTORY)/bs/bootstrap_includer.mk
-endif
+INCLUDER_PATH=			/usr/share/modbuild/bs/includer.mk
+INCLUDER_BINARY_PATH=		/usr/bin/modbuild
 
 include $(INCLUDER_PATH)
 ##############################################################################
