@@ -187,10 +187,14 @@ $(CONFIG_DOC_RULE): \
 $(FORMAT_SOURCES_C_LIST): \
 		$(DIRS_SOURCES_DIR)/%.$(FORMAT_SOURCE_C_EXT_SUFFIX): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT)
+ifneq ("$(wildcard ./$(FORMAT_DNF_FILE))","")
+	@echo Formatting switched off by file !
+else
 	$(FORMAT_COMMAND) \
 		$(FORMAT_FLAGS) \
 		$< > \
 		$@
+endif
 
 $(INSTALL_OTHER_FILE_LIST): \
 		$(INSTALL_PLATFORM_DIR)/%: \
@@ -686,4 +690,3 @@ $(DIRS_AUX_DIR): \
 	mkdir \
 		-p \
 		$*
-
