@@ -20,7 +20,8 @@ INCLUDER_MODULES_LIST=		clean \
 				locale \
 				doc \
 				unit_test \
-				format
+				format \
+				doxygen
 
 ##############################################################################
 # INFO: Bootstrap code.
@@ -1536,3 +1537,54 @@ $(DIRS_BS_TEMP_DIR):
 		-p \
 		$@
 
+$(DOXYGEN_MOD_STANDARD_LIST): \
+		$(DOXYGEN_MOD_PREFIX)_%:
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_MODULES_DIR)/$* \
+		-f \
+		$(TEMPLATE_MODULE_FILE) \
+		$(CONFIG_DOXYGEN_RULE)
+
+$(DOXYGEN_MOD_NONSTANDARD_LIST): \
+	$(DOXYGEN_MOD_PREFIX)_%:
+	make \
+                INCLUDER_PATH=$(INCLUDER_PATH) \
+                INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+                $(LAUNCHER_VARIABLES) \
+                $(FLAGS_MAKE_LIST) \
+                -C \
+                $(DIRS_MODULES_DIR)/$* \
+                -f \
+                $(CONFIG_MAKEFILE_FILE_NAME) \
+                $(CONFIG_DOXYGEN_RULE)
+
+$(DOXYGEN_APP_STANDARD_LIST): \
+		$(DOXYGEN_APP_PREFIX)_%:
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_APPLICATIONS_DIR)/$* \
+		-f \
+		$(TEMPLATE_APPLICATION_FILE) \
+		$(CONFIG_DOXYGEN_RULE)
+
+$(DOXYGEN_APP_NONSTANDARD_LIST): \
+		$(DOXYGEN_APP_PREFIX)_%:
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_APPLICATIONS_DIR)/$* \
+		-f \
+		$(CONFIG_MAKEFILE_FILE_NAME) \
+		$(CONFIG_DOXYGEN_RULE)
