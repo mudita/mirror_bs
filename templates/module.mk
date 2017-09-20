@@ -81,10 +81,14 @@ $(CONFIG_DOC_RULE): \
 $(FORMAT_SOURCES_C_LIST): \
 		$(DIRS_SOURCES_DIR)/%.$(FORMAT_SOURCE_C_EXT_SUFFIX): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT)
+ifneq ("$(wildcard ./$(FORMAT_DNF_FILE))","")
+	@echo Formatting switched off by file !
+else
 	$(FORMAT_COMMAND) \
 		$(FORMAT_FLAGS) \
 		$< > \
 		$@
+endif
 
 $(INSTALL_MODULE_LIB_FILE): \
 		$(OBJECTS_ASM_LIST) \
@@ -120,7 +124,6 @@ $(INSTALL_APPLICATION_TEST_ELF_FILE): \
 #		-o \
 #		$@ \
 #		$(FLAGS_LINKER)
-
 
 #		-Map \
 #		$(DIRS_MAP_DIR)/$*.$(CONFIG_MAP_EXT) \
@@ -577,4 +580,3 @@ $(DIRS_AUX_DIR): \
 	mkdir \
 		-p \
 		$*
-
