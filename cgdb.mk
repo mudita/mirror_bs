@@ -49,5 +49,18 @@ CGDB_FLAGS=			-d \
 				-ex \
 				$(CGDB_GDB_COMMAND) \
 
-endif
+CGDB_FLAGS_HARD=         -d \
+                $(PLATFORM_GDB) \
+                -x \
+                $(DIRS_GDB_DIR)/$(PLATFORM)_hard.$(CONFIG_GDB_SCRIPT_EXT) \
+#                -ex \
+#                $(CGDB_GDB_COMMAND) \
 
+CGDB_FLAGS_HARD_AUTO=         -d \
+                $(PLATFORM_GDB) \
+                -x \
+                $(DIRS_GDB_DIR)/$(PLATFORM)_hard_auto.$(CONFIG_GDB_SCRIPT_EXT) \
+#                -ex \
+#                $(CGDB_GDB_COMMAND) \
+
+endif
