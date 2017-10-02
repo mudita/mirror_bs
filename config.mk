@@ -13,6 +13,7 @@ CONFIG_UNIT_TEST_PREFIX=		unit_test
 # INFO:
 CONFIG_GDB_HOST=			localhost
 CONFIG_GDB_PORT=			9000
+CONFIG_RUN_HARDWARE_SWITCH= run_hardware
 
 # INFO: Downolad repository via git
 CONFIG_GITREPO_BRANCH_DEFAULT=		master
