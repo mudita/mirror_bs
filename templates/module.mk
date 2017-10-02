@@ -89,6 +89,9 @@ else
 		$(FORMAT_FLAGS) \
 		$< > \
 		$@
+	mv \
+		$@ \
+		$<
 endif
 
 # run doxygen command

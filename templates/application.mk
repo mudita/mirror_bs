@@ -193,8 +193,10 @@ ifneq ("$(wildcard ./$(FORMAT_DNF_FILE))","")
 else
 	$(FORMAT_COMMAND) \
 		$(FORMAT_FLAGS) \
-		$< > \
-		$@
+		$<
+	mv \
+		$@ \
+		$<
 endif
 
 # run doxygen command
