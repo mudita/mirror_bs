@@ -11,6 +11,9 @@ else
 include $(INCLUDER_PATH)
 endif
 
+# TODO: Should be implemented some mechanism, to watch if only h are in
+#       transfer header file and only c is in transfer source file.
+
 TRANSFER_PREFIX=			transfer
 
 TRANSFER_SRC_FILE_NAME=			$(TRANSFER_PREFIX)_$(DIRS_SOURCES_DIR).$(CONFIG_LIST_EXT)
