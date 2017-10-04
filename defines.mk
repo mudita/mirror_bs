@@ -20,7 +20,7 @@ DEFINES_PREFIX=			-D
 # TODO: Add defines from files with metaprograming ability (makefile variables
 #       enabled in defines file). Currently compiler version cannot be
 #       generated or taken from build system script.
-DEFINES_DEFAULT_LIST=		
+DEFINES_DEFAULT_LIST=		PLATFORM=$(PLATFORM)
 
 ifeq ($(UNIT_TEST), 1)
 DEFINES_DEFAULT_LIST+=		UNIT_TEST_ENTRY_POINT=$(UNIT_TEST_ENTRY_POINT)
