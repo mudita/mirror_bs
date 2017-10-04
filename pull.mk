@@ -9,6 +9,13 @@ else
 include $(INCLUDER_PATH)
 endif
 
+PULL_REMOTE_NAME_DEFAULT=	origin
+PULL_REMOTE_NAME=		external
+
+# INFO: Read more about merge strategies: https://git-scm.com/docs/merge-strategies
+PULL_STRATEGY_OURS=		ours
+PULL_STRATEGY_THEIRS=		theirs
+
 PULL_BRANCH_DEFAULT=		$(CONFIG_GITREPO_BRANCH_DEFAULT)
 
 PULL_GITREPO_EXISTENCE=		$(wildcard \

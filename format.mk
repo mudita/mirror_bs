@@ -21,7 +21,6 @@ FORMAT_APP_STANDARD_LIST=		$(patsubst \
 						$(FORMAT_APP_PREFIX)_%, \
 						$(APPLICATIONS_STANDARD_LIST))
 
-
 FORMAT_APP_NONSTANDARD_LIST=		$(patsubst \
 						$(CONFIG_APPLICATION_PREFIX)_%, \
 						$(FORMAT_APP_PREFIX)_%, \
@@ -31,7 +30,6 @@ FORMAT_MOD_STANDARD_LIST=		$(patsubst \
 						$(CONFIG_MODULE_PREFIX)_%, \
 						$(FORMAT_MOD_PREFIX)_%, \
 						$(MODULES_STANDARD_LIST))
-
 
 FORMAT_MOD_NONSTANDARD_LIST=		$(patsubst \
 						$(CONFIG_MODULE_PREFIX)_%, \
@@ -59,5 +57,7 @@ FORMAT_FLAGS=				-c \
 					$(FORMAT_CONFIGURATION_FILE) \
 					-f
 
-endif
+# don't format switch
+FORMAT_DNF_FILE=			dont_format_this
 
+endif

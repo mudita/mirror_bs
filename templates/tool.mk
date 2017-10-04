@@ -18,7 +18,8 @@ INCLUDER_MODULES_LIST=		clean \
 				exec \
 				wd \
 				doc \
-				templates
+				templates \
+				doxygen
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -312,3 +313,28 @@ $(DIRS_AUX_DIR): \
 		-p \
 		$*
 
+# run doxygen command
+
+$(CONFIG_DOXYGEN_RULE): \
+
+# copy template doxygen.cfg to app/module source directory
+# and substitute default configuration with proper app/mod values
+
+ifeq ("$(wildcard $(DOXYGEN_CONFIGURATION_FILE_NAME))","")
+	cp \
+		$(DOXYGEN_CONFIGURATION_FILE) ./
+
+	sed \
+		-i \
+		's/doxy_project/$(NAME)/g' \
+		$(DOXYGEN_CONFIGURATION_FILE_NAME)
+
+	sed \
+		-i \
+		's/doxy_dir/$(DOXYGEN_DOC_DIR)/g' \
+		$(DOXYGEN_CONFIGURATION_FILE_NAME)
+
+endif
+
+	$(DOXYGEN_COMMAND) \
+		$(DOXYGEN_CONFIGURATION_FILE_NAME)

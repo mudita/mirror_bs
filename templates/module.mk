@@ -23,7 +23,8 @@ INCLUDER_MODULES_LIST=		clean \
 				unit_test_objects \
 				debug \
 				format \
-				signature
+				signature \
+				doxygen
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -81,10 +82,39 @@ $(CONFIG_DOC_RULE): \
 $(FORMAT_SOURCES_C_LIST): \
 		$(DIRS_SOURCES_DIR)/%.$(FORMAT_SOURCE_C_EXT_SUFFIX): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT)
+ifneq ("$(wildcard ./$(FORMAT_DNF_FILE))","")
+	@echo Formatting switched off by file !
+else
 	$(FORMAT_COMMAND) \
 		$(FORMAT_FLAGS) \
 		$< > \
 		$@
+endif
+
+# run doxygen command
+$(CONFIG_DOXYGEN_RULE): \
+
+# copy template doxygen.cfg to app/module source directory
+# and substitute default configuration with proper app/mod values
+
+ifeq ("$(wildcard $(DOXYGEN_CONFIGURATION_FILE_NAME))","")
+	cp \
+		$(DOXYGEN_CONFIGURATION_FILE) ./
+
+	sed \
+		-i \
+		's/doxy_project/$(NAME)/g' \
+		$(DOXYGEN_CONFIGURATION_FILE_NAME)
+
+	sed \
+	-i \
+		's/doxy_dir/$(DOXYGEN_DOC_DIR)/g' \
+		$(DOXYGEN_CONFIGURATION_FILE_NAME)
+
+endif
+
+	$(DOXYGEN_COMMAND) \
+		$(DOXYGEN_CONFIGURATION_FILE_NAME)
 
 $(INSTALL_MODULE_LIB_FILE): \
 		$(OBJECTS_ASM_LIST) \
@@ -120,7 +150,6 @@ $(INSTALL_APPLICATION_TEST_ELF_FILE): \
 #		-o \
 #		$@ \
 #		$(FLAGS_LINKER)
-
 
 #		-Map \
 #		$(DIRS_MAP_DIR)/$*.$(CONFIG_MAP_EXT) \
@@ -577,4 +606,3 @@ $(DIRS_AUX_DIR): \
 	mkdir \
 		-p \
 		$*
-
