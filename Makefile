@@ -21,7 +21,8 @@ INCLUDER_MODULES_LIST=		clean \
 				doc \
 				unit_test \
 				format \
-				doxygen
+				doxygen \
+				nspawn
 
 ##############################################################################
 # INFO: Bootstrap code.
@@ -1551,7 +1552,7 @@ $(DOXYGEN_MOD_STANDARD_LIST): \
 		$(CONFIG_DOXYGEN_RULE)
 
 $(DOXYGEN_MOD_NONSTANDARD_LIST): \
-	$(DOXYGEN_MOD_PREFIX)_%:
+		$(DOXYGEN_MOD_PREFIX)_%:
 	make \
                 INCLUDER_PATH=$(INCLUDER_PATH) \
                 INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
@@ -1588,3 +1589,15 @@ $(DOXYGEN_APP_NONSTANDARD_LIST): \
 		-f \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_DOXYGEN_RULE)
+
+# INFO: 
+$(NSPAWN_SANITY_TEST_RULE): \
+		$(NSPAWN_PREFIX)_%: \
+		$(CONFIG_APPLICATION_PREFIX)_archiso-$(PLATFORM_HOST_ARCHITECTURE)
+	sudo \
+		$(NSPAWN_BIN) \
+		-D \
+		$(DIRS_APPLICATIONS_DIR)/archiso/$(DIRS_PULL_DIR)/work/build_machine/airootfs \
+		echo \
+			"abc"
+

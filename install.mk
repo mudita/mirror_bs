@@ -54,7 +54,9 @@ INSTALL_STATIC_IGNORE_LIST=	$(DIRS_INSTALL_DIR) \
 				$(DIRS_CTAGS_DIR) \
 				$(DIRS_UNIT_TEST_DIR) \
 				$(DIRS_PACMAN_DIR) \
-				$(DOC_DEFAULT_HTML_LIST)
+				$(DOC_DEFAULT_HTML_LIST) \
+				$(CONFIG_PULL_FILE_NAME) \
+				$(CONFIG_PUSH_FILE_NAME)
 
 ##############################################################################
 
