@@ -1600,4 +1600,16 @@ $(NSPAWN_SANITY_TEST_RULE): \
 		$(DIRS_APPLICATIONS_DIR)/archiso/$(DIRS_PULL_DIR)/work/build_machine/airootfs \
 		echo \
 			$*
+	sudo \
+		systemctl \
+		start \
+		systemd-nspawn@build_machine.service
+	sudo \
+		systemctl \
+		status \
+		systemd-nspawn@build_machine.service
+	sudo \
+		systemctl \
+		stop \
+		systemd-nspawn@build_machine.service
 
