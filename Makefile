@@ -1599,5 +1599,5 @@ $(NSPAWN_SANITY_TEST_RULE): \
 		-D \
 		$(DIRS_APPLICATIONS_DIR)/archiso/$(DIRS_PULL_DIR)/work/build_machine/airootfs \
 		echo \
-			"abc"
+			$*
 
