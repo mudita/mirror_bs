@@ -26,5 +26,10 @@ PACMAN_PACK_LIST_COMMAND=	ls \
 PACMAN_PACK_LIST=		$(shell \
 					$(PACMAN_PACK_LIST_COMMAND))
 
+PACMAN_SHA256SUM_LIST_COMMAND=	sha256sum \
+					$(PACMAN_PLATFORM_DIR)/$* | \
+				cut \
+					-c-64
+
 endif
 
