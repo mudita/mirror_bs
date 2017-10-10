@@ -26,10 +26,19 @@ PACMAN_PACK_LIST_COMMAND=	ls \
 PACMAN_PACK_LIST=		$(shell \
 					$(PACMAN_PACK_LIST_COMMAND))
 
-PACMAN_SHA256SUM_LIST_COMMAND=	sha256sum \
+PACMAN_SUMS_LIST_COMMAND=	sha256sum \
 					$(PACMAN_PLATFORM_DIR)/$* | \
 				cut \
 					-c-64
+
+PACMAN_SUMS_SED_PATTERN=	\"s\|\%%SHA256SUMS\%%\|%s\|g\"\ -i\ $(PACMAN_PKGBUILD_FILE)
+
+PACMAN_GENERATE_SUMS_COMMAND=	$(PACMAN_SUMS_LIST_COMMAND) | \
+					xargs \
+					printf \
+					$(PACMAN_SUMS_SED_PATTERN) | \
+					xargs \
+					sed
 
 endif
 
