@@ -6,7 +6,6 @@ INCLUDER_MODULES_LIST=			config \
 					modules \
 					tools \
 					platform \
-					ignore \
 					doc
 
 ifndef INCLUDER_PATH
@@ -37,14 +36,9 @@ CLEAN_MODULES_PLATFORMS_NONSTANDARD_LIST=	$(addprefix \
 							$(CLEAN_PREFIX)_, \
 							$(MODULES_PLATFORMS_NONSTANDARD_LIST))
 
-# INFO: Avoid bootstrap tools to be removed.
-CLEAN_TOOLS_STANDARD_MODIFIED_LIST=	$(filter-out \
-						$(IGNORE_TOOLS_LIST), \
-						$(TOOLS_PLATFORMS_STANDARD_LIST))
-
 CLEAN_TOOLS_PLATFORMS_STANDARD_LIST=	$(addprefix \
 						$(CLEAN_PREFIX)_, \
-						$(CLEAN_TOOLS_STANDARD_MODIFIED_LIST))
+						$(TOOLS_PLATFORMS_STANDARD_LIST))
 
 CLEAN_TOOLS_PLATFORMS_NONSTANDARD_LIST=	$(addprefix \
 						$(CLEAN_PREFIX)_, \

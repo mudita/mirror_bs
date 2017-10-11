@@ -3,8 +3,7 @@ MK_TOOLS_MK=					TRUE
 
 INCLUDER_MODULES_LIST=				dirs \
 						config \
-						relative \
-						ignore
+						relative
 
 ifndef INCLUDER_PATH
 $(error aosmake package is not installed in your OS!)
@@ -117,13 +116,9 @@ TOOLS_PLATFORMS_STANDARD_LIST=			$(foreach \
 TOOLS_PLATFORMS_UNSORTED_LIST=			$(TOOLS_PLATFORMS_STANDARD_LIST) \
 						$(TOOLS_PLATFORMS_NONSTANDARD_LIST)
 
-TOOLS_PLATFORMS_REDUCED_LIST=			$(filter-out \
-							$(IGNORE_TOOLS_LIST), \
-							$(TOOLS_PLATFORMS_UNSORTED_LIST))
-
 # INFO: All avaiable with platform suffix (rule list, sorted).
 TOOLS_PLATFORMS_LIST=				$(sort \
-							$(TOOLS_PLATFORMS_REDUCED_LIST))
+							$(TOOLS_PLATFORMS_UNSORTED_LIST))
 
 endif
 
