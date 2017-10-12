@@ -22,7 +22,8 @@ INCLUDER_MODULES_LIST=		clean \
 				unit_test \
 				format \
 				doxygen \
-				nspawn
+				nspawn \
+				non_standard
 
 ##############################################################################
 # INFO: Bootstrap code.
@@ -1589,6 +1590,15 @@ $(DOXYGEN_APP_NONSTANDARD_LIST): \
 		-f \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_DOXYGEN_RULE)
+
+# INFO: Forces to run every time.
+.PHONY: \
+		$(CONFIG_NON_STANDARD_FILE_NAME)
+
+# INFO: 
+$(CONFIG_NON_STANDARD_FILE_NAME):
+		$(NON_STANDARD_FIND_LIST_COMMAND) > \
+		$@
 
 # INFO: 
 $(NSPAWN_SANITY_TEST_RULE): \
