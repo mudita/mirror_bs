@@ -46,6 +46,9 @@ CONFIG_UNIT_TEST_RUN_RULE=		$(CONFIG_UNIT_TEST_PREFIX)_run
 # INFO: Sanity test rules.
 CONFIG_SANITY_TEST_RULE=		sanity_test
 
+# INFO: Auto sync rules.
+CONFIG_AUTO_SYNC_RULE=			auto_sync
+
 # INFO: Documentation rules.
 CONFIG_DOC_RULE=			doc
 
