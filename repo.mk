@@ -1,7 +1,9 @@
-ifndef MK_DOWNLOAD_MK
-MK_DOWNLOAD_MK=				TRUE
+ifndef MK_REPO_MK
+MK_REPO_MK=				TRUE
 
-INCLUDER_MODULES_LIST=			dirs
+INCLUDER_MODULES_LIST=			dirs \
+					repo/external \
+					repo/internal \
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -16,9 +18,9 @@ endif
 
 # TODO: Remove - download dir should be the same for pull and push.
 ifeq ($(AUTO_SYNC), 1)
-DOWNLOAD_DIR=				$(DIRS_PUSH_DIR)
+REPO_DIR=				$(DIRS_PUSH_DIR)
 else
-DOWNLOAD_DIR=				$(DIRS_PULL_DIR)
+REPO_DIR=				$(DIRS_PULL_DIR)
 endif
 
 endif
