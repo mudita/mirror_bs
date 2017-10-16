@@ -4,9 +4,7 @@ MK_REBUILD_MK=				TRUE
 INCLUDER_MODULES_LIST=			config \
 					applications \
 					modules \
-					tools \
-					platform \
-					doc
+					tools
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
