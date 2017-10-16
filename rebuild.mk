@@ -1,0 +1,36 @@
+ifndef MK_REBUILD_MK
+MK_REBUILD_MK=				TRUE
+
+INCLUDER_MODULES_LIST=			config \
+					applications \
+					modules \
+					tools \
+					platform \
+					doc
+
+ifndef INCLUDER_PATH
+$(error tool modbuild is not installed in your build system!)
+else
+include $(INCLUDER_PATH)
+endif
+
+REBUILD_PREFIX=				$(CONFIG_REBUILD_RULE)
+
+REBUILD_APPLICATION_PREFIX=		$(REBUILD_PREFIX)_$(CONFIG_APPLICATION_PREFIX)
+REBUILD_MODULE_PREFIX=			$(REBUILD_PREFIX)_$(CONFIG_MODULE_PREFIX)
+REBUILD_TOOL_PREFIX=			$(REBUILD_PREFIX)_$(CONFIG_TOOL_PREFIX)
+
+REBUILD_APPLICATIONS_PLATFORMS_LIST=	$(addprefix \
+						$(REBUILD_PREFIX)_, \
+						$(APPLICATIONS_PLATFORMS_LIST))
+
+REBUILD_MODULES_PLATFORMS_LIST=		$(addprefix \
+						$(REBUILD_PREFIX)_, \
+						$(MODULES_PLATFORMS_LIST))
+
+REBUILD_TOOLS_PLATFORMS_LIST=		$(addprefix \
+						$(REBUILD_PREFIX)_, \
+						$(TOOLS_PLATFORMS_LIST))
+
+endif
+

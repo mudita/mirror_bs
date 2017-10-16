@@ -1,6 +1,7 @@
 INCLUDER_MODULES_LIST=		clean \
 				clean_full \
 				clean_deep \
+				rebuild \
 				dirs \
 				flags_make \
 				config \
@@ -800,6 +801,24 @@ $(CLEAN_FULL_APPLICATIONS_PLATFORMS_STANDARD_LIST): \
 		-f \
 		$(TEMPLATE_APPLICATION_FILE) \
 		$(CONFIG_CLEAN_FULL_RULE)
+
+# TODO: These veriables cannot be passed here! Try solve it like in launcher.
+$(REBUILD_TOOLS_PLATFORMS_LIST): \
+		$(REBUILD_TOOL_PREFIX)_%: \
+		$(CLEAN_TOOL_PREFIX)_% \
+		$(CONFIG_TOOL_PREFIX)_%
+
+# TODO: These veriables cannot be passed here! Try solve it like in launcher.
+$(REBUILD_MODULES_PLATFORMS_LIST): \
+		$(REBUILD_MODULE_PREFIX)_%: \
+		$(CLEAN_MODULE_PREFIX)_% \
+		$(CONFIG_MODULE_PREFIX)_%
+
+# TODO: These veriables cannot be passed here! Try solve it like in launcher.
+$(REBUILD_APPLICATIONS_PLATFORMS_LIST): \
+		$(REBUILD_APPLICATION_PREFIX)_%: \
+		$(CLEAN_APPLICATION_PREFIX)_% \
+		$(CONFIG_APPLICATION_PREFIX)_%
 
 $(CLEAN_PREFIX)_$(DIRS_BS_TEMP_DIR): \
 		$(CLEAN_PREFIX)_%:
