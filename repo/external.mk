@@ -9,7 +9,6 @@ else
 include $(INCLUDER_PATH)
 endif
 
-REPO_EXTERNAL_REMOTE_NAME_DEFAULT=	origin
 REPO_EXTERNAL_REMOTE_NAME=		external
 
 # INFO: Read more about merge strategies: https://git-scm.com/docs/merge-strategies
