@@ -1606,11 +1606,13 @@ $(CONFIG_EMPTY_DIRS_FILE_NAME):
 		$@
 
 # TODO: Libwebsockets should be passed via variable.
+# TODO: If possible, remove variable AUTO_SYNC
 $(CONFIG_AUTO_SYNC_RULE):
 	make \
 		INCLUDER_PATH=$(INCLUDER_PATH) \
 		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
 		PLATFORM=$(PLATFORM_HOST_ARCHITECTURE) \
+		AUTO_SYNC=1 \
 		$(LAUNCHER_VARIABLES) \
 		$(FLAGS_MAKE_LIST) \
 		-C \
