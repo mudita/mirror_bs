@@ -23,7 +23,8 @@ INCLUDER_MODULES_LIST=		clean \
 				format \
 				doxygen \
 				nspawn \
-				non_standard
+				non_standard \
+				empty_dirs
 
 ##############################################################################
 # INFO: Bootstrap code.
@@ -1598,6 +1599,10 @@ $(DOXYGEN_APP_NONSTANDARD_LIST): \
 # INFO: 
 $(CONFIG_NON_STANDARD_FILE_NAME):
 		$(NON_STANDARD_FIND_LIST_COMMAND) > \
+		$@
+
+$(CONFIG_EMPTY_DIRS_FILE_NAME):
+		$(EMPTY_DIRS_FIND_LIST_COMMAND) > \
 		$@
 
 # INFO: 
