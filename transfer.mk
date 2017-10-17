@@ -11,9 +11,6 @@ else
 include $(INCLUDER_PATH)
 endif
 
-# TODO: Should be implemented some mechanism, to watch if only h are in
-#       transfer header file and only c is in transfer source file.
-
 TRANSFER_PREFIX=			transfer
 
 TRANSFER_ITERATOR=			file_to_transfer
@@ -43,35 +40,36 @@ TRANSFER_CONDITION_COMMAND=		if [ ! -e $(REPO_DIR)/$$$(TRANSFER_ITERATOR) ]; the
 						exit 1; \
 					fi
 
-TRANSFER_MKDIR_SRC_COMMAND=		dirname \
-						$$$(TRANSFER_ITERATOR) | \
-					$(TRANSFER_SRC_SED_COMMAND) | \
-					xargs \
+TRANSFER_MKDIR_COMMAND=			xargs \
 						mkdir \
 						-p
 
-TRANSFER_MKDIR_INC_COMMAND=		dirname \
-						$$$(TRANSFER_ITERATOR) | \
+TRANSFER_DIRNAME_COMMAND=		dirname \
+						$$$(TRANSFER_ITERATOR)
+
+TRANSFER_MKDIR_SRC_COMMAND=		$(TRANSFER_DIRNAME_COMMAND) | \
+					$(TRANSFER_SRC_SED_COMMAND) | \
+					$(TRANSFER_MKDIR_COMMAND)
+
+TRANSFER_MKDIR_INC_COMMAND=		$(TRANSFER_DIRNAME_COMMAND) | \
 					$(TRANSFER_INCLUDES_SED_COMMAND) | \
-					xargs \
-						mkdir \
-						-p
+					$(TRANSFER_MKDIR_COMMAND)
 
-TRANSFER_CP_SRC_COMMAND=		echo \
-						$$$(TRANSFER_ITERATOR) | \
-					$(TRANSFER_SRC_SED_COMMAND) | \
-					xargs \
+TRANSFER_ECHO_COMMAND=			echo \
+						$$$(TRANSFER_ITERATOR)
+
+TRANSFER_CP_COMMAND=			xargs \
 						cp \
 						-f \
 						$(REPO_DIR)/$$$(TRANSFER_ITERATOR)
 
-TRANSFER_CP_INC_COMMAND=		echo \
-						$$$(TRANSFER_ITERATOR) | \
+TRANSFER_CP_SRC_COMMAND=		$(TRANSFER_ECHO_COMMAND) | \
+					$(TRANSFER_SRC_SED_COMMAND) | \
+					$(TRANSFER_CP_COMMAND)
+
+TRANSFER_CP_INC_COMMAND=		$(TRANSFER_ECHO_COMMAND) | \
 					$(TRANSFER_INCLUDES_SED_COMMAND) | \
-					xargs \
-						cp \
-						-f \
-						$(REPO_DIR)/$$$(TRANSFER_ITERATOR)
+					$(TRANSFER_CP_COMMAND)
 
 TRANSFER_LOOP_BODY_SRC_COMMAND=		while read $(TRANSFER_ITERATOR); do \
 						$(TRANSFER_CONDITION_COMMAND); \
