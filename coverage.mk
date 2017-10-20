@@ -23,10 +23,5 @@ COVERAGE_C_LIST=		$(patsubst \
 					$(COVERAGE_PLATFORM_DIR)/%.$(CONFIG_GCOV_FILE_EXT), \
 					$(SOURCES_C_LIST))
 
-COVERAGE_CPP_LIST=		$(patsubst \
-					$(DIRS_SOURCES_DIR)/%, \
-					$(COVERAGE_PLATFORM_DIR)/%.$(CONFIG_GCOV_FILE_EXT), \
-					$(SOURCES_CPP_LIST))
-
 endif
 
