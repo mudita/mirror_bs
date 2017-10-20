@@ -17,6 +17,7 @@ endif
 LIBS_DIRS_PREFIX=		-L
 LIBS_PREFIX=			-l
 
+# TODO: This code is present in includes.mk, libs.mk and coverage.mk - merge it!
 LIBS_DEPENDENCIES_EXISTENCE=	$(wildcard \
 					$(CONFIG_MODULE_DEP_FILE_NAME))
 

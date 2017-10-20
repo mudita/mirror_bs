@@ -2,10 +2,9 @@ ifndef MK_COVERAGE_MK
 MK_COVERAGE_MK=			TRUE
 
 INCLUDER_MODULES_LIST=		config \
+				name \
 				dirs \
-				signature \
-				sources/c \
-				sources/cpp
+				sources/c
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -22,6 +21,35 @@ COVERAGE_C_LIST=		$(patsubst \
 					$(DIRS_SOURCES_DIR)/%, \
 					$(COVERAGE_PLATFORM_DIR)/%.$(CONFIG_GCOV_FILE_EXT), \
 					$(SOURCES_C_LIST))
+
+# TODO: This code is present in includes.mk, libs.mk and coverage.mk - merge it!
+COVERAGE_DEPENDENCIES_EXISTENCE=	$(wildcard \
+					$(CONFIG_MODULE_DEP_FILE_NAME))
+
+ifneq ($(COVERAGE_DEPENDENCIES_EXISTENCE), )
+COVERAGE_DEPENDENCIES_COMMAND=	cat \
+					$(CONFIG_MODULE_DEP_FILE_NAME)
+
+COVERAGE_MODULES_LIST=		$(shell \
+					$(COVERAGE_DEPENDENCIES_COMMAND))
+else
+COVERAGE_MODULES_LIST=
+endif
+
+# TODO: Put into platform directory
+COVERAGE_APPLICATION_PREFIX=	$(DIRS_COVERAGE_DIR)/$(CONFIG_APPLICATION_PREFIX)
+COVERAGE_MODULE_PREFIX=		$(DIRS_COVERAGE_DIR)/$(CONFIG_MODULE_PREFIX)
+
+COVERAGE_APPLICATION_FILE=	$(COVERAGE_APPLICATION_PREFIX)_$(NAME).$(CONFIG_LCOV_FILE_EXT)
+
+COVERAGE_MODULE_FILE_LIST=	$(patsubst \
+					%, \
+					$(COVERAGE_MODULE_PREFIX)_%.$(CONFIG_LCOV_FILE_EXT), \
+					$(COVERAGE_MODULES_LIST))
+
+#$(info COVERAGE_APPLICATION_FILE: $(COVERAGE_APPLICATION_FILE))
+#$(info COVERAGE_MODULE_FILE_LIST: $(COVERAGE_MODULE_FILE_LIST))
+#$(error END OF EXECUTION)
 
 endif
 
