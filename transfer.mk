@@ -60,7 +60,7 @@ TRANSFER_ECHO_COMMAND=			echo \
 
 TRANSFER_CP_COMMAND=			xargs \
 						cp \
-						-f \
+						-u \
 						$(REPO_DIR)/$$$(TRANSFER_ITERATOR)
 
 TRANSFER_CP_SRC_COMMAND=		$(TRANSFER_ECHO_COMMAND) | \
