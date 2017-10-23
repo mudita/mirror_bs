@@ -11,6 +11,10 @@ else
 include $(INCLUDER_PATH)
 endif
 
+# INFO: Read more about merge strategies: https://git-scm.com/docs/merge-strategies
+REPO_STRATEGY_OURS=			ours
+REPO_STRATEGY_THEIRS=			theirs
+
 # TODO: Default platform should not be assumed!
 ifndef AUTO_SYNC
 AUTO_SYNC=				0

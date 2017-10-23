@@ -12,10 +12,6 @@ endif
 REPO_EXTERNAL_REMOTE_NAME_DEFAULT=	origin
 REPO_EXTERNAL_REMOTE_NAME=		external
 
-# INFO: Read more about merge strategies: https://git-scm.com/docs/merge-strategies
-REPO_EXTERNAL_STRATEGY_OURS=		ours
-REPO_EXTERNAL_STRATEGY_THEIRS=		theirs
-
 REPO_EXTERNAL_BRANCH_DEFAULT=		$(CONFIG_GITREPO_BRANCH_DEFAULT)
 
 REPO_EXTERNAL_GITREPO_EXISTENCE=	$(wildcard \
