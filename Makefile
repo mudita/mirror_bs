@@ -27,7 +27,8 @@ INCLUDER_MODULES_LIST=		clean \
 				doxygen \
 				nspawn \
 				non_standard \
-				empty_dirs
+				empty_dirs \
+				auto_sync
 
 ##############################################################################
 # INFO: Bootstrap code.
@@ -1640,6 +1641,194 @@ $(DOXYGEN_APP_NONSTANDARD_LIST): \
 		$(CONFIG_MAKEFILE_FILE_NAME) \
 		$(CONFIG_DOXYGEN_RULE)
 
+# TODO: If possible, remove variable AUTO_SYNC
+$(AUTO_SYNC_APPLICATIONS_PLATFORMS_STANDARD_LIST): \
+		$(AUTO_SYNC_APPLICATION_PREFIX)_%:
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
+		AUTO_SYNC=1 \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_APPLICATIONS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
+		-f \
+		$(TEMPLATE_APPLICATION_FILE) \
+		$(CONFIG_AUTO_SYNC_RULE)
+
+# TODO: If possible, remove variable AUTO_SYNC
+$(AUTO_SYNC_APPLICATIONS_PLATFORMS_NONSTANDARD_LIST): \
+		$(AUTO_SYNC_APPLICATION_PREFIX)_%:
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
+		AUTO_SYNC=1 \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_APPLICATIONS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
+		-f \
+		$(CONFIG_MAKEFILE_FILE_NAME) \
+		$(CONFIG_AUTO_SYNC_RULE)
+
+# TODO: If possible, remove variable AUTO_SYNC
+$(AUTO_SYNC_MODULES_PLATFORMS_STANDARD_LIST): \
+		$(AUTO_SYNC_MODULE_PREFIX)_%:
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
+		AUTO_SYNC=1 \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_MODULES_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
+		-f \
+		$(TEMPLATE_MODULE_FILE) \
+		$(CONFIG_AUTO_SYNC_RULE)
+
+# TODO: If possible, remove variable AUTO_SYNC
+$(AUTO_SYNC_MODULES_PLATFORMS_NONSTANDARD_LIST): \
+		$(AUTO_SYNC_MODULE_PREFIX)_%:
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
+		AUTO_SYNC=1 \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_MODULES_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
+		-f \
+		$(CONFIG_MAKEFILE_FILE_NAME) \
+		$(CONFIG_AUTO_SYNC_RULE)
+
+# TODO: If possible, remove variable AUTO_SYNC
+$(AUTO_SYNC_TOOLS_PLATFORMS_STANDARD_LIST): \
+		$(AUTO_SYNC_TOOL_PREFIX)_%:
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
+		AUTO_SYNC=1 \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_TOOLS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
+		-f \
+		$(TEMPLATE_TOOL_FILE) \
+		$(CONFIG_AUTO_SYNC_RULE)
+
+# TODO: If possible, remove variable AUTO_SYNC
+$(AUTO_SYNC_TOOLS_PLATFORMS_NONSTANDARD_LIST): \
+		$(AUTO_SYNC_TOOL_PREFIX)_%:
+	make \
+		INCLUDER_PATH=$(INCLUDER_PATH) \
+		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
+		PLATFORM=$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			2) \
+		AUTO_SYNC=1 \
+		$(LAUNCHER_VARIABLES) \
+		$(FLAGS_MAKE_LIST) \
+		-C \
+		$(DIRS_TOOLS_DIR)/$(shell \
+			echo \
+			$* | \
+			cut \
+			-d \
+			$(PLATFORM_SEPARATOR) \
+			-f \
+			1) \
+		-f \
+		$(CONFIG_MAKEFILE_FILE_NAME) \
+		$(CONFIG_AUTO_SYNC_RULE)
+
+$(CONFIG_AUTO_SYNC_RULE): \
+		$(AUTO_SYNC_APPLICATIONS_PLATFORMS_STANDARD_LIST) \
+		$(AUTO_SYNC_APPLICATIONS_PLATFORMS_NONSTANDARD_LIST) \
+		$(AUTO_SYNC_MODULES_PLATFORMS_STANDARD_LIST) \
+		$(AUTO_SYNC_MODULES_PLATFORMS_NONSTANDARD_LIST) \
+		$(AUTO_SYNC_TOOLS_PLATFORMS_STANDARD_LIST) \
+		$(AUTO_SYNC_TOOLS_PLATFORMS_NONSTANDARD_LIST)
+
 # INFO: Forces to run every time.
 .PHONY: \
 		$(CONFIG_NON_STANDARD_FILE_NAME)
@@ -1652,33 +1841,6 @@ $(CONFIG_NON_STANDARD_FILE_NAME):
 $(CONFIG_EMPTY_DIRS_FILE_NAME):
 		$(EMPTY_DIRS_FIND_LIST_COMMAND) > \
 		$@
-
-# TODO: Libwebsockets should be passed via variable.
-# TODO: If possible, remove variable AUTO_SYNC
-$(CONFIG_AUTO_SYNC_RULE):
-	make \
-		INCLUDER_PATH=$(INCLUDER_PATH) \
-		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
-		PLATFORM=$(PLATFORM_HOST_ARCHITECTURE) \
-		AUTO_SYNC=1 \
-		$(LAUNCHER_VARIABLES) \
-		$(FLAGS_MAKE_LIST) \
-		-C \
-		$(DIRS_MODULES_DIR)/libwebsockets \
-		-f \
-		$(CONFIG_MAKEFILE_FILE_NAME) \
-		$(CONFIG_AUTO_SYNC_RULE)
-	make \
-		INCLUDER_PATH=$(INCLUDER_PATH) \
-		INCLUDER_BINARY_PATH=$(INCLUDER_BINARY_PATH) \
-		PLATFORM=$(PLATFORM_HOST_ARCHITECTURE) \
-		AUTO_SYNC=1 \
-		$(LAUNCHER_VARIABLES) \
-		$(FLAGS_MAKE_LIST) \
-		-C \
-		$(DIRS_TOOLS_DIR)/qemu_gnuarmeclipse \
-		$(CONFIG_MAKEFILE_FILE_NAME) \
-		$(CONFIG_ALL_RULE)
 
 # INFO: 
 # TODO: Archiso should be passed via variable.
