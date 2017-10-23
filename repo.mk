@@ -11,6 +11,8 @@ else
 include $(INCLUDER_PATH)
 endif
 
+REPO_REMOTE_NAME_DEFAULT=		origin
+
 # INFO: Read more about merge strategies: https://git-scm.com/docs/merge-strategies
 REPO_STRATEGY_OURS=			ours
 REPO_STRATEGY_THEIRS=			theirs
