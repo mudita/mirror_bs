@@ -192,7 +192,7 @@ PLATFORM_SPECS_LIST=		-mcpu=cortex-a9 \
 				-march=armv7-a
 
 PLATFORM_QEMU=			qemu-system-arm
-PLATFORM_MACHINE=		vexpress-a9
+PLATFORM_MACHINE=		sabrelite
 
 PLATFORM_CPU=			cortex-a9
 
