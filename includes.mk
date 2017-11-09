@@ -12,6 +12,7 @@ endif
 
 INCLUDES_DIRS_PREFIX=		-I
 
+# INFO: Add ONLY if there is any header file direct in this directory.
 INCLUDES_OWN_DIR=		$(wildcard \
 					$(DIRS_INCLUDE_DIR))
 
@@ -95,14 +96,7 @@ endif
 INCLUDES_ALL_LIST=		$(INCLUDES_OWN_DIR) \
 				$(INCLUDES_EXISTING) \
 				$(INCLUDES_EXISTING_CONTENT) \
-				$(INCLUDES_LOCAL_LIST)				
-
-#$(warning ------------------------------------------------------------------)
-#$(warning NAME: $(NAME))
-#$(warning ------------------------------------------------------------------)
-#$(warning INCLUDES_EXISTING_LOCAL: $(INCLUDES_EXISTING_LOCAL))
-#$(warning INCLUDES_EXISTING_CONTENT: $(INCLUDES_EXISTING_CONTENT))
-#$(warning ------------------------------------------------------------------)
+				$(INCLUDES_LOCAL_LIST)
 
 INCLUDES_LIST+=			$(addprefix \
 					$(INCLUDES_DIRS_PREFIX) , \
