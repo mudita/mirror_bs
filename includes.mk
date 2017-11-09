@@ -10,9 +10,11 @@ else
 include $(INCLUDER_PATH)
 endif
 
+# TODO: Clean this build system module and make it more ordered.
+
 INCLUDES_DIRS_PREFIX=		-I
 
-# INFO: Add ONLY if there is any header file direct in this directory.
+# TODO: Add ONLY if there is any header file direct in this directory.
 INCLUDES_OWN_DIR=		$(wildcard \
 					$(DIRS_INCLUDE_DIR))
 
@@ -30,9 +32,16 @@ INCLUDES_CHECK=			$(wildcard \
 INCLUDES_CHECK_LOCAL=		$(wildcard \
 					$(INCLUDES_RELATIVE_INCLUDES_FILE))
 
+# TODO: Change name of this variable.
+INCLUDES_LOCAL_CONTENT_COMMAND_REAL=	cat \
+						$(INCLUDES_RELATIVE_INCLUDES_FILE) | \
+					grep \
+						-v \
+						^\/
+
 INCLUDES_LOCAL_CONTENT_COMMAND=	$(if \
 					$(INCLUDES_CHECK_LOCAL), \
-					cat $(INCLUDES_CHECK_LOCAL), \
+					$(INCLUDES_LOCAL_CONTENT_COMMAND_REAL), \
 					true)
 
 INCLUDES_LOCAL_CONTENT=		$(shell \
