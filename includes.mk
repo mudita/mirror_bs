@@ -94,14 +94,15 @@ endif
 # TODO: Add INCLUDES_EXISTING_LOCAL to this list
 INCLUDES_ALL_LIST=		$(INCLUDES_OWN_DIR) \
 				$(INCLUDES_EXISTING) \
+				$(INCLUDES_EXISTING_CONTENT) \
 				$(INCLUDES_LOCAL_LIST)				
 
-$(warning ------------------------------------------------------------------)
-$(warning NAME: $(NAME))
-$(warning ------------------------------------------------------------------)
-$(warning INCLUDES_EXISTING_LOCAL: $(INCLUDES_EXISTING_LOCAL))
-$(warning INCLUDES_EXISTING_CONTENT: $(INCLUDES_EXISTING_CONTENT))
-$(warning ------------------------------------------------------------------)
+#$(warning ------------------------------------------------------------------)
+#$(warning NAME: $(NAME))
+#$(warning ------------------------------------------------------------------)
+#$(warning INCLUDES_EXISTING_LOCAL: $(INCLUDES_EXISTING_LOCAL))
+#$(warning INCLUDES_EXISTING_CONTENT: $(INCLUDES_EXISTING_CONTENT))
+#$(warning ------------------------------------------------------------------)
 
 INCLUDES_LIST+=			$(addprefix \
 					$(INCLUDES_DIRS_PREFIX) , \
