@@ -44,10 +44,10 @@ CGDB_GDB_COMMAND=		target\ \
 
 CGDB_FLAGS=			-d \
 				$(PLATFORM_GDB) \
-				-x \
-				$(DIRS_GDB_DIR)/$(PLATFORM).$(CONFIG_GDB_SCRIPT_EXT) \
 				-ex \
 				$(CGDB_GDB_COMMAND) \
+				-x \
+				$(DIRS_GDB_DIR)/$(PLATFORM).$(CONFIG_GDB_SCRIPT_EXT)
 
 CGDB_FLAGS_HARD=         -d \
                 $(PLATFORM_GDB) \
