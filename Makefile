@@ -28,6 +28,7 @@ INCLUDER_MODULES_LIST=		clean \
 				nspawn \
 				non_standard \
 				empty_dirs \
+				incorrect_includes \
 				auto_sync
 
 ##############################################################################
@@ -1840,6 +1841,10 @@ $(CONFIG_NON_STANDARD_FILE_NAME):
 
 $(CONFIG_EMPTY_DIRS_FILE_NAME):
 		$(EMPTY_DIRS_FIND_LIST_COMMAND) > \
+		$@
+
+$(CONFIG_INCORRECT_INCLUDES_FILE_NAME):
+		$(INCORRECT_INCLUDES_FIND_LIST_COMMAND) > \
 		$@
 
 # INFO: 
