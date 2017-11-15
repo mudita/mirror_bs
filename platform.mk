@@ -239,9 +239,10 @@ PLATFORM_CPU=			cortex-a9
 # INFO: Working for application cortex_a9
 PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
 				$(PLATFORM_DEFINES_LIST) \
-				-mword-relocations \
-				-mfloat-abi=hard \
-				-mfpu=neon
+				-mword-relocations
+
+#				-mfloat-abi=hard \
+#				-mfpu=neon
 endif
 
 # INFO:
