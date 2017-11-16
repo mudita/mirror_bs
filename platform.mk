@@ -134,11 +134,13 @@ PLATFORM_IMPERS_LIST=		-fno-strict-aliasing \
 				-fno-builtin-printf \
 				-finput-charset=UTF-8
 
+# TODO: If not needed, remove it.
+#DUSE_HAL_DRIVER
+
 PLATFORM_LINKER_LIST=		-Wl,--gc-sections \
 				-Os \
 				-DSTM32L476xx \
-				-DUSED_PROCESSOR_L4 \
-				-DUSE_HAL_DRIVER=1
+				-DUSED_PROCESSOR_L4
 
 PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
 				$(PLATFORM_DEFINES_LIST) \
@@ -166,13 +168,15 @@ PLATFORM_SPECS_LIST=		-mcpu=cortex-m4 \
 				-mfloat-abi=soft \
 				-mthumb
 
+# TODO: If not needed, remove it.
+#DUSE_HAL_DRIVER
+
 PLATFORM_DEFINES_LIST=		-DDEBUG \
 				-DUSE_FULL_ASSERT \
 				-DOS_USE_SEMIHOSTING \
 				-DTRACE \
 				-DOS_USE_TRACE_SEMIHOSTING_DEBUG \
 				-DSTM32F407xx \
-				-DUSE_HAL_DRIVER \
 				-DHSE_VALUE=8000000
 
 PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
@@ -197,13 +201,15 @@ PLATFORM_SPECS_LIST=		-mcpu=cortex-m4 \
 				-mfloat-abi=soft \
 				-mthumb
 
+# TODO: If not needed, remove it.
+#DUSE_HAL_DRIVER
+
 PLATFORM_DEFINES_LIST=		-DDEBUG \
 				-DUSE_FULL_ASSERT \
 				-DOS_USE_SEMIHOSTING \
 				-DTRACE \
 				-DOS_USE_TRACE_SEMIHOSTING_DEBUG \
 				-DSTM32F407xx \
-				-DUSE_HAL_DRIVER \
 				-DHSE_VALUE=8000000
 
 CGDB_GDB_COMMAND=
