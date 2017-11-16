@@ -263,7 +263,9 @@ PLATFORM_C_COMPILER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_C_COMPILER)
 PLATFORM_CPP_COMPILER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_C_COMPILER)
 
 PLATFORM_SPECS_LIST=		-mcpu=cortex-a9 \
-				-march=armv7-a
+				-march=armv7-a \
+				-mfloat-abi=hard \
+				-mfpu=neon
 
 PLATFORM_QEMU=			qemu-system-arm
 PLATFORM_MACHINE=		sabrelite
