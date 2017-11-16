@@ -4,7 +4,8 @@ MK_COVERAGE_MK=			TRUE
 INCLUDER_MODULES_LIST=		config \
 				name \
 				dirs \
-				sources/c
+				sources/c \
+				platform
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -44,19 +45,36 @@ COVERAGE_GCDA_C_LIST=		$(patsubst \
 					$(COVERAGE_OBJECT_PLATFORM_DIR)/%_for_test_$(SIGNATURE_C_GCDA_SUFFIX), \
 					$(OBJECTS_C_FOR_TEST_LIST))
 
+##############################################################################
+# INFO: Dependency mechanism.
+##############################################################################
 # TODO: This code is present in includes.mk, libs.mk and coverage.mk - merge it!
+COVERAGE_DEP_GENERIC_FILE_NAME=		$(CONFIG_MODULE_DEP_FILE_NAME)
+COVERAGE_DEP_PLATFORM_FILE_NAME=	$(CONFIG_MODULE_PREFIX)s_$(PLATFORM).$(CONFIG_DEP_EXT)
+
 COVERAGE_DEPENDENCIES_EXISTENCE=	$(wildcard \
-					$(CONFIG_MODULE_DEP_FILE_NAME))
+						$(COVERAGE_DEP_GENERIC_FILE_NAME))
+
+COVERAGE_DEPENDENCIES_PLAT_EXISTENCE=	$(wildcard \
+						$(COVERAGE_DEP_PLATFORM_FILE_NAME))
 
 ifneq ($(COVERAGE_DEPENDENCIES_EXISTENCE), )
 COVERAGE_DEPENDENCIES_COMMAND=	cat \
-					$(CONFIG_MODULE_DEP_FILE_NAME)
+					$(COVERAGE_DEP_GENERIC_FILE_NAME)
+
+COVERAGE_MODULES_LIST=		$(shell \
+					$(COVERAGE_DEPENDENCIES_COMMAND))
+else ifneq ($(COVERAGE_DEPENDENCIES_PLAT_EXISTENCE), )
+COVERAGE_DEPENDENCIES_COMMAND=	cat \
+					$(COVERAGE_DEP_PLATFORM_FILE_NAME)
 
 COVERAGE_MODULES_LIST=		$(shell \
 					$(COVERAGE_DEPENDENCIES_COMMAND))
 else
 COVERAGE_MODULES_LIST=
 endif
+
+##############################################################################
 
 ###########################################################################################
 

@@ -17,19 +17,36 @@ endif
 LIBS_DIRS_PREFIX=		-L
 LIBS_PREFIX=			-l
 
+##############################################################################
+# INFO: Dependency mechanism.
+##############################################################################
 # TODO: This code is present in includes.mk, libs.mk and coverage.mk - merge it!
+LIBS_DEP_GENERIC_FILE_NAME=	$(CONFIG_MODULE_DEP_FILE_NAME)
+LIBS_DEP_PLATFORM_FILE_NAME=	$(CONFIG_MODULE_PREFIX)s_$(PLATFORM).$(CONFIG_DEP_EXT)
+
 LIBS_DEPENDENCIES_EXISTENCE=	$(wildcard \
-					$(CONFIG_MODULE_DEP_FILE_NAME))
+					$(LIBS_DEP_GENERIC_FILE_NAME))
+
+LIBS_DEPENDENCIES_PLAT_EXISTENCE=	$(wildcard \
+						$(LIBS_DEP_PLATFORM_FILE_NAME))
 
 ifneq ($(LIBS_DEPENDENCIES_EXISTENCE), )
 LIBS_DEPENDENCIES_COMMAND=	cat \
-					$(CONFIG_MODULE_DEP_FILE_NAME)
+					$(LIBS_DEP_GENERIC_FILE_NAME)
+
+LIBS_MODULES_LIST=		$(shell \
+					$(LIBS_DEPENDENCIES_COMMAND))
+else ifneq ($(LIBS_DEPENDENCIES_PLAT_EXISTENCE), )
+LIBS_DEPENDENCIES_COMMAND=	cat \
+					$(LIBS_DEP_PLATFORM_FILE_NAME)
 
 LIBS_MODULES_LIST=		$(shell \
 					$(LIBS_DEPENDENCIES_COMMAND))
 else
 LIBS_MODULES_LIST=
 endif
+
+##############################################################################
 
 ifeq ($(MODE_MEMORY_LEAK_DETECTOR), MODULE_MEMORY_MTRACE)
 LIBS_CONDITIONAL_MODULES=	memory_mtrace

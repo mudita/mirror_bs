@@ -2,7 +2,9 @@ ifndef MK_INCLUDES_MK
 MK_INCLUDES_MK=			TRUE
 
 INCLUDER_MODULES_LIST=		dirs \
-				modules
+				modules \
+				platform \
+				relative
 				
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -52,20 +54,35 @@ INCLUDES_LOCAL_CONTENT_2=	$(addprefix \
 					$(INCLUDES_LOCAL_CONTENT))
 
 ##############################################################################
-
+# INFO: Dependency mechanism.
+##############################################################################
 # TODO: This code is present in includes.mk, libs.mk and coverage.mk - merge it!
+INCLUDES_DEP_GENERIC_FILE_NAME=		$(CONFIG_MODULE_DEP_FILE_NAME)
+INCLUDES_DEP_PLATFORM_FILE_NAME=	$(CONFIG_MODULE_PREFIX)s_$(PLATFORM).$(CONFIG_DEP_EXT)
+
 INCLUDES_DEPENDENCIES_EXISTENCE=	$(wildcard \
-						$(CONFIG_MODULE_DEP_FILE_NAME))
+						$(INCLUDES_DEP_GENERIC_FILE_NAME))
+
+INCLUDES_DEPENDENCIES_PLAT_EXISTENCE=	$(wildcard \
+						$(INCLUDES_DEP_PLATFORM_FILE_NAME))
 
 ifneq ($(INCLUDES_DEPENDENCIES_EXISTENCE), )
 INCLUDES_DEPENDENCIES_COMMAND=	cat \
-					$(CONFIG_MODULE_DEP_FILE_NAME)
+					$(INCLUDES_DEP_GENERIC_FILE_NAME)
+
+INCLUDES_MODULES_LIST=		$(shell \
+					$(INCLUDES_DEPENDENCIES_COMMAND))
+else ifneq ($(INCLUDES_DEPENDENCIES_PLAT_EXISTENCE), )
+INCLUDES_DEPENDENCIES_COMMAND=	cat \
+					$(INCLUDES_DEP_PLATFORM_FILE_NAME)
 
 INCLUDES_MODULES_LIST=		$(shell \
 					$(INCLUDES_DEPENDENCIES_COMMAND))
 else
 INCLUDES_MODULES_LIST=
 endif
+
+##############################################################################
 
 INCLUDES_EXISTING=		$(foreach \
 					$(CONFIG_MODULE_PREFIX), \
