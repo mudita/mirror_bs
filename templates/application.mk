@@ -4,6 +4,7 @@ INCLUDER_MODULES_LIST=		clean \
 				dirs \
 				objects \
 				sources \
+				coverage \
 				flags_compiler \
 				includes \
 				defines \
@@ -12,6 +13,7 @@ INCLUDER_MODULES_LIST=		clean \
 				platform \
 				deps \
 				libs \
+				linker \
 				flags_linker \
 				externals \
 				mode \
@@ -177,7 +179,51 @@ $(CONFIG_FORMAT_RULE): \
 		$(FORMAT_SOURCES_C_LIST)
 
 $(CONFIG_DOC_RULE): \
-		$(DOC_DEFAULT_HTML_LIST)
+		$(DOC_DEFAULT_HTML_LIST) \
+		$(COVERAGE_GCOV_C_LIST) \
+		$(DIRS_COVERAGE_DIR)/index.$(CONFIG_HTML_FILE_EXT)
+
+$(DIRS_COVERAGE_DIR)/index.$(CONFIG_HTML_FILE_EXT): \
+		$(COVERAGE_APPLICATION_FILE) \
+		$(COVERAGE_MODULE_FILE_LIST)
+	genhtml \
+		$^ \
+		--legend \
+		-t \
+		$(NAME) \
+		-o \
+		$(COVERAGE_HTML_PLATFORM_DIR)
+
+$(COVERAGE_APPLICATION_FILE): \
+		$(COVERAGE_APPLICATION_PREFIX)_%.$(CONFIG_LCOV_FILE_EXT): \
+		$(COVERAGE_MODULE_FILE_LIST) \
+		$(COVERAGE_GCDA_C_LIST) | \
+		$(COVERAGE_LCOV_PLATFORM_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$@)
+	lcov \
+		-d \
+		$(RELATIVE_ROOT_DIR)/$(DIRS_APPLICATIONS_DIR)/$* \
+		-c \
+		-o \
+		$(COVERAGE_APPLICATION_PREFIX)_$*.$(CONFIG_LCOV_FILE_EXT)
+
+$(COVERAGE_MODULE_FILE_LIST): \
+		$(COVERAGE_MODULE_PREFIX)_%.$(CONFIG_LCOV_FILE_EXT): \
+		$(COVERAGE_GCDA_C_LIST) | \
+		$(COVERAGE_LCOV_PLATFORM_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$@)
+	lcov \
+		-d \
+		$(RELATIVE_ROOT_DIR)/$(DIRS_MODULES_DIR)/$* \
+		-c \
+		-o \
+		$(COVERAGE_MODULE_PREFIX)_$*.$(CONFIG_LCOV_FILE_EXT)
 
 # TODO: If source and source.format is the same, source.format should be
 #       removed.
@@ -245,6 +291,7 @@ $(INSTALL_APPLICATION_ELF_FILE): \
 		$(INCLUDES_LIST) \
 		$(PLATFORM_FLAG_LIST) \
 		$(FLAGS_CPP_COMPILER_LIST) \
+		$(LINKER_SCRIPT_FLAGS) \
 		$^ \
 		$(LIBS_LIST) \
 		$(EXTERNALS_LIST) \
@@ -261,22 +308,25 @@ $(INSTALL_APPLICATION_TEST_ELF_FILE): \
 		$(UNIT_TEST_OBJECTS_C_ENTRY_FILE) \
 		$(UNIT_TEST_OBJECTS_C_LIST) \
 		$(OBJECTS_FOR_TEST_LIST) | \
-		$(INSTALL_PLATFORM_DIR)
+		$(INSTALL_PLATFORM_DIR) \
+		$(DIRS_MAP_DIR)
 	$(PLATFORM_CPP_COMPILER) \
 		$(DEFINES_LIST) \
 		$(INCLUDES_LIST) \
 		-nostartfiles \
 		$(PLATFORM_FLAG_LIST) \
 		$(FLAGS_CPP_COMPILER_LIST) \
+		$(LINKER_SCRIPT_FLAGS) \
 		$^ \
 		$(LIBS_LIST) \
 		$(EXTERNALS_LIST) \
 		-o \
 		$@ \
-		$(FLAGS_LINKER)
-
-#		-Map \
-#		$(DIRS_MAP_DIR)/$*.$(CONFIG_MAP_EXT) \
+		$(FLAGS_LINKER) \
+		-Wl,-Map,$(DIRS_MAP_DIR)/$*.$(CONFIG_MAP_EXT)
+	$(PLATFORM_SIZE) \
+		--format=berkeley \
+		$@
 
 $(CONFIG_CLEAN_FULL_RULE): \
 		$(CONFIG_CLEAN_RULE)
@@ -290,6 +340,7 @@ $(CONFIG_CLEAN_RULE): \
 		$(CLEAN_PREFIX)_$(DIRS_OBJECTS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_INSTALL_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_DEP_DIR) \
+		$(CLEAN_PREFIX)_$(DIRS_COVERAGE_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_CTAGS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_MAP_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_AUX_DIR) \
@@ -321,6 +372,12 @@ $(CLEAN_PREFIX)_$(DIRS_INSTALL_DIR): \
 		$*
 
 $(CLEAN_PREFIX)_$(DIRS_DEP_DIR): \
+		$(CLEAN_PREFIX)_%:
+	rm \
+		-rf \
+		$*
+
+$(CLEAN_PREFIX)_$(DIRS_COVERAGE_DIR): \
 		$(CLEAN_PREFIX)_%:
 	rm \
 		-rf \
@@ -508,6 +565,30 @@ $(CTAGS_C_LIST): \
 		$< > \
 		$@
 
+$(COVERAGE_GCOV_C_LIST): \
+		$(COVERAGE_GCOV_PLATFORM_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT).$(CONFIG_GCOV_FILE_EXT): \
+		$(COVERAGE_OBJECT_PLATFORM_DIR)/%_for_test_$(SIGNATURE_C_GCDA_SUFFIX) | \
+		$(COVERAGE_GCOV_PLATFORM_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$@)
+	$(PLATFORM_GCOV) \
+		-a \
+		-b \
+		-c \
+		-f \
+		-u \
+		$(DIRS_SOURCES_DIR)/$*.$(CONFIG_C_SOURCE_FILE_EXT) \
+		-o \
+		$(COVERAGE_OBJECT_PLATFORM_DIR)/$*_for_test_$(SIGNATURE_C_OBJECT_SUFFIX)
+	mv \
+		$(notdir $*).$(CONFIG_C_SOURCE_FILE_EXT).$(CONFIG_GCOV_FILE_EXT) \
+		$@
+
+$(COVERAGE_GCDA_C_LIST): \
+		$(CONFIG_UNIT_TEST_RUN_RULE)
+
 $(OBJECTS_ASM_LIST): \
 		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_$(SIGNATURE_ASM_OBJECT_SUFFIX): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_ASM_SOURCE_FILE_EXT) \
@@ -620,10 +701,9 @@ $(OBJECTS_ASM_FOR_TEST_LIST): \
 $(OBJECTS_C_FOR_TEST_LIST): \
 		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_for_test_$(SIGNATURE_C_OBJECT_SUFFIX): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) \
-		$(DIRS_OBJECTS_DIR)/$(PLATFORM)
-	echo \
-		OBJECTS_C_FOR_TEST_LIST: \
-		$(OBJECTS_C_FOR_TEST_LIST)
+		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT) | \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM) \
+		$(DIRS_AUX_DIR)
 	mkdir \
 		-p \
 		$(dir \
@@ -637,6 +717,32 @@ $(OBJECTS_C_FOR_TEST_LIST): \
 		$(INCLUDES_LIST) \
 		$(PLATFORM_FLAG_LIST) \
 		$(FLAGS_C_COMPILER_LIST) \
+		-c \
+		$< \
+		-o \
+		$@ \
+		-aux-info \
+		$(DIRS_AUX_DIR)/$*.$(CONFIG_AUX_EXT)
+
+$(OBJECTS_CPP_FOR_TEST_LIST): \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_for_test_$(SIGNATURE_CPP_OBJECT_SUFFIX): \
+		$(DIRS_SOURCES_DIR)/%.$(CONFIG_CPP_SOURCE_FILE_EXT) \
+		$(DIRS_DEP_DIR)/%.$(CONFIG_DEP_EXT) | \
+		$(DIRS_OBJECTS_DIR)/$(PLATFORM) \
+		$(DIRS_AUX_DIR)
+	mkdir \
+		-p \
+		$(dir \
+			$@)
+	mkdir \
+		-p \
+		$(dir \
+			$(DIRS_AUX_DIR)/$*)
+	$(PLATFORM_CPP_COMPILER) \
+		$(DEFINES_LIST) \
+		$(INCLUDES_LIST) \
+		$(PLATFORM_FLAG_LIST) \
+		$(FLAGS_CPP_COMPILER_LIST) \
 		-c \
 		$< \
 		-o \
@@ -676,6 +782,12 @@ $(DIRS_OBJECTS_DIR)/$(PLATFORM): \
 		-p \
 		$*
 
+$(COVERAGE_HTML_PLATFORM_DIR): \
+		%:
+	mkdir \
+		-p \
+		$*
+
 $(INSTALL_PLATFORM_DIR): \
 		%:
 	mkdir \
@@ -689,6 +801,18 @@ $(DIRS_DOC_DIR): \
 		$*
 
 $(DIRS_DEP_DIR): \
+		%:
+	mkdir \
+		-p \
+		$*
+
+$(COVERAGE_GCOV_PLATFORM_DIR): \
+		%:
+	mkdir \
+		-p \
+		$*
+
+$(COVERAGE_LCOV_PLATFORM_DIR): \
 		%:
 	mkdir \
 		-p \
