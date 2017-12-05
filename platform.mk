@@ -198,7 +198,8 @@ PLATFORM_QEMU=			$(ROOT_DIR)/$(DIRS_TOOLS_DIR)/qemu_gnuarmeclipse/$(DIRS_TEMP_DI
 
 PLATFORM_SPECS_LIST=		-mcpu=cortex-m4 \
 				-march=armv7e-m \
-				-mfloat-abi=soft \
+				-mfloat-abi=hard \
+				-mfpu=fpv4-sp-d16 \
 				-mthumb
 
 # TODO: If not needed, remove it.
@@ -210,6 +211,7 @@ PLATFORM_DEFINES_LIST=		-DDEBUG \
 				-DTRACE \
 				-DOS_USE_TRACE_SEMIHOSTING_DEBUG \
 				-DSTM32F407xx \
+				-DOS_INCLUDE_STARTUP_INIT_MULTIPLE_RAM_SECTIONS \
 				-DHSE_VALUE=8000000
 
 CGDB_GDB_COMMAND=
