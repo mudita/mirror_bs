@@ -24,6 +24,17 @@ TRANSFER_SRC_LIST_COMMAND=		cat \
 TRANSFER_INCLUDES_LIST_COMMAND=		cat \
 						$(TRANSFER_INCLUDES_FILE_NAME)
 
+# TODO: Implement similarly for src.
+# TODO: Implement similarly for directories.
+TRANSFER_INCLUDES_LIST=			$(shell \
+						$(TRANSFER_INCLUDES_LIST_COMMAND))
+
+# TODO: Implement similarly for src
+# TODO: Implement similarly for directories.
+TRANSFER_CLEAN_INCLUDES_LIST=		$(addprefix \
+						$(CLEAN_PREFIX)_$(DIRS_INCLUDE_DIR)/, \
+						$(TRANSFER_INCLUDES_LIST))
+
 TRANSFER_SRC_SED_PATTERN=		s/^.*/$(DIRS_SOURCES_DIR)\\/\&/
 
 TRANSFER_INCLUDES_SED_PATTERN=		s/^.*/$(DIRS_INCLUDE_DIR)\\/\&/
