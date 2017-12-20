@@ -53,5 +53,21 @@ DEPLOY_TOOLS_PLATFORMS_NONSTANDARD_LIST=	$(addprefix \
 							$(DEPLOY_PREFIX)_, \
 							$(DEPLOY_TOOLS_BARE_NONSTANDARD_LIST))
 
+DEPLOY_REMOTE_REPO_ABS_DIR=		/srv/http/archlinux/mudita/os/x86_64
+
+DEPLOY_ADD_REMOTE_HOST_FLAG=		-o \
+					StrictHostKeyChecking=no
+
+DEPLOY_SSH_INIT_COMMAND=		ssh \
+						$(DEPLOY_ADD_REMOTE_HOST_FLAG) \
+						$(AWS_CI_REMOTE_USER_AT_HOST) \
+						true
+
+DEPLOY_SSH_MKDIR_REPO_COMMAND=		ssh \
+						$(AWS_CI_REMOTE_USER_AT_HOST) \
+						mkdir \
+						-p \
+						$(DEPLOY_REMOTE_REPO_ABS_DIR)
+
 endif
 
