@@ -12,6 +12,8 @@ endif
 
 PACMAN_PKGBUILD_FILE_NAME=	PKGBUILD
 
+PACMAN_CI_USER_NAME=		ci
+
 PACMAN_EXT=			pkg.tar.xz
 
 PACMAN_WHOAMI_USER_ID_COMMAND=	id \
@@ -63,7 +65,13 @@ PACMAN_MAKEPKG_COMMAND=		cd \
 					$(PACMAN_PLATFORM_DIR) && \
 				makepkg
 else
-PACMAN_MAKEPKG_COMMAND=
+PACMAN_MAKEPKG_COMMAND=		cd \
+					$(PACMAN_PLATFORM_DIR) && \
+				su \
+				- \
+				$(PACMAN_CI_USER_NAME) \
+				-c \
+				makepkg
 endif
 
 endif
