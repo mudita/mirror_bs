@@ -68,7 +68,6 @@ else
 PACMAN_MAKEPKG_COMMAND=		cd \
 					$(PACMAN_PLATFORM_DIR) && \
 				su \
-				- \
 				$(PACMAN_CI_USER_NAME) \
 				-c \
 				makepkg
