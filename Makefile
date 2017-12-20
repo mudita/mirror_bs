@@ -29,7 +29,8 @@ INCLUDER_MODULES_LIST=		clean \
 				non_standard \
 				empty_dirs \
 				incorrect_includes \
-				auto_sync
+				auto_sync \
+				deploy
 
 ##############################################################################
 # INFO: Bootstrap code.
@@ -1835,6 +1836,10 @@ $(CONFIG_AUTO_SYNC_RULE): \
 		$(AUTO_SYNC_MODULES_PLATFORMS_NONSTANDARD_LIST) \
 		$(AUTO_SYNC_TOOLS_PLATFORMS_STANDARD_LIST) \
 		$(AUTO_SYNC_TOOLS_PLATFORMS_NONSTANDARD_LIST)
+
+$(CONFIG_DEPLOY_RULE): \
+		$(DEPLOY_TOOLS_PLATFORMS_STANDARD_LIST) \
+		$(DEPLOY_TOOLS_PLATFORMS_NONSTANDARD_LIST)
 
 # INFO: Forces to run every time.
 .PHONY: \

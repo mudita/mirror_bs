@@ -54,6 +54,9 @@ CONFIG_SANITY_TEST_RULE=		sanity_test
 # INFO: Auto sync rules.
 CONFIG_AUTO_SYNC_RULE=			auto_sync
 
+# INFO: Deploy rules.
+CONFIG_DEPLOY_RULE=			deploy
+
 # INFO: Documentation rules.
 CONFIG_DOC_RULE=			doc
 
@@ -120,6 +123,8 @@ CONFIG_TOOL_DEP_FILE_NAME=		$(CONFIG_TOOL_PREFIX)s.$(CONFIG_DEP_EXT)
 
 CONFIG_EXTERNAL_GITREPO_FILE_NAME=	external.$(CONFIG_GITREPO_EXT)
 CONFIG_INTERNAL_GITREPO_FILE_NAME=	internal.$(CONFIG_GITREPO_EXT)
+
+CONFIG_DEPLOY_DNS_FILE_NAME=		deploy.dns
 
 # TODO: Not sure if needed any more
 CONFIG_MTRACE_FILE_NAME=		mtrace
