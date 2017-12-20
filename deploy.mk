@@ -53,18 +53,34 @@ DEPLOY_TOOLS_PLATFORMS_NONSTANDARD_LIST=	$(addprefix \
 							$(DEPLOY_PREFIX)_, \
 							$(DEPLOY_TOOLS_BARE_NONSTANDARD_LIST))
 
-DEPLOY_REMOTE_REPO_ABS_DIR=		/srv/http/archlinux/mudita/os/x86_64
+DEPLOY_REMOTE_USER_NAME=		root
+
+# TODO: Move this name to .circleci directory to repo.name file.
+# TODO: This value should be dependent to project.
+DEPLOY_REPO_BASE_NAME=			mudita
+# TODO: Implement automatic database update.
+DEPLOY_REPO_FILE_NAME=			$(DEPLOY_REPO_BASE_NAME).$(CONFIG_REPO_EXT)
+
+DEPLOY_COPY_DONE_FILE_NAME_COMMAND=	cat \
+						$(CONFIG_DEPLOY_DNS_FILE_NAME)
+
+DEPLOY_REMOTE_HOST_NAME=		$(shell \
+						$(DEPLOY_COPY_DONE_FILE_NAME_COMMAND))
+
+DEPLOY_REMOTE_USER_AT_HOST=		$(DEPLOY_REMOTE_USER_NAME)@$(DEPLOY_REMOTE_HOST_NAME)
+
+DEPLOY_REMOTE_REPO_ABS_DIR=		/srv/http/archlinux/$(DEPLOY_REPO_BASE_NAME)/os/x86_64
 
 DEPLOY_ADD_REMOTE_HOST_FLAG=		-o \
 					StrictHostKeyChecking=no
 
 DEPLOY_SSH_INIT_COMMAND=		ssh \
 						$(DEPLOY_ADD_REMOTE_HOST_FLAG) \
-						$(AWS_CI_REMOTE_USER_AT_HOST) \
+						$(CONFIG_DEPLOY_DNS_FILE_NAME) \
 						true
 
 DEPLOY_SSH_MKDIR_REPO_COMMAND=		ssh \
-						$(AWS_CI_REMOTE_USER_AT_HOST) \
+						$(CONFIG_DEPLOY_DNS_FILE_NAME) \
 						mkdir \
 						-p \
 						$(DEPLOY_REMOTE_REPO_ABS_DIR)

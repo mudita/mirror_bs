@@ -96,6 +96,7 @@ CONFIG_DEP_EXT=				dep
 CONFIG_ARGS_EXT=			args
 CONFIG_LIST_EXT=			list
 CONFIG_TAR_GZ_EXT=			tar.gz
+CONFIG_REPO_EXT=			db.$(CONFIG_TAR_GZ_EXT)
 # TODO: Not sure if needed
 CONFIG_CFG_EXT=				cfg
 CONFIG_CSV_EXT=				csv
