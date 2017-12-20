@@ -65,7 +65,10 @@ PACMAN_MAKEPKG_COMMAND=		cd \
 					$(PACMAN_PLATFORM_DIR) && \
 				makepkg
 else
-PACMAN_MAKEPKG_COMMAND=		cd \
+PACMAN_MAKEPKG_COMMAND=		chmod \
+					775 \
+					$(PACMAN_PLATFORM_DIR) && \
+				cd \
 					$(PACMAN_PLATFORM_DIR) && \
 				su \
 				$(PACMAN_CI_USER_NAME) \
