@@ -28,7 +28,8 @@ INCLUDER_MODULES_LIST=		clean \
 				debug \
 				format \
 				signature \
-				doxygen
+				doxygen \
+				repo
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -239,7 +240,8 @@ ifneq ("$(wildcard ./$(FORMAT_DNF_FILE))","")
 else
 	$(FORMAT_COMMAND) \
 		$(FORMAT_FLAGS) \
-		$<
+		$< > \
+		$@
 	mv \
 		$@ \
 		$<
@@ -841,3 +843,4 @@ $(DIRS_AUX_DIR): \
 	mkdir \
 		-p \
 		$*
+

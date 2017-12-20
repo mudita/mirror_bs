@@ -19,6 +19,7 @@ INCLUDER_MODULES_LIST=		clean \
 				wd \
 				doc \
 				templates \
+				pacman \
 				doxygen
 
 ifndef INCLUDER_PATH
@@ -33,7 +34,7 @@ $(CONFIG_ALL_RULE): \
 
 $(INSTALL_OTHER_FILE_LIST): \
 		$(INSTALL_PLATFORM_DIR)/%: \
-		% \
+		% | \
 		$(INSTALL_PLATFORM_DIR)
 	mkdir \
 		-p \
@@ -75,6 +76,7 @@ $(CONFIG_CLEAN_RULE): \
 		$(CLEAN_PREFIX)_$(DIRS_DOC_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_OBJECTS_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_INSTALL_DIR) \
+		$(CLEAN_PREFIX)_$(DIRS_PACMAN_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_DEP_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_MAP_DIR) \
 		$(CLEAN_PREFIX)_$(DIRS_AUX_DIR)
@@ -98,6 +100,12 @@ $(CLEAN_PREFIX)_$(DIRS_OBJECTS_DIR): \
 		$*
 
 $(CLEAN_PREFIX)_$(DIRS_INSTALL_DIR): \
+		$(CLEAN_PREFIX)_%:
+	rm \
+		-rf \
+		$*
+
+$(CLEAN_PREFIX)_$(DIRS_PACMAN_DIR): \
 		$(CLEAN_PREFIX)_%:
 	rm \
 		-rf \
@@ -284,6 +292,12 @@ $(DIRS_OBJECTS_DIR)/$(PLATFORM): \
 		$*
 
 $(INSTALL_PLATFORM_DIR): \
+		%:
+	mkdir \
+		-p \
+		$*
+
+$(PACMAN_PLATFORM_DIR): \
 		%:
 	mkdir \
 		-p \

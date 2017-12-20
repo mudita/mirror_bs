@@ -24,7 +24,9 @@ INCLUDER_MODULES_LIST=		clean \
 				debug \
 				format \
 				signature \
-				doxygen
+				doxygen \
+				repo \
+				transfer
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -507,9 +509,6 @@ $(OBJECTS_C_FOR_TEST_LIST): \
 		$(DIRS_OBJECTS_DIR)/$(PLATFORM)/%_for_test_$(SIGNATURE_C_OBJECT_SUFFIX): \
 		$(DIRS_SOURCES_DIR)/%.$(CONFIG_C_SOURCE_FILE_EXT) \
 		$(DIRS_OBJECTS_DIR)/$(PLATFORM)
-	echo \
-		OBJECTS_C_FOR_TEST_LIST: \
-		$(OBJECTS_C_FOR_TEST_LIST)
 	mkdir \
 		-p \
 		$(dir \
