@@ -13,7 +13,7 @@ endif
 DEPLOY_TOOLS_COMMAND=			find \
 						$(DIRS_TOOLS_DIR) \
 						-type \
-						f \
+						l \
 						-name \
 						$(CONFIG_DEPLOY_DNS_FILE_NAME)
 
