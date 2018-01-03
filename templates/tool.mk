@@ -20,7 +20,8 @@ INCLUDER_MODULES_LIST=		clean \
 				doc \
 				templates \
 				pacman \
-				doxygen
+				doxygen \
+				deploy
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -30,6 +31,18 @@ endif
 
 $(CONFIG_ALL_RULE): \
 		$(PACMAN_TOOL_ARCHIVE_FILE)
+
+$(CONFIG_DEPLOY_RULE): \
+		$(PACMAN_TOOL_ARCHIVE_FILE)
+ifneq ($(wildcard $(PACMAN_PKGBUILD_SRC_FILE)), )
+	$(DEPLOY_SSH_INIT_COMMAND)
+	$(DEPLOY_SSH_MKDIR_REPO_COMMAND)
+	$(DEPLOY_SSH_TOUCH_REPO_COMMAND)
+	$(DEPLOY_SSH_REMOVE_FROM_REPO_COMMAND)
+	$(DEPLOY_SSH_REMOVE_FILE_COMMAND)
+	$(DEPLOY_SCP_PACMAN_ARCHIVE_COMMAND)
+	$(DEPLOY_SSH_ADD_TO_REPO_COMMAND)
+endif
 
 # TODO: Try to implement
 #       - $(SIGNATURE_TOOL_FILE_NAME)
