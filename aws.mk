@@ -10,7 +10,7 @@ include $(INCLUDER_PATH)
 endif
 
 AWS_PROFILE_CI_NAME=			aws_ci
-AWS_PROFILE_REPO_NAME=			base
+AWS_PROFILE_REPO_NAME=			base_lighttpd
 
 AWS_COPY_DONE_SUFFIX=			copy_done
 AWS_PREPARE_DONE_SUFFIX=		prepare_done
