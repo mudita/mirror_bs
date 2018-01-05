@@ -105,5 +105,13 @@ AWS_CI_SSH_COMMAND=			ssh \
 					$(AWS_CI_ARCH_CI_MUDITA_PEM_FILE) \
 					$(AWS_CI_REMOTE_USER_AT_HOST)
 
+AWS_CHECK_REMOTE_MESSAGE=		This step is already done on $(AWS_CI_REMOTE_HOST_NAME)
+
+AWS_CHECK_REMOTE_LOCK_COMMAND=		$(AWS_CI_SSH_COMMAND) \
+						if \[ -e $@ \]\; then \
+							echo $(AWS_CHECK_REMOTE_MESSAGE)\; \
+							false\; \
+						fi
+
 endif
 
