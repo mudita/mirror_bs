@@ -32,6 +32,7 @@ DIRS_LIB_DIR=			lib
 DIRS_COVERAGE_DIR=		coverage
 DIRS_INSTALL_DIR=		install
 DIRS_PACMAN_DIR=		pacman
+DIRS_CI_DIR=			.circleci
 
 DIRS_PULL_DIR=			pull
 DIRS_PUSH_DIR=			push
