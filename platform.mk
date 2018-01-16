@@ -151,6 +151,88 @@ PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
 endif
 
 # INFO:
+ifeq ($(PLATFORM), sam4s_xplained)
+PLATFORM_PREFIX=		arm-none-eabi
+PLATFORM_ASSEMBLER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_ASSEMBLER)
+PLATFORM_ARCHIVER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_ARCHIVER)
+PLATFORM_LINKER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_LINKER)
+PLATFORM_GDB=			$(PLATFORM_PREFIX)-$(PLATFORM_HOST_GDB)
+PLATFORM_GCOV=			$(PLATFORM_PREFIX)-$(PLATFORM_HOST_GCOV)
+PLATFORM_SIZE=			$(PLATFORM_PREFIX)-$(PLATFORM_HOST_SIZE)
+PLATFORM_C_COMPILER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_C_COMPILER)
+PLATFORM_CPP_COMPILER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_C_COMPILER)
+PLATFORM_QEMU=
+
+PLATFORM_SPECS_LIST=		-mthumb \
+				-O1 \
+				-fdata-sections \
+				-ffunction-sections \
+				-mlong-calls \
+				-g3 \
+				-Wall \
+				-mcpu=cortex-m4 \
+				-c \
+				-pipe \
+				-fno-strict-aliasing \
+				-Wall \
+				-Wstrict-prototypes \
+				-Wmissing-prototypes \
+				-Werror-implicit-function-declaration \
+				-Wpointer-arith \
+				-std=gnu99 \
+				-ffunction-sections \
+				-fdata-sections \
+				-Wchar-subscripts \
+				-Wcomment \
+				-Wformat=2 \
+				-Wimplicit-int \
+				-Wmain \
+				-Wparentheses \
+				-Wsequence-point \
+				-Wreturn-type \
+				-Wswitch \
+				-Wtrigraphs \
+				-Wunused \
+				-Wuninitialized \
+				-Wunknown-pragmas \
+				-Wfloat-equal \
+				-Wundef \
+				-Wshadow \
+				-Wbad-function-cast \
+				-Wwrite-strings \
+				-Wsign-compare \
+				-Waggregate-return \
+				-Wmissing-declarations \
+				-Wformat \
+				-Wmissing-format-attribute \
+				-Wno-deprecated-declarations \
+				-Wpacked \
+				-Wredundant-decls \
+				-Wnested-externs \
+				-Wlong-long \
+				-Wunreachable-code \
+				-Wcast-align \
+				--param \
+				max-inline-insns-single=500 \
+
+# TODO: If not needed, remove it.
+#DUSE_HAL_DRIVER
+
+PLATFORM_DEFINES_LIST=		-D__SAM4S16C__ \
+				-DDEBUG \
+				-DBOARD=SAM4S_XPLAINED \
+				-DARM_MATH_CM4=true \
+				-D__FREERTOS__ \
+				-DUDD_ENABLE \
+				-Dprintf=iprintf \
+				-Dscanf=iscanf \
+				-D__SAM4S16C__ \
+
+PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
+				$(PLATFORM_DEFINES_LIST)
+endif
+
+# INFO:
 ifeq ($(PLATFORM), stm32f407xx)
 PLATFORM_PREFIX=		arm-none-eabi
 PLATFORM_ASSEMBLER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_ASSEMBLER)
