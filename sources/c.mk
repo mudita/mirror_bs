@@ -16,7 +16,7 @@ SOURCES_C_COMMAND=		find \
 					f | \
 					grep \
 						"\.$(CONFIG_C_SOURCE_FILE_EXT)$$" | \
-					sort
+				sort
 
 ifneq ($(wildcard $(DIRS_SOURCES_DIR)), )
 SOURCES_C_LIST=			$(shell \
