@@ -171,7 +171,6 @@ PLATFORM_SPECS_LIST=		-mthumb \
 				-g3 \
 				-Wall \
 				-mcpu=cortex-m4 \
-				-c \
 				-pipe \
 				-fno-strict-aliasing \
 				-Wall \
