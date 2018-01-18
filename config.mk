@@ -129,7 +129,7 @@ CONFIG_DEPLOY_DNS_FILE_NAME=		deploy.dns
 CONFIG_DEPLOY_PEM_FILE_NAME=		deploy.pem
 
 # TODO: Not sure if needed any more
-CONFIG_MTRACE_FILE_NAME=		mtrace
+CONFIG_MTRACE_FILE_NAME=		mtrace.log
 CONFIG_MAKEFILE_FILE_NAME=		Makefile
 
 # INFO: Build templates.
