@@ -130,6 +130,8 @@ CONFIG_DEPLOY_PEM_FILE_NAME=		deploy.pem
 
 # TODO: Not sure if needed any more
 CONFIG_MTRACE_FILE_NAME=		mtrace.log
+CONFIG_OS_LOG_FILE_NAME=		os_log.log
+CONFIG_OS_STATS_FILE_NAME=		os_stats.log
 CONFIG_MAKEFILE_FILE_NAME=		Makefile
 
 # INFO: Build templates.

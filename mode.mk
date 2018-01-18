@@ -1,8 +1,13 @@
 ifndef MK_MODE_MK
 MK_MODE_MK=			TRUE
 
-
 INCLUDER_MODULES_LIST=		install
+
+ifndef INCLUDER_PATH
+$(error tool modbuild is not installed in your build system!)
+else
+include $(INCLUDER_PATH)
+endif
 
 # TODO: Not sure if needed.
 # INFO: The architecture of the output binaries.
@@ -69,6 +74,8 @@ $(error MODE_MEMORY_LEAK_DETECTOR was not specified!)
 endif
 
 MODE_APPLICATION_MTRACE_FILE=		$(DIRS_INSTALL_DIR)/$(CONFIG_MTRACE_FILE_NAME)
+MODE_APPLICATION_OS_LOG_FILE=		$(DIRS_INSTALL_DIR)/$(CONFIG_OS_LOG_FILE_NAME)
+MODE_APPLICATION_OS_STATS_FILE=		$(DIRS_INSTALL_DIR)/$(CONFIG_OS_STATS_FILE_NAME)
 
 MODE_MTRACE_COMMAND=			test \
 						-f \
