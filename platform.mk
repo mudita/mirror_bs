@@ -151,7 +151,7 @@ PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
 endif
 
 # INFO:
-ifeq ($(PLATFORM), sam4s_xplained)
+ifeq ($(PLATFORM), sam4e_xplained_pro)
 PLATFORM_PREFIX=		arm-none-eabi
 PLATFORM_ASSEMBLER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_ASSEMBLER)
 PLATFORM_ARCHIVER=		$(PLATFORM_PREFIX)-$(PLATFORM_HOST_ARCHIVER)
@@ -171,7 +171,6 @@ PLATFORM_SPECS_LIST=		-mthumb \
 				-g3 \
 				-Wall \
 				-mcpu=cortex-m4 \
-				-c \
 				-pipe \
 				-fno-strict-aliasing \
 				-Wall \
@@ -198,6 +197,7 @@ PLATFORM_SPECS_LIST=		-mthumb \
 				-Wfloat-equal \
 				-Wundef \
 				-Wshadow \
+				-Wmissing-include-dirs \
 				-Wbad-function-cast \
 				-Wwrite-strings \
 				-Wsign-compare \
@@ -214,19 +214,16 @@ PLATFORM_SPECS_LIST=		-mthumb \
 				-Wcast-align \
 				--param \
 				max-inline-insns-single=500 \
+				-mfloat-abi=softfp \
+				-mfpu=fpv4-sp-d16
 
-# TODO: If not needed, remove it.
-#DUSE_HAL_DRIVER
-
-PLATFORM_DEFINES_LIST=		-D__SAM4S16C__ \
-				-DDEBUG \
-				-DBOARD=SAM4S_XPLAINED \
-				-DARM_MATH_CM4=true \
-				-D__FREERTOS__ \
-				-DUDD_ENABLE \
-				-Dprintf=iprintf \
-				-Dscanf=iscanf \
-				-D__SAM4S16C__ \
+PLATFORM_DEFINES_LIST=		-D __SAM4E16E__ \
+				-D DEBUG \
+				-D scanf=iscanf \
+				-D BOARD=SAM4E_XPLAINED_PRO \
+				-D ARM_MATH_CM4=true \
+				-D printf=iprintf \
+				-D __SAM4E16E__
 
 PLATFORM_FLAG_LIST=		$(PLATFORM_SPECS_LIST) \
 				$(PLATFORM_DEFINES_LIST)
