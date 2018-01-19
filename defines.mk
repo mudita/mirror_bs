@@ -4,7 +4,8 @@ MK_DEFINES_MK=			TRUE
 INCLUDER_MODULES_LIST=		install \
 				platform \
 				config \
-				unit_test
+				unit_test \
+				mode
 
 ifndef INCLUDER_PATH
 $(error tool modbuild is not installed in your build system!)
@@ -20,7 +21,10 @@ DEFINES_PREFIX=			-D
 # TODO: Add defines from files with metaprograming ability (makefile variables
 #       enabled in defines file). Currently compiler version cannot be
 #       generated or taken from build system script.
-DEFINES_DEFAULT_LIST=		$(PLATFORM_BS_PREFIX)_$(PLATFORM)
+DEFINES_DEFAULT_LIST=		$(PLATFORM_BS_PREFIX)_$(PLATFORM) \
+				MODE_APPLICATION_MTRACE_FILE=$(MODE_APPLICATION_MTRACE_FILE) \
+				MODE_APPLICATION_OS_LOG_FILE=$(MODE_APPLICATION_OS_LOG_FILE) \
+				MODE_APPLICATION_OS_STATS_FILE=$(MODE_APPLICATION_OS_STATS_FILE)
 
 ifeq ($(UNIT_TEST), 1)
 DEFINES_DEFAULT_LIST+=		UNIT_TEST_ENTRY_POINT=$(UNIT_TEST_ENTRY_POINT)
