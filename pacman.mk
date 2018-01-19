@@ -64,7 +64,8 @@ PACMAN_GEN_SUMS_COMMAND=	$(PACMAN_SUMS_LIST_COMMAND) | \
 ifneq ($(PACMAN_WHOAMI_USER_ID), 0)
 PACMAN_MAKEPKG_COMMAND=		cd \
 					$(PACMAN_PLATFORM_DIR) && \
-				makepkg
+				makepkg \
+					-s
 else
 PACMAN_MAKEPKG_COMMAND=		chmod \
 					775 \
@@ -74,7 +75,8 @@ PACMAN_MAKEPKG_COMMAND=		chmod \
 				su \
 				$(PACMAN_CI_USER_NAME) \
 				-c \
-				makepkg
+				makepkg \
+					-s
 endif
 
 PACMAN_KEY_VALUE_DELIMETER=	=
