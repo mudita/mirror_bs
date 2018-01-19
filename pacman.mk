@@ -75,8 +75,7 @@ PACMAN_MAKEPKG_COMMAND=		chmod \
 				su \
 				$(PACMAN_CI_USER_NAME) \
 				-c \
-				makepkg \
-					-s
+				makepkg\ -s
 endif
 
 PACMAN_KEY_VALUE_DELIMETER=	=
