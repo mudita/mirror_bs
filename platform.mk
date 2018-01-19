@@ -215,7 +215,8 @@ PLATFORM_SPECS_LIST=		-mthumb \
 				--param \
 				max-inline-insns-single=500 \
 				-mfloat-abi=softfp \
-				-mfpu=fpv4-sp-d16
+				-mfpu=fpv4-sp-d16 \
+				-specs=nosys.specs
 
 PLATFORM_DEFINES_LIST=		-D __SAM4E16E__ \
 				-D DEBUG \
