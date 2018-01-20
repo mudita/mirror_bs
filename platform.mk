@@ -176,7 +176,6 @@ PLATFORM_SPECS_LIST=		-mthumb \
 				-Wall \
 				-Wstrict-prototypes \
 				-Wmissing-prototypes \
-				-Werror-implicit-function-declaration \
 				-Wpointer-arith \
 				-std=gnu99 \
 				-ffunction-sections \
