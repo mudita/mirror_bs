@@ -70,7 +70,8 @@ DEPLOY_REMOTE_USER_NAME=		root
 endif
 
 DEPLOY_REMOTE_USER_NAME_EMPTY_MESSAGE=	Remote \
-					username \
+					user \
+					name \
 					is \
 					set \
 					to \
@@ -84,9 +85,37 @@ ifeq ($(DEPLOY_REMOTE_USER_NAME), )
 $(error $(DEPLOY_REMOTE_USER_NAME_EMPTY_MESSAGE))
 endif
 
-# TODO: Move this name to .circleci directory to repo.name file.
-# TODO: This value should be dependent to project.
-DEPLOY_REPO_BASE_NAME=			archipelagos
+DEPLOY_CI_REPONAME_FILE=		$(DIRS_CI_DIR)/$(CONFIG_DEPLOY_REPONAME_FILE_NAME)
+
+DEPLOY_RELATIVE_CI_REPONAME_FILE=	$(RELATIVE_ROOT_DIR)/$(DEPLOY_CI_REPONAME_FILE)
+
+DEPLOY_REPO_BASE_NAME_COMMAND=		cat \
+						$(DEPLOY_RELATIVE_CI_REPONAME_FILE)
+
+ifneq ($(wildcard $(DEPLOY_RELATIVE_CI_REPONAME_FILE)), )
+DEPLOY_REPO_BASE_NAME=			$(shell \
+						$(DEPLOY_REPO_BASE_NAME_COMMAND))
+else
+DEPLOY_REPO_BASE_NAME=			default
+endif
+
+DEPLOY_REPO_BASE_NAME_EMPTY_MESSAGE=	Remote \
+					repo \
+					name \
+					is \
+					set \
+					to \
+					empty \
+					value \
+					in \
+					file \
+					$(DEPLOY_CI_REPONAME_FILE)
+
+ifeq ($(DEPLOY_REPO_BASE_NAME), )
+$(error $(DEPLOY_REPO_BASE_NAME_EMPTY_MESSAGE))
+endif
+
+$(error DEPLOY_REPO_BASE_NAME: $(DEPLOY_REPO_BASE_NAME))
 
 DEPLOY_COPY_DONE_FILE_NAME_COMMAND=	cat \
 						$(CONFIG_DEPLOY_DNS_FILE_NAME)
