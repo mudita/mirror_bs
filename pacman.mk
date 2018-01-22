@@ -64,8 +64,7 @@ PACMAN_GEN_SUMS_COMMAND=	$(PACMAN_SUMS_LIST_COMMAND) | \
 ifneq ($(PACMAN_WHOAMI_USER_ID), 0)
 PACMAN_MAKEPKG_COMMAND=		cd \
 					$(PACMAN_PLATFORM_DIR) && \
-				makepkg \
-					-s
+				makepkg
 else
 PACMAN_MAKEPKG_COMMAND=		chmod \
 					775 \
@@ -75,7 +74,7 @@ PACMAN_MAKEPKG_COMMAND=		chmod \
 				su \
 				$(PACMAN_CI_USER_NAME) \
 				-c \
-				makepkg\ -s
+				makepkg
 endif
 
 PACMAN_KEY_VALUE_DELIMETER=	=
@@ -121,6 +120,35 @@ PACMAN_ARCHIVE_ARCH_COMMAND=	grep \
 					$(PACMAN_PKGBUILD_SRC_FILE) | \
 				$(PACMAN_GET_ONLY_VALUE_COMMAND) | \
 				$(PACMAN_TRIM_COMMAND)
+
+PACMAN_DEPS_LIST_COMMAND=	cat \
+					$(PACMAN_PKGBUILD_SRC_FILE) | \
+				grep \
+					depends | \
+				$(PACMAN_GET_ONLY_VALUE_COMMAND) | \
+				$(PACMAN_TRIM_COMMAND)
+
+PACMAN_DEPS_LIST=		$(shell \
+					$(PACMAN_DEPS_LIST_COMMAND))
+
+ifneq ($(PACMAN_WHOAMI_USER_ID), 0)
+PACMAN_INSTALL_DEPS_COMMAND=	echo \
+					$(PACMAN_DEPS_LIST) | \
+				xargs \
+					-r \
+				sudo \
+				pacman \
+					-S \
+					--noconfirm
+else
+PACMAN_INSTALL_DEPS_COMMAND=	echo \
+					$(PACMAN_DEPS_LIST) | \
+				xargs \
+					-r \
+				pacman \
+					-S \
+					--noconfirm
+endif					
 
 ifneq ($(wildcard $(PACMAN_PKGBUILD_SRC_FILE)), )
 PACMAN_ARCHIVE_VERSION=		$(shell \
