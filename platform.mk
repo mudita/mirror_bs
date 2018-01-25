@@ -219,11 +219,9 @@ PLATFORM_SPECS_LIST=		-mthumb \
 				-specs=rdimon.specs \
 				-Wl,--start-group \
 				-lrdimon \
-				-Wl,--end-group
-
-# TODO: Implement coverage
-#				-fprofile-arcs \
-#				-ftest-coverage
+				-Wl,--end-group \
+				-fprofile-arcs \
+				-ftest-coverage
 
 PLATFORM_DEFINES_LIST=		-D __SAM4E16E__ \
 				-D DEBUG \
