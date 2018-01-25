@@ -49,6 +49,7 @@ CGDB_FLAGS=			-d \
 				-x \
 				$(DIRS_GDB_DIR)/$(PLATFORM).$(CONFIG_GDB_SCRIPT_EXT)
 
+# TODO: Unused code, should be removed
 CGDB_FLAGS_HARD=         -d \
                 $(PLATFORM_GDB) \
                 -x \
@@ -56,6 +57,7 @@ CGDB_FLAGS_HARD=         -d \
 #                -ex \
 #                $(CGDB_GDB_COMMAND) \
 
+# TODO: Unused code, should be removed
 CGDB_FLAGS_HARD_AUTO=         -d \
                 $(PLATFORM_GDB) \
                 -x \
