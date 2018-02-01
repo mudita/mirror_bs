@@ -5,7 +5,7 @@ INCLUDER_MODULES_LIST=		dirs \
 				config \
 				modules \
 				signature \
-				mode \
+				alloc \
 				platform
 
 ifndef INCLUDER_PATH
@@ -48,10 +48,12 @@ endif
 
 ##############################################################################
 
-ifeq ($(MODE_MEMORY_LEAK_DETECTOR), MODULE_MEMORY_MTRACE)
-LIBS_CONDITIONAL_MODULES=	memory_mtrace
-else ifeq ($(MODE_MEMORY_LEAK_DETECTOR), MODULE_MEMORY_WRAPPER)
-LIBS_CONDITIONAL_MODULES=	memory_wrapper
+ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_NONE))
+LIBS_CONDITIONAL_MODULES=
+else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_STD))
+LIBS_CONDITIONAL_MODULES=	md_mem_std
+else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEMPOOL))
+LIBS_CONDITIONAL_MODULES=	md_mem_pool
 else
 LIBS_CONDITIONAL_MODULES=
 endif

@@ -14,13 +14,6 @@ endif
 #MODE_OUTPUT_ARCHITECTURE=	32_BIT
 MODE_OUTPUT_ARCHITECTURE=	64_BIT
 
-# TODO: Some options are not clever if sanitizers are used.
-# TODO: Change name from memroy leak detectors to memory wrapper
-# INFO: The memory leak detection method.
-MODE_MEMORY_LEAK_DETECTOR=	NONE
-#MODE_MEMORY_LEAK_DETECTOR=	MODULE_MEMORY_MTRACE
-#MODE_MEMORY_LEAK_DETECTOR=	MODULE_MEMORY_WRAPPER
-
 # INFO: Sanitizers.
 # INFO: Symbols used in the exclusion table:
 #       A - address sanitizer
@@ -66,11 +59,6 @@ MODE_SANITIZER_LEAK=		ENABLE
 # INFO: Sanity check for the architecture of the output binaries.
 ifndef MODE_OUTPUT_ARCHITECTURE
 $(error MODE_OUTPUT_ARCHITECTURE was not specified!)
-endif
-
-# INFO: Sanity check for the memory leak detection method.
-ifndef MODE_MEMORY_LEAK_DETECTOR
-$(error MODE_MEMORY_LEAK_DETECTOR was not specified!)
 endif
 
 MODE_APPLICATION_MTRACE_FILE=		$(DIRS_INSTALL_DIR)/$(CONFIG_MTRACE_FILE_NAME)
