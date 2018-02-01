@@ -9,12 +9,15 @@ else
 include $(INCLUDER_PATH)
 endif
 
-ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_NONE))
+ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEM_NONE))
 FLAGS_LINKER=
-else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_STD))
+else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEM_STD))
 FLAGS_LINKER=			-Wl,--wrap=malloc \
 				-Wl,--wrap=free
-else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEMPOOL))
+else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEM_POOL))
+FLAGS_LINKER=			-Wl,--wrap=malloc \
+				-Wl,--wrap=free
+else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEM_HEAP))
 FLAGS_LINKER=			-Wl,--wrap=malloc \
 				-Wl,--wrap=free
 else

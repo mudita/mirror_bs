@@ -10,11 +10,12 @@ else
 include $(INCLUDER_PATH)
 endif
 
-ALLOC_TYPE_NONE=		none
-ALLOC_TYPE_STD=			std
-ALLOC_TYPE_MEMPOOL=		mempool
+ALLOC_TYPE_MEM_NONE=		mem_none
+ALLOC_TYPE_MEM_STD=		mem_std
+ALLOC_TYPE_MEM_POOL=		mem_pool
+ALLOC_TYPE_MEM_HEAP=		mem_heap
 
-ALLOC_TYPE_DEFAULT=		$(ALLOC_TYPE_NONE)
+ALLOC_TYPE_DEFAULT=		$(ALLOC_TYPE_MEM_NONE)
 
 ifneq ($(wildcard $(CONFIG_ALLOC_FILE_NAME)), )
 ALLOC_TYPE_COMMAND=		grep \
@@ -41,11 +42,13 @@ ALLOC_ERROR_MESSAGE=		In \
 				file \
 				$(CONFIG_ALLOC_FILE_NAME)
 
-ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_NONE))
+ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEM_NONE))
 # INFO: Correct
-else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_STD))
+else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEM_STD))
 # INFO: Correct
-else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEMPOOL))
+else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEM_POOL))
+# INFO: Correct
+else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEM_HEAP))
 # INFO: Correct
 else
 $(error $(ALLOC_ERROR_MESSAGE))

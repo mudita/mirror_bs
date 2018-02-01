@@ -48,17 +48,34 @@ endif
 
 ##############################################################################
 
-ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_NONE))
+# TODO: Names should be associated to alloc.mk
+LIBS_MODULES_FORBIDDEN_LIST=	md_mem_std \
+				md_mem_pool \
+				md_mem_heap \
+				md_mem_mtrace
+
+LIBS_MODULES_REDUCED_LIST=	$(filter-out \
+					$(LIBS_MODULES_FORBIDDEN_LIST), \
+					$(LIBS_MODULES_LIST))
+
+# TODO: Do nit define additional names, modules should be callet like in alloc.mk
+ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEM_NONE))
 LIBS_CONDITIONAL_MODULES=
-else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_STD))
-LIBS_CONDITIONAL_MODULES=	md_mem_std
-else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEMPOOL))
-LIBS_CONDITIONAL_MODULES=	md_mem_pool
+else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEM_STD))
+LIBS_CONDITIONAL_MODULES=	md_mem_std \
+				md_mem_mtrace
+else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEM_POOL))
+LIBS_CONDITIONAL_MODULES=	md_mem_pool \
+				md_mem_mtrace
+else ifeq ($(ALLOC_TYPE), $(ALLOC_TYPE_MEM_HEAP))
+LIBS_CONDITIONAL_MODULES=	md_mem_heap \
+				md_mem_mtrace
 else
 LIBS_CONDITIONAL_MODULES=
 endif
 
-LIBS_MODULES_LIST+=		$(LIBS_CONDITIONAL_MODULES)
+LIBS_MODULES_COND_LIST=		$(LIBS_MODULES_REDUCED_LIST) \
+				$(LIBS_CONDITIONAL_MODULES)
 
 LIBS_MODULE_ROOT_DIR=		$(DIRS_MODULES_DIR)/$($(CONFIG_MODULE_PREFIX))
 LIBS_MODULE_INSTALL_DIR=	$(LIBS_MODULE_ROOT_DIR)/$(DIRS_LIB_DIR)/$(PLATFORM)
@@ -92,7 +109,7 @@ LIBS_MODULE_CHECK_EXIST=	$(if \
 
 LIBS_LIST=			$(foreach \
 					$(CONFIG_MODULE_PREFIX), \
-					$(LIBS_MODULES_LIST), \
+					$(LIBS_MODULES_COND_LIST), \
 					$(LIBS_MODULE_CHECK_EXIST))
 
 endif
