@@ -71,7 +71,10 @@ MODE_MTRACE_COMMAND=			test \
 					mtrace \
 						$(INSTALL_APPLICATION_ELF_FILE) \
 						$(MODE_APPLICATION_MTRACE_FILE) || \
-					true
+					true && \
+					rm \
+						-f \
+						$(MODE_APPLICATION_MTRACE_FILE)
 
 # INFO: Sanity check to find out incompatible architecture combinations.
 ifeq ($(MODE_OUTPUT_ARCHITECTURE), 32_BIT)
